@@ -1,0 +1,118 @@
+@use '../../../styles/_shared' as *;
+
+// Figma web "Frame 2147227916" (617:72516): heading → 24 → 1192×736 photo card.
+// Web only: the mweb frame has no equivalent section, so it's hidden below
+// desktop.
+.showcase {
+  display: none;
+  flex-direction: column;
+  gap: rem(24);
+
+  @include media(">=desktop") {
+    display: flex;
+  }
+}
+
+.sectionTitle {
+  @include home-section-title;
+  max-width: rem(696);
+  color: var(--text-heading);
+}
+
+// "image" (613:39116): r32, drop shadow 0 0 63.9 spread 23 #7A85A0 @ 20%.
+.card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: rem(32);
+  box-shadow: 0 0 rem(63.9) rem(23) var(--shadow-hero);
+}
+
+.backgroundImage {
+  z-index: -2;
+  object-fit: cover;
+}
+
+// "Rectangle 3465780" (613:39117): top 411 of 736, luminosity blend,
+// #090101 → #000 @ 87% (56.3%) → transparent.
+.overlay {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 55.84%;
+  background: linear-gradient(
+    180deg,
+    var(--overlay-ink) 0%,
+    var(--overlay-ink-strong) 56.3%,
+    var(--overlay-ink-clear) 100%
+  );
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-height: rem(736);
+  padding: rem(42) rem(60) rem(64);
+}
+
+.partner {
+  @include home-showcase-partner;
+  align-self: flex-end;
+  color: var(--text-on-dark-muted);
+  text-align: right;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.eyebrow {
+  @include home-showcase-eyebrow;
+  margin-top: rem(9);
+  color: var(--text-on-dark-muted);
+  text-transform: uppercase;
+}
+
+.title {
+  @include home-showcase-title;
+  max-width: rem(672);
+  margin-top: rem(12);
+  color: var(--text-on-dark);
+}
+
+// Step cards sit 64 above the card bottom, centred: 313 / 345 / 313, gap 19.
+.steps {
+  display: grid;
+  grid-template-columns: 313fr 345fr 313fr;
+  gap: rem(19);
+  width: 100%;
+  max-width: rem(1009);
+  margin: auto auto 0;
+  list-style: none;
+}
+
+// "Rectangle 3465713" (613:39127): r12, 16 background blur, 69% linear
+// gradient #799DA5 → #211911 whose start handle sits 53.9% above the box.
+// Figma's description text box is 46 tall for 40 of text → 26 below it.
+.step {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: rem(16);
+  min-height: rem(203);
+  padding: rem(16) rem(19) rem(26);
+  border-radius: rem(12);
+  background: linear-gradient(180deg, var(--bg-glass-start) -53.9%, var(--bg-glass-end) 100%);
+  backdrop-filter: blur(rem(16));
+  -webkit-backdrop-filter: blur(rem(16));
+}
+
+.stepTitle {
+  @include home-step-title;
+  color: var(--text-on-dark);
+}
+
+.stepDescription {
+  @include home-step-description;
+  color: var(--text-on-dark);
+}

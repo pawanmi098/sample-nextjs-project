@@ -1,0 +1,42 @@
+@use '../styles/_shared' as *;
+
+// Mobile — Figma mweb frame "Landing" (653:133839), 360 wide: 20 side gutters,
+// 21 below the header, 21 between intro and search card, 36 below the search
+// card, 24 between the remaining sections, 52 before the frame's bottom edge —
+// plus the 84-tall fixed "Continue" bar, so it never covers the last section.
+// Desktop — web frame 557:17402: 1280 wide, 44 side gutters, 24 below the
+// header, 48 between sections, 172 before the frame's bottom edge (156 + the
+// countries frame's 16 of trailing space).
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+  width: 100%;
+  max-width: rem(1440);
+  margin-inline: auto;
+  padding: rem(21) rem(20) rem(52 + 84);
+
+  @include media(">=desktop") {
+    gap: rem(48);
+    padding: rem(24) rem(44) rem(172);
+  }
+}
+
+.searchArea {
+  display: flex;
+  flex-direction: column;
+  gap: rem(21);
+  margin-bottom: rem(12);
+
+  @include media(">=desktop") {
+    gap: rem(24);
+    margin-bottom: 0;
+  }
+}
+
+// Sections that only exist in the mweb frame, rendered by shared components.
+.mobileOnly {
+  @include media(">=desktop") {
+    display: none;
+  }
+}

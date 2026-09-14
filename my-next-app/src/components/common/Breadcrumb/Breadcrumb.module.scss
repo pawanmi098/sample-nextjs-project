@@ -1,0 +1,51 @@
+@use '../../../styles/_shared' as *;
+
+// Figma "Breadcrumb" (566:40237): each element is a 24-tall row with an
+// 8 gap and 8 right padding; home icon 20, chevrons 16.
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+  min-height: rem(24);
+  padding-right: rem(8);
+}
+
+.link,
+.current {
+  @include breadcrumb-label;
+  display: inline-flex;
+  align-items: center;
+  min-height: rem(24);
+  color: var(--text-brand);
+}
+
+.link {
+  border-radius: rem(4);
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.icon {
+  display: block;
+  width: rem(20);
+  height: rem(20);
+}
+
+.separator {
+  display: block;
+  width: rem(16);
+  height: rem(16);
+}

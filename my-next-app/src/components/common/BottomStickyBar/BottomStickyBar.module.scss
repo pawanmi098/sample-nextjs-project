@@ -1,0 +1,37 @@
+@use '../../../styles/_shared' as *;
+
+// Figma "Secondary Bottom Sticky" (653:133835): 360×84, white, 4 top stroke
+// #E0E0F6 (INSIDE, so CSS padding-top = 16 − 4), 20 side padding, drop shadow
+// 0 -4 16 #000099 @ 8%, 24 background blur. Below the button: 16 padding plus
+// the 12 "safe-area" strip (its home-indicator line is device UI, not drawn).
+.bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  padding: rem(12) rem(20) rem(28);
+  border-top: rem(4) solid var(--border-field);
+  background: var(--bg-surface);
+  box-shadow: 0 rem(-4) rem(16) 0 var(--shadow-sticky-bar);
+  backdrop-filter: blur(rem(24));
+  -webkit-backdrop-filter: blur(rem(24));
+}
+
+// "Buttons" (I653:133835;4125:22800): full width × 40, r8, #000099.
+.button {
+  @include sticky-bar-button-label;
+  display: block;
+  width: 100%;
+  height: rem(40);
+  padding: rem(10) rem(16);
+  border: 0;
+  border-radius: rem(8);
+  background: var(--bg-button-primary);
+  color: var(--text-on-dark);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

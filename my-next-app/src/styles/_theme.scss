@@ -1,0 +1,182 @@
+@use 'sass:color';
+@use 'sass:map';
+@use 'primitives' as *;
+@use 'theme-mixin' as mixins;
+
+// =============================================================================
+// THEME MAPS
+// =============================================================================
+
+$theme-dark: (
+  // Background Colors
+  color-background-dark: $color-black,
+  gradient-gold: $color-gold,
+  background-gradient-navy: $color-navy,
+  background-gold: $color-gold,
+  background-dark: $color-charcoal,
+  bg-primary: $color-navy,
+  bg-secondary: $color-cool-gray,
+  bg-tertiary: $color-slate-blue,
+  color-chip-bg: $color-chip-blue-bg,
+
+  // Border Colors
+  color-border-gold: $color-gold,
+  color-outline-border: $color-blue,
+  color-border-light-blue: $color-sky-blue,
+  color-border-secondary: $color-slate,
+  border-primary: $color-navy,
+  border-tertiary: $color-slate-blue,
+  border-dark: $color-midnight-blue,
+  color-border-card-light: $color-card-divider-light,
+
+  // Text Colors
+  color-text-light: $color-light-gray,
+  color-text-success: $color-green,
+  color-text-info: $color-sky-blue,
+  color-text-accent: $color-gold,
+  color-text-primary: $color-white,
+  text-secondary: $color-slate-blue,
+  color-chip-text: $color-chip-cyan,
+  );
+
+// DEFAULT THEME — "cloud": the light palette the product ships with.
+// Applied once on <body> in src/app/layout.js, so every route inherits it
+// unless that route opts into another map via the theme() mixin on its own
+// root class. Keys are role-based (what the token is *for*), never literal
+// colour names, so a future palette swap doesn't leave lying names behind.
+$theme-cloud: (
+  // Background Colors
+  bg-page: $color-page-mist,
+  bg-surface: $color-white,
+  bg-surface-muted: $color-light-gray,
+  bg-header: color.change($color-white, $alpha: 0.8),
+  bg-button-primary: $color-blue,
+  bg-ribbon-start: $color-chip-blue-bg,
+  bg-ribbon-end: color.change($color-chip-blue-bg, $alpha: 0),
+  bg-glass-start: color.change($color-glass-teal, $alpha: 0.69),
+  bg-glass-end: color.change($color-glass-umber, $alpha: 0.69),
+  bg-carousel-button: color.change($color-white, $alpha: 0.88),
+  // Mobile sticky header — near-transparent white over a background blur
+  bg-header-compact: color.change($color-white, $alpha: 0.12),
+
+  // Photo overlays (dark gradients laid over imagery)
+  overlay-ink: $color-ink,
+  overlay-ink-strong: color.change($color-pure-black, $alpha: 0.87),
+  overlay-ink-clear: color.change($color-pure-black, $alpha: 0),
+  overlay-ink-soft: color.change($color-pure-black, $alpha: 0.7),
+
+  // Border Colors
+  border-subtle: $color-card-divider-light,
+  border-default: $color-cool-gray,
+  border-widget: $color-lavender,
+  border-search-input: $color-periwinkle,
+  border-field: $color-lavender-mist,
+  border-card-soft: $color-smoke,
+
+  // Text Colors
+  text-heading: $color-navy,
+  text-body: $color-slate-text,
+  text-muted: $color-muted-label,
+  text-placeholder: $color-placeholder-gray,
+  text-input-placeholder: $color-cool-gray,
+  text-on-dark: $color-white,
+  text-on-dark-muted: $color-ice-blue,
+  text-on-photo-muted: $color-card-divider-light,
+  text-link: $color-link-blue,
+  text-brand: $color-blue,
+  text-accent-gold: $color-gold,
+
+  // Icons / chips / badges
+  icon-brand: $color-blue,
+  chip-bg: $color-chip-blue-bg,
+  chip-text: $color-chip-cyan,
+  status-hold: $color-gold,
+  // Partner "Powered by" pill — dark pill on a light page
+  badge-bg: $color-graphite,
+  badge-border: $color-mist,
+  // Slide indicator pills/dots
+  indicator-active: $color-blue,
+  indicator-inactive: $color-card-divider-light,
+
+  // Focus + shadows
+  focus-ring: $color-blue,
+  shadow-header: color.change($color-blue, $alpha: 0.04),
+  shadow-search-input: color.change($color-blue, $alpha: 0.12),
+  shadow-hero: color.change($color-slate-blue, $alpha: 0.2),
+  shadow-carousel-button: color.change($color-shadow-indigo, $alpha: 0.08),
+  shadow-card: color.change($color-shadow-indigo, $alpha: 0.08),
+  shadow-card-raised: color.change($color-shadow-indigo, $alpha: 0.12),
+  shadow-sticky-bar: color.change($color-blue, $alpha: 0.08),
+);
+
+$theme-emergency: (
+  // Background Colors
+  color-background-dark: $color-black,
+  gradient-gold: $color-gold,
+  background-gradient-navy: $color-navy,
+  background-gold: $color-gold,
+  background-dark: $color-charcoal,
+  bg-primary: $color-navy,
+  bg-secondary: $color-cool-gray,
+  bg-tertiary: $color-slate-blue,
+  color-chip-bg: $color-chip-blue-bg,
+
+  // Border Colors
+  color-border-gold: $color-gold,
+  color-outline-border: $color-blue,
+  color-border-light-blue: $color-sky-blue,
+  color-border-secondary: $color-slate,
+  border-primary: $color-navy,
+  border-tertiary: $color-slate-blue,
+  border-dark: $color-midnight-blue,
+  color-border-card-light: $color-card-divider-light,
+
+  // Text Colors
+  color-text-light: $color-light-gray,
+  color-text-success: $color-green,
+  color-text-info: $color-sky-blue,
+  color-text-accent: $color-gold,
+  color-text-primary: $color-white,
+  text-secondary: $color-slate-blue,
+  color-chip-text: $color-chip-cyan,
+);
+
+
+
+// Alias kept so existing/planned routes that ask for "light" get the default
+// palette rather than a second, silently-diverging copy of it. New work should
+// reference $theme-cloud (the default) directly.
+$theme-light: $theme-cloud;
+
+// =============================================================================
+// THEME CLASSES
+// =============================================================================
+
+.theme-dark {
+  @include mixins.theme($theme-dark);
+}
+
+.theme-light {
+  @include mixins.theme($theme-light);
+}
+
+.theme-cloud {
+  @include mixins.theme($theme-cloud);
+}
+
+.theme-emergency {
+  @include mixins.theme($theme-emergency);
+}
+
+// Emergency theme overrides nested .theme-dark (exhibition/chapter pages)
+.theme-emergency .theme-dark {
+  @include mixins.theme($theme-emergency);
+}
+
+// Resets all theme CSS variables to initial, blocking inheritance from body
+// Used on the Header to isolate external IndiGo styles from theme changes
+.theme-reset {
+  @each $token, $value in $theme-dark {
+    --#{$token}: #25304B;
+  }
+}

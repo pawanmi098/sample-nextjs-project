@@ -1,0 +1,67 @@
+@use "sass:map";
+@use "sass:string";
+
+// Your breakpoints
+$breakpoints: (
+  'phone-sm': 320px,
+  'phone': 375px,
+  'phone-m': 540px,
+  'tablet': 768px,
+  'tablet-lg': 900px,
+  'desktop': 1024px,
+  'desktop-lg': 1280px,
+  'desktop-ml': 1440px,
+  'desktop-lm': 1600px,
+  'desktop-xl': 1920px,
+);
+
+// Extract operator (>=, <=, >, <)
+@function get-operator($condition) {
+  @if string.index($condition, ">=") {
+    @return ">=";
+  } @else if string.index($condition, "<=") {
+    @return "<=";
+  } @else if string.index($condition, ">") {
+    @return ">";
+  } @else if string.index($condition, "<") {
+    @return "<";
+  } @else {
+    @error "Invalid condition: #{$condition}";
+  }
+}
+
+// Extract breakpoint key
+@function get-key($condition, $operator) {
+  $index: string.index($condition, $operator);
+  @return string.slice($condition, $index + string.length($operator));
+}
+
+// Main mixin
+@mixin media($condition) {
+  $operator: get-operator($condition);
+  $key: get-key($condition, $operator);
+
+  @if not map.has-key($breakpoints, $key) {
+    @error "Breakpoint `#{$key}` not found";
+  }
+
+  $value: map.get($breakpoints, $key);
+
+  @if $operator == ">=" {
+    @media (min-width: $value) {
+      @content;
+    }
+  } @else if $operator == "<=" {
+    @media (max-width: $value) {
+      @content;
+    }
+  } @else if $operator == ">" {
+    @media (min-width: ($value + 1px)) {
+      @content;
+    }
+  } @else if $operator == "<" {
+    @media (max-width: ($value - 1px)) {
+      @content;
+    }
+  }
+}

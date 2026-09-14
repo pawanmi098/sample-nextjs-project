@@ -1,0 +1,155 @@
+@use "_mixins" as *;
+@use "_media" as *;
+
+// =============================================================================
+// HOME PAGE TYPOGRAPHY
+// Figma file "IVS":
+// - base values: mweb frame "Landing" (node 653:133839)
+// - `>=tablet` values: web frame "Fetch Visa one-way" (node 557:17402)
+// Styles that only one viewport renders have a single set of values.
+// =============================================================================
+
+// "Find visa options for your trip" — mweb Bauhaus Std 500 24/28;
+// web 40/48, ls -0.8
+@mixin home-page-title {
+  @include defaultTypoStyles(24, normal, 28, 500, $font-bauhaus-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(40, -0.8, 48, 500, $font-bauhaus-medium);
+  }
+}
+
+// Intro subtitle — mweb Poppins 400 14/20; web 16/20 (Figma text box is 23 tall)
+@mixin home-page-subtitle {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(16, normal, 23, 400, $font-poppins-regular);
+  }
+}
+
+// "Powered by Calleo" — mweb plain text Poppins 500 16/24; web pill text
+// Poppins 500 16 (pill is 31 tall → 19 line box)
+@mixin home-partner-badge {
+  @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(16, normal, 19, 500, $font-poppins-medium);
+  }
+}
+
+// Section headings ("Visa-Friendly Countries…", "Hassle-free…") —
+// mweb Bauhaus Std 500 20/24; web 36/42
+@mixin home-section-title {
+  @include defaultTypoStyles(20, normal, 24, 500, $font-bauhaus-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(36, normal, 42, 500, $font-bauhaus-medium);
+  }
+}
+
+// Search field labels ("From", "Travel Date"…) — Poppins 400 12/18
+@mixin home-search-label {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+}
+
+// City values ("Delhi", "Dubai") — Bauhaus Std 500 24/28
+@mixin home-search-city {
+  @include defaultTypoStyles(24, normal, 28, 500, $font-bauhaus-medium);
+}
+
+// Field values ("20 Dec", "4 Travellers", "Indian") — Poppins 500 16/24
+@mixin home-search-value {
+  @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+}
+
+// "Travelling for" — mweb Poppins 500 14/20; web 20/30
+@mixin home-search-legend {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(20, normal, 30, 500, $font-poppins-medium);
+  }
+}
+
+// Radio labels — mweb Poppins 400 12/18; web 14/20 (selected state uses 500)
+@mixin home-radio-label {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+  }
+}
+
+@mixin home-radio-label-selected {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+  }
+}
+
+// Primary button label (web only) — Poppins 600 16/24
+@mixin home-button-label {
+  @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
+}
+
+// "PNR: WKNPNZ" ribbon (web only) — Poppins 400 10/16
+@mixin home-pnr-label {
+  @include defaultTypoStyles(10, normal, 16, 400, $font-poppins-regular);
+}
+
+// "Explore Dubai" card title (mweb only) — Poppins 600 16/24
+@mixin home-promo-title {
+  @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
+}
+
+// "John, Ready to explore Dubai?" (mweb only) — Bauhaus Std 500 24/22, ls -0.6
+@mixin home-promo-headline {
+  @include defaultTypoStyles(24, -0.6, 22, 500, $font-bauhaus-medium);
+}
+
+// "APPLYING VISA" eyebrow (web only) — Poppins 400 20/30, uppercase
+@mixin home-showcase-eyebrow {
+  @include defaultTypoStyles(20, normal, 30, 400, $font-poppins-regular);
+}
+
+// "POWERED BY VISA2FLY" (web only) — Poppins 400 14/21, uppercase
+@mixin home-showcase-partner {
+  @include defaultTypoStyles(14, normal, 21, 400, $font-poppins-regular);
+}
+
+// "We simplify the process…" (web only) — Bauhaus Std 500 44/48
+@mixin home-showcase-title {
+  @include defaultTypoStyles(44, normal, 48, 500, $font-bauhaus-medium);
+}
+
+// Step card title (web only) — Bauhaus Std 500 32/34.18
+@mixin home-step-title {
+  @include defaultTypoStyles(32, normal, 34.18, 500, $font-bauhaus-medium);
+}
+
+// Step card description (web only) — Poppins 300 14/20
+@mixin home-step-description {
+  @include defaultTypoStyles(14, normal, 20, 300, $font-poppins-light);
+}
+
+// Country card name — mweb Poppins 500 17.32 (text box is 24 tall);
+// web Poppins 500 20 (text box is 28 tall)
+@mixin home-country-name {
+  @include defaultTypoStyles(17.32, normal, 24, 500, $font-poppins-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(20, normal, 28, 500, $font-poppins-medium);
+  }
+}
+
+// Country card meta ("198 Tours & activities") — mweb Poppins 400 10.39
+// (text box is 16 tall); web 12/18
+@mixin home-country-meta {
+  @include defaultTypoStyles(10.39, normal, 16, 400, $font-poppins-regular);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+  }
+}

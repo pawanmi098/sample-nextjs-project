@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "siteName": "IndiGo Visa Services",
+    "description": "Tell us a few details and we'll show the right visa options for your journey."
+  },
+  "header": {
+    "logo": {
+      "src": "/assets/common/icons/indigo-logo.svg",
+      "alt": "IndiGo home",
+      "href": "/",
+      "width": 133,
+      "height": 40
+    },
+    "back": {
+      "href": "/itinerary",
+      "label": "Back to itinerary",
+      "icon": "/assets/common/icons/header-back-chevron.svg"
+    },
+    "title": "Visa",
+    "assistant": {
+      "href": "/6eskai",
+      "label": "Chat with 6Eskai",
+      "image": "/assets/common/icons/6eskai-avatar.webp"
+    }
+  }
+}

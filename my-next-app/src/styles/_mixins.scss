@@ -1,0 +1,62 @@
+@use 'sass:math';
+
+// NOTE: the --font-family-* custom properties themselves are NOT declared
+// here. They're supplied per the `variable` option on each next/font/local()
+// call in src/app/layout.js (poppins-light, poppins-regular, poppins-medium,
+// poppins-semibold, bauhaus-std-medium), which is what gives next/font's
+// preload/font-display:swap/fallback-metrics handling for free. A plain
+// `:root { --font-family-x: 'SomeName' }` fallback used to live here — it
+// silently won the cascade over next/font's real variable (same specificity,
+// and this file's CSS loads after next/font's own stylesheet), so every text
+// style using these vars rendered in the browser's default fallback font
+// instead of the real one. Don't reintroduce it; if a var is ever genuinely
+// unset (e.g. a font call removed from layout.js), let it fail visibly rather
+// than silently masking it with a fake font name.
+
+//---------- REM Varience -----
+$baseFontSize: 16;
+
+@function rem($pixels, $context: $baseFontSize) {
+  @if (math.is-unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+
+  @if (math.is-unitless($context)) {
+    $context: $context * 1px;
+  }
+
+  @return calc($pixels / $context) * 1rem;
+}
+
+// One family per weight — each is its own next/font/local() call in layout.js.
+$font-family-default: var(--font-family-poppins-regular);
+$font-poppins-light: var(--font-family-poppins-light);
+$font-poppins-regular: var(--font-family-poppins-regular);
+$font-poppins-medium: var(--font-family-poppins-medium);
+$font-poppins-semibold: var(--font-family-poppins-semibold);
+$font-bauhaus-medium: var(--font-family-bauhaus-std-medium);
+
+@mixin defaultTypoStyles(
+  $size,
+  $space,
+  $height,
+  $weight: normal,
+  $family: $font-family-default
+) {
+  font-family: $family;
+  font-size: rem($size);
+  font-weight: $weight;
+  line-height: rem($height);
+
+  @if ($space==normal) {
+    letter-spacing: normal;
+  } @else {
+    letter-spacing: rem($space);
+  }
+}
+
+// Keyboard focus indicator shared by every interactive element.
+@mixin focus-ring($offset: 2) {
+  outline: rem(2) solid var(--focus-ring);
+  outline-offset: rem($offset);
+}

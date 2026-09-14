@@ -1,0 +1,100 @@
+@use '../../../styles/_shared' as *;
+
+// Figma mweb "Carousal style A" (653:134063): white card, r12, 16 padding and
+// gap, drop shadow 0 0 12 #4C5D9E @ 8%. Mobile only: the web frame has no
+// equivalent section.
+.promo {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  padding: rem(16);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+  box-shadow: 0 0 rem(12) 0 var(--shadow-card);
+
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+
+// "Header" (653:134064): 25 tall, title fills the row, indicator on the right.
+.header {
+  display: flex;
+  align-items: center;
+  gap: rem(16);
+  min-height: rem(25);
+}
+
+.title {
+  @include home-promo-title;
+  flex: 1 1 0;
+  min-width: 0;
+  color: var(--text-heading);
+}
+
+// "Indicator" (653:134066): 32×8 r6 active pill, 8×8 dots, gap 4.
+.indicator {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: rem(4);
+}
+
+.indicatorActive,
+.indicatorDot {
+  display: block;
+  height: rem(8);
+}
+
+.indicatorActive {
+  width: rem(32);
+  border-radius: rem(6);
+  background: var(--indicator-active);
+}
+
+.indicatorDot {
+  width: rem(8);
+  border-radius: 50%;
+  background: var(--indicator-inactive);
+}
+
+// "image 1700" (653:134071): 288×188, r12. Its second fill is a 70% black
+// gradient, transparent at the top → black at the bottom.
+.media {
+  position: relative;
+  height: rem(188);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: rem(12);
+}
+
+.photo {
+  z-index: -2;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, var(--overlay-ink-clear) 0%, var(--overlay-ink-soft) 100%);
+  pointer-events: none;
+}
+
+// "City, State" (653:134072): x24 y115, 254 wide; the two lines are separate
+// paragraphs with 16 paragraph spacing.
+.headline {
+  @include home-promo-headline;
+  position: absolute;
+  top: rem(115);
+  right: rem(10);
+  left: rem(24);
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  color: var(--text-on-dark);
+}
+
+.headlineLine {
+  display: block;
+}

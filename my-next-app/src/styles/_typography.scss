@@ -1,0 +1,46 @@
+@use "_mixins" as *;
+@use "_media" as *;
+
+// =============================================================================
+// SHARED TYPOGRAPHY
+// One named mixin per text style, built from defaultTypoStyles().
+// Only styles used by shared components (src/components/common/**) belong
+// here — anything used by a single page lives in that page's own
+// _typography-<page-slug>.scss partial instead.
+// =============================================================================
+
+// Breadcrumb nav item label — Figma node 566:40237 ("Breadcrumb" component,
+// file "IVS"). Used by src/components/common/Breadcrumb.
+@mixin breadcrumb-label {
+  @include defaultTypoStyles(14, normal, 20, 400, var(--font-family-poppins-regular));
+}
+
+// Mobile header page title ("Visa") — Figma mweb "Sticky Header" (653:133855).
+// Bauhaus Std 500 20/24. Used by src/components/common/SiteHeader.
+@mixin site-header-title {
+  @include defaultTypoStyles(20, normal, 24, 500, $font-bauhaus-medium);
+}
+
+// Bottom sticky bar button ("Continue") — Figma "Secondary Bottom Sticky"
+// (653:133835). Poppins 600 14/20. Used by src/components/common/BottomStickyBar.
+@mixin sticky-bar-button-label {
+  @include defaultTypoStyles(14, normal, 20, 600, $font-poppins-semibold);
+}
+
+// Disclaimer card — Figma mweb node 653:134124. Used by
+// src/components/common/Disclaimer.
+// Body — Poppins 400 10/16
+@mixin disclaimer-body {
+  @include defaultTypoStyles(10, normal, 16, 400, $font-poppins-regular);
+}
+
+// "Disclaimer" lead-in — Poppins 600 (same size as the body)
+@mixin disclaimer-label {
+  font-family: $font-poppins-semibold;
+  font-weight: 600;
+}
+
+// "READ MORE" — Poppins 500 12/18
+@mixin disclaimer-link {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+}

@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "title": "Find visa options for your trip",
+    "description": "Tell us a few details and we'll show the right visa options for your journey."
+  },
+  "intro": {
+    "breadcrumb": {
+      "ariaLabel": "Breadcrumb",
+      "separatorIcon": "/assets/common/icons/breadcrumb-chevron.svg",
+      "items": [
+        {
+          "label": "Home",
+          "href": "/",
+          "icon": { "src": "/assets/common/icons/breadcrumb-home.svg", "width": 20, "height": 20 }
+        },
+        { "label": "Itinerary", "href": "/itinerary" },
+        { "label": "Visa" }
+      ]
+    },
+    "partnerBadge": "Powered by Calleo",
+    "title": "Find visa options for your trip",
+    "subtitle": {
+      "mobile": "Tell us a few details and we'll find the available visa for you",
+      "desktop": "Tell us a few details and we'll show the right visa options for your journey."
+    }
+  },
+  "search": {
+    "ariaLabel": "Search visa options",
+    "action": "/visa-options",
+    "pnr": {
+      "label": "PNR: WKNPNZ",
+      "icon": "/assets/home/icons/pnr-book.svg"
+    },
+    "from": {
+      "label": "From",
+      "name": "from",
+      "placeholder": "Delhi"
+    },
+    "to": {
+      "label": "Where",
+      "name": "to",
+      "value": "Dubai",
+      "icon": "/assets/home/icons/arrow-right.svg"
+    },
+    "travelDate": {
+      "label": "Travel Date",
+      "name": "travelDate",
+      "placeholder": "20 Dec",
+      "icon": "/assets/home/icons/calendar.svg"
+    },
+    "selects": [
+      {
+        "id": "travellers",
+        "label": "Travellers",
+        "name": "travellers",
+        "value": "4",
+        "icon": "/assets/home/icons/travellers.svg",
+        "options": [
+          { "value": "1", "label": "1 Traveller" },
+          { "value": "2", "label": "2 Travellers" },
+          { "value": "3", "label": "3 Travellers" },
+          { "value": "4", "label": "4 Travellers" },
+          { "value": "5", "label": "5 Travellers" },
+          { "value": "6", "label": "6 Travellers" },
+          { "value": "7", "label": "7 Travellers" },
+          { "value": "8", "label": "8 Travellers" },
+          { "value": "9", "label": "9 Travellers" }
+        ]
+      },
+      {
+        "id": "nationality",
+        "label": "Nationality",
+        "name": "nationality",
+        "value": "IN",
+        "icon": "/assets/home/icons/nationality.svg",
+        "options": [
+          { "value": "IN", "label": "Indian" },
+          { "value": "AE", "label": "Emirati" },
+          { "value": "GB", "label": "British" },
+          { "value": "US", "label": "American" },
+          { "value": "SG", "label": "Singaporean" }
+        ]
+      },
+      {
+        "id": "residence",
+        "label": "Country of Residence",
+        "name": "residence",
+        "value": "IN",
+        "icon": "/assets/home/icons/country-of-residence.svg",
+        "options": [
+          { "value": "IN", "label": "India" },
+          { "value": "AE", "label": "United Arab Emirates" },
+          { "value": "GB", "label": "United Kingdom" },
+          { "value": "US", "label": "United States" },
+          { "value": "SG", "label": "Singapore" }
+        ]
+      }
+    ],
+    "dropdownIcon": "/assets/home/icons/dropdown-chevron.svg",
+    "purpose": {
+      "label": "Travelling for",
+      "name": "purpose",
+      "value": "tourism",
+      "options": [
+        { "value": "tourism", "label": "Tourism" },
+        { "value": "business", "label": "Business" }
+      ]
+    },
+    "submitLabel": "Search",
+    "continueLabel": "Continue"
+  },
+  "visaProcess": {
+    "sectionTitle": "Hassle-free visa application service to help you get one step closer to your journey",
+    "partner": "Powered by visa2fly",
+    "eyebrow": "Applying VISA",
+    "title": "We simplify the process to ensure your application is quick, straightforward, and hassle-free.",
+    "image": {
+      "src": "/assets/home/photos/visa-process-hero.webp",
+      "alt": ""
+    },
+    "steps": [
+      {
+        "title": "Choose your destination",
+        "description": "Select destination city to get started with your visa application process."
+      },
+      {
+        "title": "Submit Your Documents",
+        "description": "Upload all necessary documents securely through our platform."
+      },
+      {
+        "title": "Let Us Handle the Rest",
+        "description": "We’ll guide you every step of the way, from filling out forms to submission."
+      }
+    ]
+  },
+  "destinationPromo": {
+    "title": "Explore Dubai",
+    "headline": ["John, Ready to explore", "Dubai?"],
+    "slideCount": 3,
+    "image": {
+      "src": "/assets/home/photos/explore-dubai.webp",
+      "alt": "Burj Khalifa lit up at dusk above the Dubai Fountain"
+    }
+  },
+  "countries": {
+    "sectionTitle": "Visa-Friendly Countries for Your Next Adventure",
+    "regionLabel": "Visa-friendly countries, scrollable list",
+    "previousLabel": "Show previous countries",
+    "nextLabel": "Show more countries",
+    "chevronIcon": "/assets/home/icons/carousel-chevron-right.svg",
+    "items": [
+      {
+        "name": "Istanbul",
+        "meta": "198 Tours & activities",
+        "image": {
+          "src": "/assets/home/photos/country-istanbul.webp",
+          "alt": "Mosque domes and minarets rising above the Istanbul waterfront"
+        }
+      },
+      {
+        "name": "Delhi",
+        "meta": "198 Tours & activities",
+        "image": {
+          "src": "/assets/home/photos/country-delhi.webp",
+          "alt": "Red sandstone gateway and domes of the Jama Masjid in Delhi"
+        }
+      },
+      {
+        "name": "Barcelona",
+        "meta": "198 Tours & activities",
+        "image": {
+          "src": "/assets/home/photos/country-barcelona.webp",
+          "alt": "Spires of the Sagrada Família against a blue sky in Barcelona"
+        }
+      },
+      {
+        "name": "Kolkata",
+        "meta": "198 Tours & activities",
+        "image": {
+          "src": "/assets/home/photos/country-kolkata.webp",
+          "alt": "Victoria Memorial with a statue in the foreground in Kolkata"
+        }
+      },
+      {
+        "name": "Paris",
+        "meta": "198 Tours & activities",
+        "image": {
+          "src": "/assets/home/photos/country-paris.webp",
+          "alt": "Eiffel Tower under a pastel evening sky in Paris"
+        }
+      },
+      {
+        "name": "Panjim",
+        "meta": "198 Tours & activities",
+        "image": {
+          "src": "/assets/home/photos/country-panjim.webp",
+          "alt": "White façade of the Our Lady of the Immaculate Conception Church in Panjim"
+        }
+      }
+    ]
+  },
+  "disclaimer": {
+    "ariaLabel": "Disclaimer",
+    "label": "Disclaimer",
+    "text": ": Visa assistance is being offered by a third party i.e. Calleo Distribution Technologies Private Limited (“Calleo”) on InterGlobe Aviation Limited (“IndiGo”) website. Therefore, IndiGo expressly disclaims any liability and/or responsibility for the content and/or accuracy of any information displayed and assistance...",
+    "readMore": {
+      "label": "READ MORE",
+      "context": "of the visa assistance disclaimer",
+      "href": "/disclaimer"
+    }
+  }
+}

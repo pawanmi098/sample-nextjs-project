@@ -1,0 +1,357 @@
+@use '../../../styles/_shared' as *;
+
+// Mobile — Figma mweb search card (653:133856): 12 padding and gap, r8, 1
+// OUTSIDE stroke #E0E0F6 (drawn as a spread shadow so it doesn't change the
+// box), every field in its own bordered box, no PNR ribbon or Search button.
+// Desktop — "Search Widget - Web" (617:63755). Figma INSIDE strokes don't eat
+// auto-layout padding, so CSS padding = Figma padding − border width.
+.widget {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: rem(12);
+  border-radius: rem(8);
+  background: var(--bg-surface);
+  box-shadow: 0 0 0 rem(1) var(--border-field);
+
+  @include media(">=desktop") {
+    padding: rem(49) rem(19) rem(19);
+    border: rem(1) solid var(--border-widget);
+    border-radius: rem(16);
+    box-shadow: none;
+  }
+}
+
+// "." ribbon (617:72520, web only): 423×32 trapezoid, #EAF8FF → transparent.
+.pnr {
+  @include home-pnr-label;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  align-items: center;
+  gap: rem(4);
+  width: rem(422);
+  max-width: 100%;
+  height: rem(31);
+  padding: rem(7) rem(7) rem(8);
+  border-top-left-radius: rem(15);
+  background: linear-gradient(90deg, var(--bg-ribbon-start) 0%, var(--bg-ribbon-end) 95.9%);
+  clip-path: polygon(0 0, 90.6% 0, 100% 100%, 0 100%);
+  color: var(--text-body);
+
+  @include media(">=desktop") {
+    display: flex;
+  }
+}
+
+.pnrIcon {
+  display: block;
+  flex: none;
+  width: rem(16);
+  height: rem(16);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+
+  @include media(">=desktop") {
+    gap: rem(24);
+  }
+}
+
+// Mobile: a stack of separate field boxes, 12 apart.
+// Desktop "Search Input" (617:63762): one row, 2 inside stroke #9999DE, r12,
+// glow 0 0 8.
+.searchInput {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+
+  @include media(">=desktop") {
+    flex-direction: row;
+    align-items: center;
+    gap: rem(16);
+    min-height: rem(62);
+    padding: rem(6) rem(6) rem(6) rem(14);
+    border: rem(2) solid var(--border-search-input);
+    border-radius: rem(12);
+    background: var(--bg-surface);
+    box-shadow: 0 0 rem(8) 0 var(--shadow-search-input);
+  }
+}
+
+.divider {
+  display: none;
+  flex: none;
+  width: rem(1);
+  height: rem(46);
+  background: var(--border-widget);
+
+  @include media(">=desktop") {
+    display: block;
+  }
+}
+
+// Desktop: dividers + select fields share the search row directly.
+.fieldGroup {
+  display: contents;
+}
+
+// Mobile "Search Input" boxes (653:133857…): 8/16 padding, r8, 1 inside
+// stroke #E0E0F6 — 62 tall for the places row, 58 for the rest.
+.field {
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+  padding: rem(7) rem(15);
+  border: rem(1) solid var(--border-field);
+  border-radius: rem(8);
+  background: var(--bg-surface);
+
+  @include media(">=desktop") {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+}
+
+.fieldIcon,
+.placesArrow {
+  display: block;
+  flex: none;
+  width: rem(24);
+  height: rem(24);
+}
+
+.fieldBody,
+.place {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// Mobile "To" (653:133863) is right-aligned; the web frame keeps it left.
+.placeTo {
+  text-align: right;
+
+  @include media(">=desktop") {
+    text-align: left;
+  }
+}
+
+.label {
+  @include home-search-label;
+  color: var(--text-body);
+}
+
+.control {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: rem(4);
+  background: transparent;
+  color: var(--text-heading);
+  text-align: inherit;
+  appearance: none;
+
+  &::placeholder {
+    color: var(--text-input-placeholder);
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.cityControl {
+  @include home-search-city;
+  height: rem(28);
+  color: var(--text-brand);
+}
+
+.valueControl {
+  @include home-search-value;
+}
+
+// Mobile value box is 24 tall; the web text box is 28.
+.dateControl {
+  height: rem(24);
+
+  @include media(">=desktop") {
+    height: rem(28);
+  }
+}
+
+.selectWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select {
+  height: rem(24);
+  padding-right: rem(24);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.selectChevron {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: block;
+  width: rem(20);
+  height: rem(20);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+
+  @include media(">=desktop") {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(24);
+  }
+}
+
+// Mobile "Frame 2147226925" (653:134038): white r12 box, 16/12 padding, gap
+// 12, centred. Desktop "Frame 2147227915" (617:72471): gap 32.
+.purpose {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: rem(8) rem(12);
+  padding: rem(16) rem(12);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+
+  @include media(">=desktop") {
+    justify-content: flex-start;
+    gap: rem(8) rem(32);
+    padding: 0;
+    border-radius: 0;
+    background: none;
+  }
+}
+
+.purposeLabel {
+  @include home-search-legend;
+  color: var(--text-heading);
+}
+
+// Mobile "Frame 2147227918" (653:134055): the two radios spread across 168.
+.radios {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: rem(168);
+
+  @include media(">=desktop") {
+    justify-content: flex-start;
+    width: auto;
+  }
+}
+
+// Mobile "Radio-set" (653:134056): 20 radio, 8 gap, hugging label.
+// Desktop "Radio-set" (617:72472): 164 wide — 24 radio, 8 gap, 132 label.
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(8);
+  min-height: rem(20);
+  cursor: pointer;
+
+  @include media(">=desktop") {
+    width: rem(164);
+    min-height: rem(24);
+  }
+}
+
+.radioInput {
+  display: grid;
+  flex: none;
+  place-content: center;
+  width: rem(20);
+  height: rem(20);
+  margin: 0;
+  border: rem(2) solid var(--icon-brand);
+  border-radius: 50%;
+  background: var(--bg-surface);
+  appearance: none;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    width: rem(8);
+    height: rem(8);
+    border-radius: 50%;
+    background: var(--icon-brand);
+    transform: scale(0);
+  }
+
+  &:checked::before {
+    transform: scale(1);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(24);
+
+    &::before {
+      width: rem(12);
+      height: rem(12);
+    }
+  }
+}
+
+.radioLabel {
+  @include home-radio-label;
+  padding-top: rem(2);
+  color: var(--text-heading);
+}
+
+.radioInput:checked + .radioLabel {
+  @include home-radio-label-selected;
+}
+
+// "Buttons" (617:63995, web only): 120×48, r8, #000099.
+.submit {
+  @include home-button-label;
+  display: none;
+  min-width: rem(120);
+  min-height: rem(48);
+  padding: rem(12) rem(24);
+  border: 0;
+  border-radius: rem(8);
+  background: var(--bg-button-primary);
+  color: var(--text-on-dark);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    display: inline-block;
+  }
+}

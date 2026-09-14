@@ -1,0 +1,174 @@
+@use '../../../styles/_shared' as *;
+
+// Mobile — Figma mweb "Frame 1321318467" (653:134074): heading → 20 → row of
+// 145×194 cards, gap 16, running off the right edge of the screen.
+// Desktop — "Frame 1321318467" (613:39990): heading → 20 → row of 168×224
+// cards distributed with SPACE_BETWEEN across 1192.
+.countries {
+  display: flex;
+  flex-direction: column;
+  gap: rem(20);
+}
+
+.sectionTitle {
+  @include home-section-title;
+  color: var(--text-heading);
+}
+
+.viewport {
+  position: relative;
+}
+
+// Mobile: the scroller bleeds into the page's 20 gutters so cards scroll
+// edge to edge while the first card still starts on the gutter.
+.track {
+  margin-inline: rem(-20);
+  padding-inline: rem(20);
+  overflow-x: auto;
+  scroll-padding-inline: rem(20);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  // Inset on mobile: an outset ring would sit off-screen.
+  &:focus-visible {
+    @include focus-ring(-2);
+  }
+
+  @include media(">=desktop") {
+    margin-inline: 0;
+    padding-inline: 0;
+    border-radius: rem(8);
+    scroll-padding-inline: 0;
+
+    &:focus-visible {
+      outline-offset: rem(4);
+    }
+  }
+}
+
+// max-content on mobile so the track's end padding lands after the last card.
+.list {
+  display: flex;
+  gap: rem(16);
+  width: max-content;
+  list-style: none;
+
+  @include media(">=desktop") {
+    justify-content: space-between;
+    gap: rem(20);
+    width: auto;
+  }
+}
+
+.card {
+  position: relative;
+  flex: 0 0 rem(145);
+  height: rem(194);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: rem(6.93);
+  scroll-snap-align: start;
+
+  @include media(">=desktop") {
+    flex-basis: rem(168);
+    height: rem(224);
+    border-radius: rem(8);
+  }
+}
+
+.photo {
+  z-index: -2;
+  object-fit: cover;
+}
+
+// "Rectangle 3466611" (mweb 653:134092 / web 613:40002): bottom 108 / 122,
+// rotated 180°, luminosity blend, #090101 → transparent.
+.overlay {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: rem(108);
+  background: linear-gradient(0deg, var(--overlay-ink) 0%, var(--overlay-ink-clear) 100%);
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+
+  @include media(">=desktop") {
+    height: rem(122);
+  }
+}
+
+.caption {
+  position: absolute;
+  inset: auto 0 rem(15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-inline: rem(8);
+  text-align: center;
+
+  @include media(">=desktop") {
+    bottom: rem(17);
+  }
+}
+
+.name {
+  @include home-country-name;
+  color: var(--text-on-dark);
+}
+
+.meta {
+  @include home-country-meta;
+  color: var(--text-on-photo-muted);
+}
+
+// "Bucket List" (613:40036, web only): 40×40, r32, white @ 88%, 24 background
+// blur, shadow 0 -12 24 #4C5D9E @ 8%; centred vertically, 20 from the right.
+.navButton {
+  position: absolute;
+  top: 50%;
+  right: rem(20);
+  display: none;
+  place-items: center;
+  width: rem(40);
+  height: rem(40);
+  padding: 0;
+  border: 0;
+  border-radius: rem(32);
+  background: var(--bg-carousel-button);
+  box-shadow: 0 rem(-12) rem(24) 0 var(--shadow-carousel-button);
+  backdrop-filter: blur(rem(24));
+  -webkit-backdrop-filter: blur(rem(24));
+  transform: translateY(-50%);
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    display: grid;
+  }
+}
+
+.navButtonPrevious {
+  right: auto;
+  left: rem(20);
+}
+
+.navIcon {
+  display: block;
+  width: rem(16);
+  height: rem(16);
+}
+
+.navIconPrevious {
+  transform: scaleX(-1);
+}
