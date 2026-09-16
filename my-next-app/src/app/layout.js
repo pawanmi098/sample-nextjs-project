@@ -1,5 +1,4 @@
 import localFont from "next/font/local";
-import SiteHeader from "@/components/common/SiteHeader/SiteHeader";
 import commonContent from "@/data/commonContent.json";
 import "@/styles/main.scss";
 
@@ -77,10 +76,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={fontVariables}>
-      <body className="theme-cloud">
-        <SiteHeader content={commonContent.header} />
-        {children}
-      </body>
+      <body className="theme-cloud">{children}</body>
     </html>
   );
 }

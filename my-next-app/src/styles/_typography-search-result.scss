@@ -1,0 +1,68 @@
+@use "_mixins" as *;
+@use "_media" as *;
+
+// =============================================================================
+// SEARCH RESULT PAGE TYPOGRAPHY
+// Figma file "IVS":
+// - base values:      mweb frame "srp" (666:139769)
+// - `>=desktop` values: web frame "SRP" (754:167951)
+//
+// NOTE: unlike the home page, these switch at `>=desktop`, not `>=tablet`.
+// The trip summary's two viewports are different *structures* (a centred
+// back/route/edit row vs. a logo + full-width stack), and that structure
+// switches at `>=desktop`. Feeding desktop type sizes to the mobile structure
+// at 768–1023 overflows it, so type and layout move together here.
+// =============================================================================
+
+// Trip route "Delhi → Dubai" in the header — mweb Poppins 500 14/20
+// (I666:139891;4955:32611); web 20/30 (754:168087).
+@mixin search-result-trip-route {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(20, normal, 30, 500, $font-poppins-medium);
+  }
+}
+
+// Trip facts "20 Dec · 4 Travellers · …" — mweb Poppins 400 10/16
+// (I666:139891;4955:32615); web 14/20 (754:168094).
+@mixin search-result-trip-meta {
+  @include defaultTypoStyles(10, normal, 16, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+  }
+}
+
+// "Powered by Calleo" — mweb plain text, Poppins 500 16/24 (666:139789);
+// web the same size inside a dark pill (754:167957).
+@mixin search-result-partner-badge {
+  @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+}
+
+// Page <h1> — mweb Bauhaus Std 500 24/28 (666:139791);
+// web 40/48 ls -0.8 (754:167959).
+@mixin search-result-page-title {
+  @include defaultTypoStyles(24, normal, 28, 500, $font-bauhaus-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(40, -0.8, 48, 500, $font-bauhaus-medium);
+  }
+}
+
+// Sub-heading under the <h1> — mweb Poppins 400 14/20 (666:139792);
+// web 16/20, in a 23-tall text box (754:167960).
+@mixin search-result-page-subtitle {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(16, normal, 23, 400, $font-poppins-regular);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// HEADER EDIT PANEL — its text styles now live in _typography.scss as
+// `search-form-*`. The panel and the home page's search widget render the
+// same component (src/components/common/SearchForm), built from the same
+// Figma "Search Input" frame, so they share one set of mixins.
+// -----------------------------------------------------------------------------

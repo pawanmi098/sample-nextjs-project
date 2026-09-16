@@ -118,3 +118,46 @@
   border-radius: 50%;
   box-shadow: 0 0 rem(12) 0 var(--shadow-card);
 }
+
+// ---------------------------------------------------------------------------
+// TRIP VARIANT — used when SiteHeader is given a `trip` slot (search result).
+// Mobile  — Figma mweb "Sticky Header" (666:139891) "Bottom" row: 78 tall,
+//           12/16 padding, back button · trip · edit with no gaps, and white
+//           @ 80% rather than the compact 12% the plain mobile header uses.
+// Desktop — "Top navigation-Desktop" (754:168079): the 80-tall Primary Panel
+//           sits inside a 10/0 padded Menu Bar, so the bar is 100 tall.
+// ---------------------------------------------------------------------------
+.withTrip {
+  background: var(--bg-header);
+
+  @include media(">=desktop") {
+    padding-block: rem(10);
+  }
+
+  .primaryPanel {
+    // Back button (36) then the trip slot, which carries its own edit column.
+    grid-template-columns: rem(36) minmax(0, 1fr);
+    gap: 0;
+    min-height: rem(78);
+
+    @include media(">=desktop") {
+      // The 66-tall trip block is taller than the panel's 20 vertical padding
+      // allows; Figma lets it overflow and centres it in the fixed 80 panel
+      // (hence its y of 7, not 20). Dropping the padding reproduces that and
+      // keeps the bar at its designed 100 (80 + the Menu Bar's 10/0).
+      justify-content: flex-start;
+      gap: rem(32);
+      min-height: rem(80);
+      padding-block: 0;
+    }
+  }
+
+  // 36×36 icon button ("Icon-Buttons" I666:139891;4955:32608) rather than the
+  // plain header's 24×32 chevron slot.
+  .backLink {
+    justify-content: center;
+    width: rem(36);
+    height: rem(36);
+    border-radius: rem(8);
+  }
+}

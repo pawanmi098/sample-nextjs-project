@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "title": "Choose your visa",
+    "description": "Compare the visa options available for your trip and pick the one that matches your plans."
+  },
+  "trip": {
+    "defaults": {
+      "from": "Delhi",
+      "to": "Dubai",
+      "travelDate": "20 Dec",
+      "travellers": "4",
+      "nationality": "IN",
+      "residence": "IN",
+      "purpose": "tourism"
+    },
+    "travellers": { "one": "Traveller", "other": "Travellers" },
+    "labels": {
+      "purpose": {
+        "tourism": { "fact": "Tourist Visa", "adjective": "tourist" },
+        "business": { "fact": "Business Visa", "adjective": "business" }
+      },
+      "nationality": { "IN": "Indian", "AE": "Emirati", "GB": "British", "US": "American", "SG": "Singaporean" },
+      "residence": {
+        "IN": "India",
+        "AE": "United Arab Emirates",
+        "GB": "United Kingdom",
+        "US": "United States",
+        "SG": "Singapore"
+      }
+    }
+  },
+  "tripSummary": {
+    "ariaLabel": "Your trip",
+    "routeSeparatorLabel": "to",
+    "swapIcon": "/assets/search-result/icons/trip-swap.svg",
+    "arrowIcon": "/assets/search-result/icons/trip-arrow-right.svg",
+    "edit": { "label": "Edit trip details", "icon": "/assets/search-result/icons/trip-edit.svg" },
+    "collapse": { "label": "Close trip details", "icon": "/assets/search-result/icons/trip-collapse.svg" }
+  },
+  "editSearch": {
+    "ariaLabel": "Edit your trip search",
+    "action": "/search-result",
+    "closeLabel": "Close trip search",
+    "from": { "label": "From", "name": "from", "placeholder": "Delhi" },
+    "to": {
+      "label": "Where",
+      "name": "to",
+      "placeholder": "Dubai",
+      "icon": "/assets/search-result/icons/trip-arrow-right.svg",
+      "dropdown": {
+        "ariaLabel": "Destinations",
+        "description": "Select the county you’re applying for",
+        "emptyLabel": "No matching destinations",
+        "options": [
+          { "value": "Dubai", "label": "Dubai", "description": "Dubai International Airport", "code": "DXB" },
+          { "value": "Abu Dhabi", "label": "Abu Dhabi", "description": "Zayed International Airport", "code": "AUH" },
+          { "value": "Singapore", "label": "Singapore", "description": "Changi Airport", "code": "SIN" },
+          { "value": "Bangkok", "label": "Bangkok", "description": "Suvarnabhumi Airport", "code": "BKK" },
+          { "value": "Istanbul", "label": "Istanbul", "description": "Istanbul Airport", "code": "IST" },
+          { "value": "Paris", "label": "Paris", "description": "Charles de Gaulle Airport", "code": "CDG" },
+          { "value": "Barcelona", "label": "Barcelona", "description": "Barcelona-El Prat Airport", "code": "BCN" },
+          { "value": "London", "label": "London", "description": "Heathrow Airport", "code": "LHR" },
+          { "value": "New York", "label": "New York", "description": "John F. Kennedy Airport", "code": "JFK" }
+        ]
+      }
+    },
+    "travelDate": {
+      "label": "Travel Date",
+      "name": "travelDate",
+      "placeholder": "20 Dec",
+      "icon": "/assets/search-result/icons/edit-calendar.svg"
+    },
+    "travellers": {
+      "label": "Travellers",
+      "name": "travellers",
+      "icon": "/assets/search-result/icons/edit-travellers.svg",
+      "ariaLabel": "Select travellers",
+      "valueLabel": { "one": "{count} Traveller", "other": "{count} Travellers" },
+      "summaryLabel": { "one": "{count} Traveller selected", "other": "{count} Travellers selected" },
+      "continueLabel": "Continue",
+      "checkedIcon": "/assets/common/icons/checkbox-checked.svg",
+      "uncheckedIcon": "/assets/common/icons/checkbox-unchecked.svg",
+      "options": [
+        { "id": "t1", "label": "Traveller 1", "name": "Amit Kumar" },
+        { "id": "t2", "label": "Traveller 2", "name": "Nishi Kumar" },
+        { "id": "t3", "label": "Traveller 3", "name": "Aarav Kumar" },
+        { "id": "t4", "label": "Traveller 4", "name": "Naman Kumar" }
+      ]
+    },
+    "selects": [
+      {
+        "id": "nationality",
+        "label": "Nationality",
+        "name": "nationality",
+        "icon": "/assets/search-result/icons/edit-nationality.svg",
+        "options": [
+          { "value": "IN", "label": "Indian" },
+          { "value": "AE", "label": "Emirati" },
+          { "value": "GB", "label": "British" },
+          { "value": "US", "label": "American" },
+          { "value": "SG", "label": "Singaporean" }
+        ]
+      },
+      {
+        "id": "residence",
+        "label": "Country of Residence",
+        "name": "residence",
+        "icon": "/assets/search-result/icons/edit-residence.svg",
+        "options": [
+          { "value": "IN", "label": "India" },
+          { "value": "AE", "label": "United Arab Emirates" },
+          { "value": "GB", "label": "United Kingdom" },
+          { "value": "US", "label": "United States" },
+          { "value": "SG", "label": "Singapore" }
+        ]
+      }
+    ],
+    "dropdownIcon": "/assets/search-result/icons/edit-dropdown-chevron.svg",
+    "purpose": {
+      "label": "Travelling for",
+      "name": "purpose",
+      "options": [
+        { "value": "tourism", "label": "Tourism" },
+        { "value": "business", "label": "Business" }
+      ]
+    },
+    "submitLabel": "Search"
+  },
+  "intro": {
+    "breadcrumb": {
+      "ariaLabel": "Breadcrumb",
+      "separatorIcon": "/assets/common/icons/breadcrumb-chevron.svg",
+      "items": [
+        {
+          "label": "Home",
+          "href": "/",
+          "icon": { "src": "/assets/common/icons/breadcrumb-home.svg", "width": 20, "height": 20 }
+        },
+        { "label": "Itinerary", "href": "/itinerary" },
+        { "label": "Visa" }
+      ]
+    },
+    "partnerBadge": "Powered by Calleo",
+    "title": { "mobile": "Choose a visa for {to}", "desktop": "Choose your {purpose} visa for {to}" },
+    "subtitle": {
+      "mobile": "Plans available for your trip",
+      "desktop": "Select the visa that matches your requirements."
+    }
+  }
+}

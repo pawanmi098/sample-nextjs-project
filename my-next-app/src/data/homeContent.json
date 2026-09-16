@@ -26,7 +26,7 @@
   },
   "search": {
     "ariaLabel": "Search visa options",
-    "action": "/visa-options",
+    "action": "/search-result",
     "pnr": {
       "label": "PNR: WKNPNZ",
       "icon": "/assets/home/icons/pnr-book.svg"
@@ -40,7 +40,23 @@
       "label": "Where",
       "name": "to",
       "value": "Dubai",
-      "icon": "/assets/home/icons/arrow-right.svg"
+      "icon": "/assets/home/icons/arrow-right.svg",
+      "dropdown": {
+        "ariaLabel": "Destinations",
+        "description": "Select the county you’re applying for",
+        "emptyLabel": "No matching destinations",
+        "options": [
+          { "value": "Dubai", "label": "Dubai", "description": "Dubai International Airport", "code": "DXB" },
+          { "value": "Abu Dhabi", "label": "Abu Dhabi", "description": "Zayed International Airport", "code": "AUH" },
+          { "value": "Singapore", "label": "Singapore", "description": "Changi Airport", "code": "SIN" },
+          { "value": "Bangkok", "label": "Bangkok", "description": "Suvarnabhumi Airport", "code": "BKK" },
+          { "value": "Istanbul", "label": "Istanbul", "description": "Istanbul Airport", "code": "IST" },
+          { "value": "Paris", "label": "Paris", "description": "Charles de Gaulle Airport", "code": "CDG" },
+          { "value": "Barcelona", "label": "Barcelona", "description": "Barcelona-El Prat Airport", "code": "BCN" },
+          { "value": "London", "label": "London", "description": "Heathrow Airport", "code": "LHR" },
+          { "value": "New York", "label": "New York", "description": "John F. Kennedy Airport", "code": "JFK" }
+        ]
+      }
     },
     "travelDate": {
       "label": "Travel Date",
@@ -48,25 +64,24 @@
       "placeholder": "20 Dec",
       "icon": "/assets/home/icons/calendar.svg"
     },
+    "travellers": {
+      "label": "Travellers",
+      "name": "travellers",
+      "icon": "/assets/home/icons/travellers.svg",
+      "ariaLabel": "Select travellers",
+      "valueLabel": { "one": "{count} Traveller", "other": "{count} Travellers" },
+      "summaryLabel": { "one": "{count} Traveller selected", "other": "{count} Travellers selected" },
+      "continueLabel": "Continue",
+      "checkedIcon": "/assets/common/icons/checkbox-checked.svg",
+      "uncheckedIcon": "/assets/common/icons/checkbox-unchecked.svg",
+      "options": [
+        { "id": "t1", "label": "Traveller 1", "name": "Amit Kumar" },
+        { "id": "t2", "label": "Traveller 2", "name": "Nishi Kumar" },
+        { "id": "t3", "label": "Traveller 3", "name": "Aarav Kumar" },
+        { "id": "t4", "label": "Traveller 4", "name": "Naman Kumar" }
+      ]
+    },
     "selects": [
-      {
-        "id": "travellers",
-        "label": "Travellers",
-        "name": "travellers",
-        "value": "4",
-        "icon": "/assets/home/icons/travellers.svg",
-        "options": [
-          { "value": "1", "label": "1 Traveller" },
-          { "value": "2", "label": "2 Travellers" },
-          { "value": "3", "label": "3 Travellers" },
-          { "value": "4", "label": "4 Travellers" },
-          { "value": "5", "label": "5 Travellers" },
-          { "value": "6", "label": "6 Travellers" },
-          { "value": "7", "label": "7 Travellers" },
-          { "value": "8", "label": "8 Travellers" },
-          { "value": "9", "label": "9 Travellers" }
-        ]
-      },
       {
         "id": "nationality",
         "label": "Nationality",

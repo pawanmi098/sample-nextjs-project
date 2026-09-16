@@ -58,6 +58,13 @@ $theme-cloud: (
   bg-carousel-button: color.change($color-white, $alpha: 0.88),
   // Mobile sticky header — near-transparent white over a background blur
   bg-header-compact: color.change($color-white, $alpha: 0.12),
+  // The blue screen under the search-result header's expanded search panel
+  overlay-search: color.change($color-blue, $alpha: 0.9),
+  // Selected/active row in the search form's destination dropdown
+  // (Figma "Dropdown List" 740:148277)
+  bg-option-selected: $color-chip-blue-bg,
+  // Dim behind that dropdown when it presents as a mobile bottom sheet
+  overlay-modal: color.change($color-navy, $alpha: 0.4),
 
   // Photo overlays (dark gradients laid over imagery)
   overlay-ink: $color-ink,
@@ -71,6 +78,7 @@ $theme-cloud: (
   border-widget: $color-lavender,
   border-search-input: $color-periwinkle,
   border-field: $color-lavender-mist,
+  border-option-selected: $color-lavender,
   border-card-soft: $color-smoke,
 
   // Text Colors
@@ -88,12 +96,16 @@ $theme-cloud: (
 
   // Icons / chips / badges
   icon-brand: $color-blue,
+  // Dot between inline facts (search-result trip summary)
+  separator-dot: $color-sky-blue,
   chip-bg: $color-chip-blue-bg,
   chip-text: $color-chip-cyan,
   status-hold: $color-gold,
   // Partner "Powered by" pill — dark pill on a light page
   badge-bg: $color-graphite,
   badge-border: $color-mist,
+  // Custom scrollbar thumb (search form's destination dropdown)
+  scroll-thumb: $color-cool-gray,
   // Slide indicator pills/dots
   indicator-active: $color-blue,
   indicator-inactive: $color-card-divider-light,

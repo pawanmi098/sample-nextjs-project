@@ -1,0 +1,158 @@
+@use '../../../styles/_shared' as *;
+
+// Figma "Dropdown List" — 740:148277 (destination, 392x216) and 774:198357
+// (nationality, 392x312). Same component, same 392 width in both the web and
+// the mweb frames, so none of the card's own values are viewport-dependent.
+//
+// Only the presentation splits: a popover under the search row from desktop
+// up, a bottom sheet below it. See OptionDropdown.jsx.
+
+// -----------------------------------------------------------------------------
+// The card itself (740:148277): 16 padding, 12 gap, r12, 2 INSIDE stroke
+// #9999DE. Figma strokes don't eat auto-layout padding, so CSS padding is
+// 16 − 2.
+// -----------------------------------------------------------------------------
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+  width: 100%;
+  padding: rem(14);
+  border: rem(2) solid var(--border-search-input);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+}
+
+// "Select the county you're applying for" (I740:149365;1337:10349).
+.description {
+  @include dropdown-description;
+  color: var(--text-body);
+}
+
+// "List with Scroll" (740:148278). Figma sizes the column to its rows and
+// parks a 16-wide scrollbar beside it; a real scroll container does the same
+// job, so the cap is what decides when the bar appears. 304 is four
+// destination rows (4 x 76), which is the tallest the design shows.
+.list {
+  overflow-y: auto;
+  max-height: rem(304);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overscroll-behavior: contain;
+
+  // "Scroll" (I774:198357;4119:11736): 16 wide, track #E2EBF2, an 8-wide
+  // r32 #9BA4B8 thumb inset 4 — hence the transparent border below.
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) transparent;
+
+  &::-webkit-scrollbar {
+    width: rem(16);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-left: rem(1) solid var(--border-subtle);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: rem(4) solid transparent;
+    border-radius: rem(32);
+    background: var(--scroll-thumb);
+    background-clip: content-box;
+  }
+}
+
+// "Dropdown-Element" / "Item 4" (740:148281, 740:148283): 76 tall, 16 padding,
+// 12 gap, r8. The unselected row has no stroke in Figma, so it carries a
+// transparent one to keep both rows the same height.
+.option {
+  display: flex;
+  align-items: center;
+  gap: rem(12);
+  padding: rem(15);
+  border: rem(1) solid transparent;
+  border-radius: rem(8);
+  color: var(--text-heading);
+  cursor: pointer;
+}
+
+// Selected: fill #EAF8FF, 1 INSIDE stroke #C2C2EB. Figma greys nothing here —
+// the row's subtitle also darkens to #25304B, which `.optionSelected` below
+// does via the description rule.
+.optionSelected,
+.optionActive {
+  border-color: var(--border-option-selected);
+  background: var(--bg-option-selected);
+}
+
+// The arrow-key row reads as selected; on a pointer, hover does the same.
+// Both are the one highlight Figma draws, so there's no second treatment to
+// invent for them.
+@media (hover: hover) {
+  .option:hover {
+    border-color: var(--border-option-selected);
+    background: var(--bg-option-selected);
+  }
+}
+
+.optionText {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// "Dubai" (I740:148281;2220:820) and the trailing "DXB"
+// (I740:148281;2302:1679) — both Poppins 600 16/24.
+.optionTitle,
+.optionCode {
+  @include dropdown-option-title;
+}
+
+.optionCode {
+  flex: none;
+}
+
+// "Dubai International Airport" (I740:148281;2220:821). Figma tints this
+// #4B5772 on a plain row and #25304B on the highlighted one.
+.optionDescription {
+  @include dropdown-option-description;
+  overflow: hidden;
+  color: var(--text-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.optionSelected .optionDescription,
+.optionActive .optionDescription {
+  color: var(--text-heading);
+}
+
+@media (hover: hover) {
+  .option:hover .optionDescription {
+    color: var(--text-heading);
+  }
+}
+
+// Not in Figma: what the list says once typing has filtered everything out.
+.empty {
+  padding: rem(15);
+  color: var(--text-body);
+  @include dropdown-option-description;
+}
+
+// -----------------------------------------------------------------------------
+// Size. Placement is DropdownSurface's job; this is just Figma's 392-wide
+// card, held against the "Where" field — which is only ~200 wide, so no
+// `max-width: 100%` on the popover, or the card would collapse to the field.
+// -----------------------------------------------------------------------------
+.surface {
+  width: rem(392);
+  max-width: 100%;
+
+  // Held against the "Where" field, which is only ~200 wide — so the popover
+  // must not clamp to its container the way the sheet's card does.
+  @include media(">=desktop") {
+    max-width: none;
+  }
+}

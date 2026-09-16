@@ -48,51 +48,10 @@
   }
 }
 
-// Search field labels ("From", "Travel Date"…) — Poppins 400 12/18
-@mixin home-search-label {
-  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
-}
-
-// City values ("Delhi", "Dubai") — Bauhaus Std 500 24/28
-@mixin home-search-city {
-  @include defaultTypoStyles(24, normal, 28, 500, $font-bauhaus-medium);
-}
-
-// Field values ("20 Dec", "4 Travellers", "Indian") — Poppins 500 16/24
-@mixin home-search-value {
-  @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
-}
-
-// "Travelling for" — mweb Poppins 500 14/20; web 20/30
-@mixin home-search-legend {
-  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
-
-  @include media(">=tablet") {
-    @include defaultTypoStyles(20, normal, 30, 500, $font-poppins-medium);
-  }
-}
-
-// Radio labels — mweb Poppins 400 12/18; web 14/20 (selected state uses 500)
-@mixin home-radio-label {
-  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
-
-  @include media(">=tablet") {
-    @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
-  }
-}
-
-@mixin home-radio-label-selected {
-  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
-
-  @include media(">=tablet") {
-    @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
-  }
-}
-
-// Primary button label (web only) — Poppins 600 16/24
-@mixin home-button-label {
-  @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
-}
+// The trip-search form's own text styles (labels, city and value fields,
+// "Travelling for", radio labels, the Search button) moved to
+// _typography.scss as `search-form-*` when the home widget and the
+// search-result header panel became one shared component.
 
 // "PNR: WKNPNZ" ribbon (web only) — Poppins 400 10/16
 @mixin home-pnr-label {

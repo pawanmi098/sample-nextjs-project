@@ -1,0 +1,368 @@
+@use '../../../styles/_shared' as *;
+
+// The one trip-search form — see SearchForm.jsx.
+//
+// Desktop values come from Figma "Search Input" (617:63762 on the home web
+// frame, 774:198091 on the search-result one). They are the same 1152x62
+// frame, field for field, which is why this file replaced the two that used
+// to carry a copy each.
+// Mobile values come from the home mweb search card (653:133857…), the only
+// mweb frame either page has for this form.
+//
+// Only `.widget` / `.panel` below differ per host.
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+
+  @include media(">=desktop") {
+    gap: rem(24);
+  }
+}
+
+// Mobile: a stack of separate bordered field boxes, 12 apart.
+// Desktop "Search Input": one 62-tall row, r12, 2 INSIDE stroke #9999DE,
+// glow 0 0 8. Figma strokes don't eat auto-layout padding, so CSS padding is
+// the Figma padding minus the 2 border.
+.searchInput {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+
+  @include media(">=desktop") {
+    flex-direction: row;
+    align-items: center;
+    gap: rem(16);
+    min-height: rem(62);
+    padding: rem(6) rem(6) rem(6) rem(14);
+    border: rem(2) solid var(--border-search-input);
+    border-radius: rem(12);
+    background: var(--bg-surface);
+    box-shadow: 0 0 rem(8) 0 var(--shadow-search-input);
+  }
+}
+
+// 1x46 #C2C2EB rules between the fields (617:72552 and friends).
+.divider {
+  display: none;
+  flex: none;
+  width: rem(1);
+  height: rem(46);
+  background: var(--border-widget);
+
+  @include media(">=desktop") {
+    display: block;
+  }
+}
+
+// Desktop: dividers and select fields share the search row directly.
+.fieldGroup {
+  display: contents;
+}
+
+// Mobile "Search Input" boxes: 8/16 padding, r8, 1 INSIDE stroke #E0E0F6.
+// Desktop Figma widths: Places and Dates 198, the three selects 200. Equal
+// flex-grow against a zero basis reproduces that split at any viewport width.
+.field {
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+  padding: rem(7) rem(15);
+  border: rem(1) solid var(--border-field);
+  border-radius: rem(8);
+  background: var(--bg-surface);
+
+  @include media(">=desktop") {
+    // Anchors the traveller panel. The field's bottom edge sits 8 above the
+    // row's — its 6 of padding plus 2 of border — which is what the popover's
+    // own 12 of `top` accounts for.
+    position: relative;
+    flex: 200 1 0;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+}
+
+.places,
+.dates {
+  @include media(">=desktop") {
+    flex: 198 1 0;
+  }
+}
+
+.fieldIcon,
+.placesArrow {
+  display: block;
+  flex: none;
+  width: rem(24);
+  height: rem(24);
+}
+
+.fieldBody,
+.place {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// Mobile "To" (653:133863) is right-aligned; the web frame keeps it left.
+//
+// It also anchors the destination popover, the same 8-above-the-row offset
+// `.field` explains above. Figma hangs the list 4px below the whole "Search
+// Input" box (774:198091 bottom -2092 → "Dropdown List" top -2088).
+.placeTo {
+  text-align: right;
+
+  @include media(">=desktop") {
+    position: relative;
+    text-align: left;
+  }
+}
+
+.label {
+  @include search-form-label;
+  color: var(--text-body);
+}
+
+.control {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: rem(4);
+  background: transparent;
+  color: var(--text-heading);
+  text-align: inherit;
+  appearance: none;
+
+  &::placeholder {
+    color: var(--text-input-placeholder);
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// "Delhi" / "Dubai" — Bauhaus Std 24/28 in a 28-tall box.
+.cityControl {
+  @include search-form-city;
+  height: rem(28);
+  color: var(--text-brand);
+}
+
+.valueControl {
+  @include search-form-value;
+}
+
+// The mobile value box is 24 tall; the web text box is 28.
+.dateControl {
+  height: rem(24);
+
+  @include media(">=desktop") {
+    height: rem(28);
+  }
+}
+
+.selectWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select {
+  height: rem(24);
+  padding-right: rem(24);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+// The Travellers field is a <button>, not a <select> — it opens a panel of
+// named travellers rather than a list of counts. These are the resets a
+// button needs to sit in the row exactly like its <select> neighbours.
+.trigger {
+  overflow: hidden;
+  text-align: left;
+
+  @include media(">=desktop") {
+    text-align: left;
+  }
+}
+
+.selectChevron {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: block;
+  width: rem(20);
+  height: rem(20);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+// "Frame 2147227913" (617:72586): the purpose group against the Search button.
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+
+  @include media(">=desktop") {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(24);
+    min-height: rem(48);
+  }
+}
+
+// Mobile "Frame 2147226925" (653:134038): its own white r12 box, 16/12
+// padding, centred. Desktop "Frame 2147227915" (617:72471): gap 32, no box.
+.purpose {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: rem(8) rem(12);
+  padding: rem(16) rem(12);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+
+  @include media(">=desktop") {
+    justify-content: flex-start;
+    gap: rem(8) rem(32);
+    padding: 0;
+    border-radius: 0;
+    background: none;
+  }
+}
+
+.purposeLabel {
+  @include search-form-legend;
+  color: var(--text-heading);
+}
+
+// Mobile "Frame 2147227918" (653:134055): the two radios spread across 168.
+.radios {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: rem(168);
+
+  @include media(">=desktop") {
+    justify-content: flex-start;
+    width: auto;
+  }
+}
+
+// Mobile "Radio-set" (653:134056): 20 radio, 8 gap, hugging label.
+// Desktop "Radio-set" (617:72591): 164 wide — 24 radio, 8 gap, 132 label.
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(8);
+  min-height: rem(20);
+  cursor: pointer;
+
+  @include media(">=desktop") {
+    width: rem(164);
+    min-height: rem(24);
+  }
+}
+
+.radioInput {
+  display: grid;
+  flex: none;
+  place-content: center;
+  width: rem(20);
+  height: rem(20);
+  margin: 0;
+  border: rem(2) solid var(--icon-brand);
+  border-radius: 50%;
+  background: var(--bg-surface);
+  appearance: none;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    width: rem(8);
+    height: rem(8);
+    border-radius: 50%;
+    background: var(--icon-brand);
+    transform: scale(0);
+  }
+
+  &:checked::before {
+    transform: scale(1);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(24);
+
+    &::before {
+      width: rem(12);
+      height: rem(12);
+    }
+  }
+}
+
+.radioLabel {
+  @include search-form-radio;
+  padding-top: rem(2);
+  color: var(--text-heading);
+}
+
+.radioInput:checked + .radioLabel {
+  @include search-form-radio-selected;
+}
+
+// "Buttons" (617:63995 / 617:72595): 120x48, r8, #000099.
+.submit {
+  @include search-form-button;
+  min-height: rem(48);
+  padding: rem(12) rem(24);
+  border: 0;
+  border-radius: rem(8);
+  background: var(--bg-button-primary);
+  color: var(--text-on-dark);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    min-width: rem(120);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Host variants — the only place the two pages' forms still differ.
+// -----------------------------------------------------------------------------
+
+// Home: the mweb frame has no Search button. The fixed "Continue" bar
+// (653:133835) submits this form instead, from outside it.
+.widget .submit {
+  display: none;
+
+  @include media(">=desktop") {
+    display: inline-block;
+  }
+}
+
+// Search result: the panel carries its own Search button at every width.
+.panel .submit {
+  display: inline-block;
+}

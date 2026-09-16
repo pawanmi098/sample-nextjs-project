@@ -1,0 +1,187 @@
+@use '../../../styles/_shared' as *;
+
+// Mobile — Figma mweb "Sticky Header" (666:139891): the route/facts stack is
+// 271×54 with 8/12 padding and a 2 gap, and the 36 edit button sits outside it
+// at the bar's right edge. The stack's own frame is r36 but has no fill or
+// stroke, so it needs no box of its own here — only its inner spacing.
+// Desktop — "Menu Bar" (724:142720) "Trip Information" 1027×66: a 30-tall
+// centred route row over a 36-tall facts row that ends with the edit button.
+.tripSummary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) rem(36);
+  grid-template-areas:
+    'route edit'
+    'meta  edit';
+  align-items: center;
+  row-gap: rem(2);
+
+  @include media(">=desktop") {
+    // `auto auto` + centred content keeps the route row centred over the
+    // facts row, which is how Figma centres both inside the 1027 track.
+    flex: 1;
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      'route route'
+      'meta  edit';
+    justify-content: center;
+    column-gap: rem(24);
+    row-gap: 0;
+  }
+}
+
+// "Delhi → Dubai"
+.route {
+  @include search-result-trip-route;
+  display: flex;
+  grid-area: route;
+  align-items: center;
+  justify-content: center;
+  gap: rem(8);
+  min-width: 0;
+  color: var(--text-brand);
+}
+
+// Figma gives "From" and "To" equal-width boxes (106 mweb / 494 web), right-
+// and left-aligned, so the icon between them sits on the exact centre line
+// however long the two city names are. Equal flex bases do the same thing.
+.routeCity {
+  flex: 1 1 0;
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:first-child {
+    text-align: right;
+  }
+
+  &:last-child {
+    text-align: left;
+  }
+}
+
+.routeIconMobile {
+  display: block;
+  flex-shrink: 0;
+  width: rem(20);
+  height: rem(20);
+
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+
+.routeIconDesktop {
+  display: none;
+  flex-shrink: 0;
+
+  @include media(">=desktop") {
+    display: block;
+    width: rem(24);
+    height: rem(24);
+  }
+}
+
+// "Tourist Visa · 20 Dec · 4 Travellers"
+.meta {
+  @include search-result-trip-meta;
+  display: flex;
+  grid-area: meta;
+  align-items: center;
+  justify-content: center;
+  // mweb: 12 either side of a 4 dot. web: 32 either side of an 8 dot
+  // (Figma wraps that dot in a 24 box with 24 item spacing).
+  gap: rem(12);
+  min-width: 0;
+  color: var(--text-heading);
+  list-style: none;
+
+  @include media(">=desktop") {
+    gap: rem(32);
+  }
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: rem(12);
+  white-space: nowrap;
+
+  @include media(">=desktop") {
+    gap: rem(32);
+  }
+
+  // Separator dot before every fact but the first.
+  & + &::before {
+    content: '';
+    display: block;
+    flex-shrink: 0;
+    width: rem(4);
+    height: rem(4);
+    border-radius: 50%;
+    background: var(--separator-dot);
+
+    @include media(">=desktop") {
+      width: rem(8);
+      height: rem(8);
+    }
+  }
+}
+
+// Each viewport gets its own list, so the "first item has no dot" rule stays
+// true after the other viewport's facts are hidden.
+.metaMobile {
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+
+.metaDesktop {
+  display: none;
+
+  @include media(">=desktop") {
+    display: flex;
+  }
+}
+
+// 36×36 "Icon-Buttons" holding a 20 pencil. Expanded, it's the same box with
+// the 1 INSIDE #000099 stroke and the up chevron of "Top navigation-Desktop"
+// (617:71993) — a border rather than a fill change, so the button doesn't
+// shift the row when it toggles.
+.editButton {
+  display: flex;
+  grid-area: edit;
+  align-items: center;
+  justify-content: center;
+  width: rem(36);
+  height: rem(36);
+  padding: 0;
+  border: 0;
+  border-radius: rem(8);
+  background: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  img {
+    display: block;
+    width: rem(20);
+    height: rem(20);
+  }
+}
+
+.editButtonOpen {
+  border: rem(1) solid var(--icon-brand);
+  background: var(--bg-surface);
+}
+
+.srOnly {
+  position: absolute;
+  overflow: hidden;
+  clip-path: inset(50%);
+  width: rem(1);
+  height: rem(1);
+  white-space: nowrap;
+}

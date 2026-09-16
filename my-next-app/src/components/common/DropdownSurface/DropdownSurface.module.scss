@@ -1,0 +1,46 @@
+@use '../../../styles/_shared' as *;
+
+// Placement only — see DropdownSurface.jsx. The card inside is styled by
+// whichever component fills the surface.
+
+// Desktop: a popover under the field. The 12 clears the field's own bottom
+// edge plus the 8 of padding and border below it inside "Search Input", which
+// lands the card 4px under that box exactly as Figma draws it.
+.popover {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + #{rem(12)});
+  left: 0;
+}
+
+// Fields in the right half of the search row hang their card from the field's
+// right edge instead. Anchored left, a 392-wide card on the last field (whose
+// own left edge is ~80% across the row) runs past the viewport at every
+// desktop width.
+.popoverEnd {
+  right: 0;
+  left: auto;
+}
+
+// Mobile: PROVISIONAL — Figma has no mweb frame for how these popups are
+// presented, only for the cards themselves. A sheet at the bottom keeps the
+// list clear of the on-screen keyboard.
+.sheetLayer {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrim {
+  flex: 1;
+  background: var(--overlay-modal);
+}
+
+.sheet {
+  display: flex;
+  justify-content: center;
+  padding: rem(16);
+  background: var(--bg-surface);
+}

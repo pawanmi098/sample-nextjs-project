@@ -1,0 +1,69 @@
+@use '../../../styles/_shared' as *;
+
+// Figma web "Top navigation-Desktop" (617:71171) — the expanded header.
+// The "Primary Panel" (617:71210) is 1280x194: white, 20/44/40 padding and a
+// 24 gap between the search row and the "Travelling for" row.
+//
+// The fields inside are the shared form, styled by
+// src/components/common/SearchForm/SearchForm.module.scss — its 1192-wide
+// "Search Input" (617:72543) is the same control the home page uses. What's
+// left here is the panel that drops out of the header, and the screen behind.
+//
+// MOBILE IS PROVISIONAL: Figma has no mweb frame for this state yet, so the
+// panel stacks its fields the way the home page's mweb search card does.
+
+// Everything below the sticky header: the white panel, then the blue screen
+// over the rest of the page. `top` is the header's height (78 mweb / 100 web
+// — see SiteHeader.module.scss `.withTrip`), which leaves the header itself
+// interactive so its chevron can collapse the panel again.
+.layer {
+  position: fixed;
+  z-index: 9;
+  top: rem(78);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+
+  @include media(">=desktop") {
+    top: rem(100);
+  }
+}
+
+// Full-bleed white bar; the frame's drop shadow (0 4 28 #000099 @ 4%) hangs
+// off its bottom edge, matching the header above it.
+//
+// The scroll is for the stacked mobile layout, which can outgrow the screen.
+// From desktop up the panel is 194 tall and never does — and there it has to
+// stop clipping, because the destination popover hangs below its bottom edge.
+// (Below desktop that dropdown is a portalled sheet, so the scroll is safe.)
+.panel {
+  overflow-y: auto;
+  min-height: 0;
+  background: var(--bg-surface);
+  box-shadow: 0 rem(4) rem(28) 0 var(--shadow-header);
+
+  @include media(">=desktop") {
+    overflow: visible;
+  }
+}
+
+// Centred on the header's own container, so the search row lines up with the
+// logo at every width.
+.form {
+  max-width: rem(1280);
+  margin-inline: auto;
+  padding: rem(16);
+
+  @include media(">=desktop") {
+    padding: rem(20) rem(44) rem(40);
+  }
+}
+
+// The blue screen the overlay lays over the rest of the page.
+.scrim {
+  flex: 1;
+  background: var(--overlay-search);
+  cursor: pointer;
+}

@@ -44,3 +44,111 @@
 @mixin disclaimer-link {
   @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
 }
+
+// =============================================================================
+// SEARCH FORM — src/components/common/SearchForm, the one trip-search form
+// shared by the home widget and the search-result header panel.
+//
+// These started as two byte-identical sets (`home-search-*` and
+// `search-result-edit-*`) built from the same Figma component: "Search Input"
+// 617:63762 (home web) and 774:198091 (SRP web) are the same 1152x62 frame,
+// and the mweb card is 653:133857. One component now renders both, so there
+// is one set of mixins.
+//
+// The two sets disagreed on one thing — the legend and radio labels grew at
+// `>=tablet` for home and `>=desktop` for the SRP panel. `>=desktop` wins:
+// the form keeps its stacked mweb structure until 1024 on both pages, and
+// desktop type in the mobile structure overflows it.
+// =============================================================================
+
+// Field labels "From", "Where", "Travel Date"… — Poppins 400 12/18 (617:72546).
+@mixin search-form-label {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+}
+
+// City values "Delhi", "Dubai" — Bauhaus Std 500 24/28 (617:72547).
+@mixin search-form-city {
+  @include defaultTypoStyles(24, normal, 28, 500, $font-bauhaus-medium);
+}
+
+// Field values "20 Dec", "4 Travellers", "Indian" — Poppins 500 16/24
+// (617:72557).
+@mixin search-form-value {
+  @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+}
+
+// "Travelling for" — mweb Poppins 500 14/20; web 20/30 (617:72589).
+@mixin search-form-legend {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(20, normal, 30, 500, $font-poppins-medium);
+  }
+}
+
+// Radio labels — mweb Poppins 400 12/18; web 14/20, the selected one 500
+// (I617:72591;1280:6565).
+@mixin search-form-radio {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+  }
+}
+
+@mixin search-form-radio-selected {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+  }
+}
+
+// "Search" button label — Poppins 600 16/24 (I617:72595;152:56).
+@mixin search-form-button {
+  @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
+}
+
+// -----------------------------------------------------------------------------
+// OPTION DROPDOWN — Figma "Dropdown List" 740:148277 (destination, two-line
+// rows) and 774:198357 (nationality, one-line rows). One component, one set of
+// type styles; both frames are 392 wide, so web and mweb share these values.
+// -----------------------------------------------------------------------------
+
+// The hint above the list — Poppins 400 14/20 (I740:149365;1337:10349).
+@mixin dropdown-description {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+}
+
+// Row title "Dubai", and the trailing IATA code "DXB" — both Poppins 600 16/24
+// (I740:148281;2220:820 and I740:148281;2302:1679).
+@mixin dropdown-option-title {
+  @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
+}
+
+// Row subtitle "Dubai International Airport" — Poppins 400 14/20
+// (I740:148281;2220:821).
+@mixin dropdown-option-description {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+}
+
+// -----------------------------------------------------------------------------
+// TRAVELLER PICKER — Figma "traveller selection" 617:74196 / 617:75161. Both
+// frames are 400 wide, so web and mweb share these values. The row's
+// "Traveller 1" line reuses `search-form-label` (Poppins 400 12/18).
+// -----------------------------------------------------------------------------
+
+// "Amit Kumar" — Poppins 600 16/24 (617:75170).
+@mixin traveller-picker-name {
+  @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
+}
+
+// "3 Travellers selected" — Poppins 400 14/20 (617:75204).
+@mixin traveller-picker-summary {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+}
+
+// "Continue" — Poppins 500 12/18 (I617:75220;258:2254).
+@mixin traveller-picker-button {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+}

@@ -1,0 +1,174 @@
+@use '../../../styles/_shared' as *;
+
+// Figma "traveller selection" — 617:74196 (none picked) / 617:75161 (three
+// picked). A 400x368 card; both frames are 400 wide, so web and mweb share
+// every value here. Placement is DropdownSurface's job.
+
+.surface {
+  width: rem(400);
+  max-width: 100%;
+
+  // Held against the Travellers field, which is only ~200 wide — so the
+  // popover must not clamp to its container the way the sheet's card does.
+  @include media(">=desktop") {
+    max-width: none;
+  }
+}
+
+// The card: 16 padding, 8 gap, r8, 1 INSIDE stroke #9999DE. Figma strokes
+// don't eat auto-layout padding, so CSS padding is 16 − 1.
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+  padding: rem(15);
+  border: rem(1) solid var(--border-search-input);
+  border-radius: rem(8);
+  background: var(--bg-surface);
+
+  &:focus-visible {
+    @include focus-ring(0);
+  }
+}
+
+// "Frame 2147227152" (617:75162): the rows, 12 apart. Capped so a long
+// booking scrolls rather than pushing the footer off screen — four rows of
+// 64 plus three 12 gaps is the tallest the design shows.
+.list {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+  max-height: rem(292);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overscroll-behavior: contain;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) transparent;
+}
+
+// "Passenger 5" (617:75163): 64 tall, 12/10 padding, no radius, and a rule
+// along the bottom only — individualStrokeWeights is 0 except bottom: 1.
+.row {
+  border-bottom: rem(1) solid var(--border-option-selected);
+  background: var(--bg-surface);
+}
+
+// Picked rows fill #EAF8FF (617:75163); unpicked stay white (617:75193).
+.rowChecked {
+  background: var(--bg-option-selected);
+}
+
+// "Frame 1618869107": the details against the checkbox, 44 tall.
+//
+// Figma declares 12/10/12/10 of padding but fixes the row at 64 with the
+// child at y=12, so the real bottom inset is 64 − 12 − 44 = 8 — of which the
+// row's 1px bottom rule takes one.
+.rowLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(12);
+  min-height: rem(44);
+  padding: rem(12) rem(10) rem(7);
+  cursor: pointer;
+}
+
+// "Details" (617:75165): 2 gap.
+.details {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: rem(2);
+  min-width: 0;
+}
+
+// "Traveller 1" — Poppins 400 12/18, the same style as the search field
+// labels above it.
+.position {
+  @include search-form-label;
+  color: var(--text-body);
+}
+
+// "Amit Kumar" — Poppins 600 16/24 #000099 (617:75170).
+.name {
+  @include traveller-picker-name;
+  overflow: hidden;
+  color: var(--text-brand);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// A real checkbox, moved off screen rather than hidden, so it keeps its
+// keyboard and screen-reader behaviour. The image beside it is the visual.
+.checkbox {
+  position: absolute;
+  width: rem(1);
+  height: rem(1);
+  margin: rem(-1);
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// "Check Box" (617:75172): 24x24, sitting 4 below the row's centre line —
+// Figma wraps it in a 24x28 frame with 4 of top padding.
+.checkboxIcon {
+  display: block;
+  flex: none;
+  width: rem(24);
+  height: rem(24);
+  margin-top: rem(4);
+  border-radius: rem(6);
+}
+
+.checkbox:focus-visible + .checkboxIcon {
+  @include focus-ring;
+}
+
+// "Fare Details" (617:75203): 36 tall, 10 of side padding, the count against
+// the button.
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(32);
+  min-height: rem(36);
+  padding-inline: rem(10);
+}
+
+// "3 Travellers selected" — Poppins 400 14/20 #25304B (617:75204).
+.summary {
+  @include traveller-picker-summary;
+  color: var(--text-heading);
+}
+
+// "Buttons" (617:75220): 80x36, r8, #000099, Poppins 500 12/18 centred.
+.continue {
+  @include traveller-picker-button;
+  flex: none;
+  min-width: rem(80);
+  min-height: rem(36);
+  padding: rem(9) rem(12);
+  border: 0;
+  border-radius: rem(8);
+  background: var(--bg-button-primary);
+  color: var(--text-on-dark);
+  text-align: center;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Not in Figma: with nothing ticked there is no trip to search for, so the
+  // button can't be pressed. The row fills are the only other affordance, so
+  // this keeps the state visible rather than silently doing nothing.
+  &:disabled {
+    background: var(--border-default);
+    cursor: not-allowed;
+  }
+}

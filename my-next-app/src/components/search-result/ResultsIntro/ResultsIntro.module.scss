@@ -1,0 +1,86 @@
+@use '../../../styles/_shared' as *;
+
+// Mobile — Figma mweb "Frame 1321316059" (666:139788): "Powered by Calleo" →
+// 11 → title block. No breadcrumb: the header's back link replaces it.
+// Desktop — "Frame 2147227589" (754:167952): breadcrumb row → 24 → title block.
+//
+// Structurally the same section as home/VisaSearchIntro, down to the type
+// scale. If a third page needs it, lift the two into a common/PageIntro
+// rather than adding a third copy.
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: rem(11);
+
+  @include media(">=desktop") {
+    gap: rem(24);
+  }
+}
+
+.topRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: rem(12) rem(20);
+}
+
+.breadcrumb {
+  display: none;
+
+  @include media(">=desktop") {
+    display: block;
+  }
+}
+
+// Mobile: plain #25304B text. Desktop "brand name" pill (754:167956): #565564
+// fill, 0.4 inside stroke #EBECEE.
+.partnerBadge {
+  @include search-result-partner-badge;
+  color: var(--text-heading);
+
+  @include media(">=desktop") {
+    // Figma's pill is 31 tall with 6 of padding, so the line box is 19 — the
+    // 24 leading of the type style would make it 36 and push the heading
+    // below it out of position.
+    padding: rem(6) rem(12);
+    border-radius: rem(23);
+    line-height: rem(19);
+    background: var(--badge-bg);
+    box-shadow: inset 0 0 0 rem(0.4) var(--badge-border);
+    color: var(--text-on-dark);
+    text-align: center;
+    white-space: nowrap;
+  }
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+}
+
+.title {
+  @include search-result-page-title;
+  color: var(--text-heading);
+}
+
+.subtitle {
+  @include search-result-page-subtitle;
+  color: var(--text-body);
+}
+
+// The two frames word the title and the subtitle differently.
+.mobileCopy {
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+
+.desktopCopy {
+  display: none;
+
+  @include media(">=desktop") {
+    display: inline;
+  }
+}

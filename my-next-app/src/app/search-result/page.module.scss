@@ -1,0 +1,25 @@
+@use '../../styles/_shared' as *;
+
+// Mobile — Figma mweb "srp" (666:139769), 375 wide: 16 side gutters and 10
+// between the 78-tall header and the intro (frame y 132, less the 44 device
+// status bar that isn't part of the page, less the header).
+// Desktop — web "SRP" (754:167951): 1280 wide, 44 side gutters, 24 below the
+// 100-tall header, 1192 of content.
+//
+// The bottom padding is provisional: the frames end with a fixed "Primary
+// Bottom Sticky" Continue bar that isn't built yet, so nothing needs
+// clearing under the content so far.
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  width: 100%;
+  max-width: rem(1440);
+  margin-inline: auto;
+  padding: rem(10) rem(16) rem(40);
+
+  @include media(">=desktop") {
+    gap: rem(24);
+    padding: rem(24) rem(44) rem(56);
+  }
+}

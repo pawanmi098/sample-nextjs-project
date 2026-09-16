@@ -1,0 +1,15 @@
+const { chromium } = await import("playwright");
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1280, height: 700 } });
+page.on("console", (m) => console.log("console:", m.type(), m.text().slice(0, 300)));
+page.on("response", (r) => { if (r.status() >= 400) console.log("HTTP", r.status(), r.url()); });
+page.on("pageerror", (e) => console.log("pageerror:", String(e).slice(0, 300)));
+await page.goto("http://localhost:4137/search-result", { waitUntil: "load" });
+await page.waitForTimeout(1500);
+const btn = page.locator('button[aria-controls]');
+console.log("count", await btn.count(), "expanded", await btn.first().getAttribute("aria-expanded"));
+await btn.first().click();
+await page.waitForTimeout(500);
+console.log("after click expanded:", await btn.first().getAttribute("aria-expanded"));
+console.log("layer in dom:", await page.locator("body > div").count());
+await browser.close();
