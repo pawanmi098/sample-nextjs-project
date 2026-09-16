@@ -1,9 +1,14 @@
 @use '../../../styles/_shared' as *;
 
-// Figma "Secondary Bottom Sticky" (653:133835): 360×84, white, 4 top stroke
-// #E0E0F6 (INSIDE, so CSS padding-top = 16 − 4), 20 side padding, drop shadow
-// 0 -4 16 #000099 @ 8%, 24 background blur. Below the button: 16 padding plus
-// the 12 "safe-area" strip (its home-indicator line is device UI, not drawn).
+// Mobile — Figma "Secondary Bottom Sticky" (653:133835): 360×84, white, 4 top
+// stroke #E0E0F6 (INSIDE, so CSS padding-top = 16 − 4), 20 side padding, drop
+// shadow 0 -4 16 #000099 @ 8%, 24 background blur. Below the button: 16
+// padding plus the 12 "safe-area" strip (its home-indicator line is device
+// UI, not drawn).
+// Desktop — web "Primary Bottom Sticky" (724:142592): 1280×80, same shadow and
+// blur; "Actual Content" has a 4 top stroke #C2C2EB (INSIDE) and 16/32 padding
+// (so CSS padding-top = 16 − 4). The border and background run edge to edge;
+// the content sits right-aligned in a centred 1280 container.
 .bar {
   position: fixed;
   right: 0;
@@ -16,9 +21,55 @@
   box-shadow: 0 rem(-4) rem(16) 0 var(--shadow-sticky-bar);
   backdrop-filter: blur(rem(24));
   -webkit-backdrop-filter: blur(rem(24));
+
+  @include media(">=desktop") {
+    padding: 0;
+    border-top-color: var(--border-sticky-bar);
+  }
 }
 
-// "Buttons" (I653:133835;4125:22800): full width × 40, r8, #000099.
+.inner {
+  @include media(">=desktop") {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: rem(24);
+    max-width: rem(1280);
+    margin-inline: auto;
+    padding: rem(12) rem(32) rem(16);
+  }
+}
+
+// "Divider" (I724:142592;4125:21061): a 1×48 box whose 2-wide line is centred
+// on x = 1, stroke #E0E0F6 dashed 0.1/4 with round caps — i.e. a column of
+// 2px dots every 4.1px.
+.divider {
+  display: none;
+
+  @include media(">=desktop") {
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+    width: rem(1);
+    height: rem(48);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: rem(2);
+      background-image: radial-gradient(circle, var(--border-sticky-bar-divider) rem(1), transparent rem(1));
+      background-size: rem(2) rem(4.1);
+      background-repeat: repeat-y;
+    }
+  }
+}
+
+// Mobile "Buttons" (I653:133835;4125:22800): full width × 40, r8, #000099.
+// Web "Buttons" (I724:142592;4123:20773): hugs its label, 48 tall, 24 side
+// padding, r8.
 .button {
   @include sticky-bar-button-label;
   display: block;
@@ -33,5 +84,11 @@
 
   &:focus-visible {
     @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    width: auto;
+    height: rem(48);
+    padding: rem(12) rem(24);
   }
 }

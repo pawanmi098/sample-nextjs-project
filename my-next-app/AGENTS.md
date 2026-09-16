@@ -226,6 +226,7 @@ node scripts/lighthouse.mjs http://localhost:4125
 | Page | Route | Figma file | Web frame | Mweb frame | Components | Status |
 | --- | --- | --- | --- | --- | --- | --- |
 | Home — "Find visa options" | `/` | `rxtwECShBU2TwVlnjvXQvI` (IVS) | `557:17402` "Fetch Visa one-way" 1280×1860 | `653:133839` "Landing" 360×1512 | `common/SiteHeader`, `common/Breadcrumb`, `common/Disclaimer`, `common/BottomStickyBar`, `home/VisaSearchIntro`, `home/VisaSearchWidget`, `home/DestinationPromo`, `home/VisaProcessShowcase`, `home/CountryCarousel` | Web + mweb implemented; tablet (768–1023) uses the mweb layout |
+| Search result — "Choose a visa" | `/search-result` | `rxtwECShBU2TwVlnjvXQvI` (IVS) | `754:167951` "SRP" 1280 wide | `682:141406` "srp" 360×1408 (header/intro first built from `666:139769`) | `common/SiteHeader`, `common/Disclaimer`, `common/BottomStickyBar`, `search-result/TripSummary`, `search-result/TripSearchPanel`, `search-result/ResultsIntro`, `search-result/VisaPlanResults`, `search-result/VisaPlanFilters`, `search-result/VisaPlanCard` | Web + mweb implemented; tablet uses the mweb layout |
 
 Notes for the home page:
 - The two frames differ in structure, not just size, so some parts render for one viewport only (CSS `display: none`). Images there stay lazy so the hidden ones never download. The exception is the mobile LCP photo in `DestinationPromo`: it's preloaded, with a desktop `sizes` of 16px.
@@ -238,3 +239,13 @@ Notes for the home page:
 - Frame `608:25495` (the "60 Days Sticker visa" result card) sits off-canvas at x = 1405 and isn't part of the home page. It's likely the next "visa options" screen.
 - The search form currently submits `GET /visa-options`. That route doesn't exist yet.
 - `public/assets/fetch-visa/` and the full-size `public/fonts/**/*.ttf` / `*-{Weight}.woff2` files are leftovers from an earlier attempt. Nothing references them.
+
+Notes for the shared search form:
+- mweb option dropdown (destination/nationality) follows `776:206235` "Popup with Overlay": `DropdownSurface` with `modal` (gradient blurred scrim, r20 sheet, grab handle) and the `<desktop` block in `OptionDropdown.module.scss`. The mweb traveller picker follows `776:205142` the same way (`modal`, a "Select Travellers" `sheetTitle`, and `continueLabel.mobile` "Next" vs `.desktop` "Continue"). Nothing uses the plain sheet now. The grab handle is commented out in `DropdownSurface.jsx` on purpose.
+
+Notes for the search result page:
+- mweb only: the plan card's "Validity" pill and "· 30 days duration", derived from the plan's `validity`/`stay` facts via `plans.summary`. The card's DOM is shaped for web, and below desktop `.head`/`.headRow`/`.body` are `display: contents` inside a one-column grid (see `VisaPlanCard.module.scss`). web only: the facts columns and the sort button.
+- The mweb chip row scrolls sideways and bleeds through the right gutter to the screen edge.
+- The two frames use different fixture plans (mweb: four cards, all ₹2,000/₹1,000). The JSON keeps the web frame's three.
+- Deliberate deviation: the validity pill label is `#906A0C`, not Figma's `#A97D0E` (3.5:1 on `#FFF8E5`).
+- Open Lighthouse items, both inherited from Figma values: mobile Best Practices "legible font sizes" (the 10px disclaimer is ~66% of the page's text), and desktop contrast on "Incl. Taxes" (60% opacity, 2.8:1).

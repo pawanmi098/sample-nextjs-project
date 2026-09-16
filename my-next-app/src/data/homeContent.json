@@ -70,8 +70,9 @@
       "icon": "/assets/home/icons/travellers.svg",
       "ariaLabel": "Select travellers",
       "valueLabel": { "one": "{count} Traveller", "other": "{count} Travellers" },
+      "sheetTitle": "Select Travellers",
       "summaryLabel": { "one": "{count} Traveller selected", "other": "{count} Travellers selected" },
-      "continueLabel": "Continue",
+      "continueLabel": { "mobile": "Next", "desktop": "Continue" },
       "checkedIcon": "/assets/common/icons/checkbox-checked.svg",
       "uncheckedIcon": "/assets/common/icons/checkbox-unchecked.svg",
       "options": [

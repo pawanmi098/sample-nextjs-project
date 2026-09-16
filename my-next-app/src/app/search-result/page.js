@@ -1,10 +1,16 @@
 import SiteHeader from "@/components/common/SiteHeader/SiteHeader";
 import TripSummary from "@/components/search-result/TripSummary/TripSummary";
 import ResultsIntro from "@/components/search-result/ResultsIntro/ResultsIntro";
+import VisaPlanResults from "@/components/search-result/VisaPlanResults/VisaPlanResults";
 import commonContent from "@/data/commonContent.json";
 import searchResultContent from "@/data/searchResultContent.json";
+import { resolvePlans } from "@/lib/plans";
 import { resolveTrip } from "@/lib/trip";
 import styles from "./page.module.scss";
+import homeContent from "@/data/homeContent.json";
+import Disclaimer from "@/components/common/Disclaimer/Disclaimer";
+import BottomStickyBar from "@/components/common/BottomStickyBar/BottomStickyBar";
+
 
 export const metadata = {
   title: searchResultContent.meta.title,
@@ -20,7 +26,9 @@ export const metadata = {
  * layout never receives searchParams.
  */
 export default async function SearchResultPage({ searchParams }) {
-  const trip = resolveTrip(await searchParams, searchResultContent.trip);
+  const params = await searchParams;
+  const trip = resolveTrip(params, searchResultContent.trip);
+  const plans = resolvePlans(params, searchResultContent.plans);
 
   return (
     <>
@@ -36,6 +44,11 @@ export default async function SearchResultPage({ searchParams }) {
       />
       <main className={styles.page}>
         <ResultsIntro content={searchResultContent.intro} trip={trip} />
+        <VisaPlanResults content={searchResultContent.plans} plans={plans} />
+        <Disclaimer content={homeContent.disclaimer} />
+        {/* Fixed "Continue" bar — web "Primary Bottom Sticky" (724:142592),
+            mweb "Secondary Bottom Sticky" (666:139892). */}
+        <BottomStickyBar label={searchResultContent.stickyBar.continueLabel} />
       </main>
     </>
   );

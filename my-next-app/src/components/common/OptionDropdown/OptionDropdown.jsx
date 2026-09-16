@@ -15,7 +15,9 @@ import styles from "./OptionDropdown.module.scss";
  * value here; only the *presentation* differs, and that split is below.
  *
  * Presented by DropdownSurface — a popover under the field on desktop, a
- * bottom sheet on mobile.
+ * bottom sheet on mobile. The mobile sheet follows mweb frame 776:206235
+ * ("Popup with Overlay"): the hint becomes the sheet's header and the rows
+ * lose the card chrome — see the `<desktop` block in the SCSS.
  *
  * This renders the list only. The combobox input that owns it — the value,
  * the filtering and every key that moves `activeIndex` — lives in SearchForm,
@@ -37,6 +39,8 @@ import styles from "./OptionDropdown.module.scss";
  * @param onClose        called when the scrim is tapped
  * @param rootRef        the outermost node, so the input can tell an outside
  *                       click from one that landed in the popup
+ * @param className      the host's own hook for this popup, e.g. a per-field
+ *                       nudge of the desktop popover
  */
 
 export default function OptionDropdown({
@@ -52,6 +56,7 @@ export default function OptionDropdown({
   onSelect,
   onClose,
   rootRef,
+  className,
 }) {
   const listRef = useRef(null);
 
@@ -66,49 +71,54 @@ export default function OptionDropdown({
     <div className={styles.card}>
       {description ? <p className={styles.description}>{description}</p> : null}
 
-      <ul ref={listRef} id={id} role="listbox" aria-label={label} className={styles.list}>
-        {options.length === 0 ? (
-          <li role="presentation" className={styles.empty}>
-            {emptyLabel}
-          </li>
-        ) : (
-          options.map((option, index) => {
-            const classNames = [styles.option];
-            if (option.value === selectedValue) classNames.push(styles.optionSelected);
-            if (index === activeIndex) classNames.push(styles.optionActive);
+      <div className={styles.scrollArea}>
+        <ul ref={listRef} id={id} role="listbox" aria-label={label} className={styles.list}>
+          {options.length === 0 ? (
+            <li role="presentation" className={styles.empty}>
+              {emptyLabel}
+            </li>
+          ) : (
+            options.map((option, index) => {
+              const classNames = [styles.option];
+              if (option.value === selectedValue) classNames.push(styles.optionSelected);
+              if (index === activeIndex) classNames.push(styles.optionActive);
 
-            return (
-              <li
-                key={option.value}
-                id={optionId(index)}
-                role="option"
-                aria-selected={option.value === selectedValue}
-                className={classNames.join(" ")}
-                // Swallowing mousedown is what keeps focus on the combobox
-                // input, so picking a row never blurs it and no refocus (and
-                // on a phone, no second keyboard flash) is needed. mousedown
-                // rather than pointerdown: a touch that turns into a scroll
-                // never fires it, so the list still pans by finger.
-                onMouseDown={(event) => event.preventDefault()}
-                onClick={() => onSelect(option)}
-              >
-                <span className={styles.optionText}>
-                  <span className={styles.optionTitle}>{option.label}</span>
-                  {option.description ? (
-                    <span className={styles.optionDescription}>{option.description}</span>
-                  ) : null}
-                </span>
-                {option.code ? <span className={styles.optionCode}>{option.code}</span> : null}
-              </li>
-            );
-          })
-        )}
-      </ul>
+              return (
+                <li
+                  key={option.value}
+                  id={optionId(index)}
+                  role="option"
+                  aria-selected={option.value === selectedValue}
+                  className={classNames.join(" ")}
+                  // Swallowing mousedown is what keeps focus on the combobox
+                  // input, so picking a row never blurs it and no refocus (and
+                  // on a phone, no second keyboard flash) is needed. mousedown
+                  // rather than pointerdown: a touch that turns into a scroll
+                  // never fires it, so the list still pans by finger.
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => onSelect(option)}
+                >
+                  <span className={styles.optionText}>
+                    <span className={styles.optionTitle}>{option.label}</span>
+                    {option.description ? (
+                      <span className={styles.optionDescription}>{option.description}</span>
+                    ) : null}
+                  </span>
+                  {option.code ? <span className={styles.optionCode}>{option.code}</span> : null}
+                </li>
+              );
+            })
+          )}
+        </ul>
+      </div>
     </div>
   );
 
   return (
-    <DropdownSurface align={align} className={styles.surface} rootRef={rootRef} onClose={onClose}>
+    <DropdownSurface
+      align={align}
+      className={[styles.surface, className].filter(Boolean).join(" ")}
+      rootRef={rootRef} onClose={onClose} modal>
       {card}
     </DropdownSurface>
   );

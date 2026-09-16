@@ -1,0 +1,51 @@
+@use '../../../styles/_shared' as *;
+
+// Mobile — Figma mweb: the 26-tall chip row (682:141417), 24, then the card
+// stack "Frame 2147227865" (682:141431), 16 between cards. The 7 of bottom
+// padding tops the page's 17 section gap up to the 24 Figma has between the
+// last card and the disclaimer.
+// Desktop — web "Frame 2147227914" (724:142593): the 40-tall filter row, 24,
+// then the card stack ("Frame 2147227604", 724:142606) which is itself 24
+// between cards. The block is 1192 wide, i.e. the page's full content width,
+// so it needs no width of its own.
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+  padding-block-end: rem(7);
+
+  @include media(">=desktop") {
+    padding-block-end: 0;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  list-style: none;
+
+  @include media(">=desktop") {
+    gap: rem(24);
+  }
+}
+
+// Not in the design: shown when a filter matches nothing (the "Visa on
+// Arrival" chip, on the fixture data).
+.empty {
+  @include search-result-page-subtitle;
+  padding: rem(24);
+  border: rem(1) solid var(--border-field);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+  color: var(--text-body);
+}
+
+.srOnly {
+  position: absolute;
+  clip-path: inset(50%);
+  inline-size: rem(1);
+  block-size: rem(1);
+  overflow: hidden;
+  white-space: nowrap;
+}

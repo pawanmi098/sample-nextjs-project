@@ -1,0 +1,386 @@
+@use '../../../styles/_shared' as *;
+
+// Mobile — Figma mweb "plan 2" (682:141465): 320 wide, r12, white, a 2
+// OUTSIDE stroke of #E2EBF2. Four stacked rows with no padding of their own:
+//   1. "Heading" 67 tall — title + Validity pill, then entry · duration;
+//      a 1 bottom stroke closes it.
+//   2. prices 70 tall, closed by a 2/2 dashed rule.
+//   3. "For more information on the plan  View Details", 44 tall.
+//   4. the processing-time strip, featured plans only.
+//
+// The markup is shaped for the web layout (prices inside the head, facts
+// beside the CTA), so below desktop the wrappers `.head`, `.headRow` and
+// `.body` step aside with `display: contents` and the card becomes a
+// one-column grid. The head band's fill and bottom stroke can't sit on a
+// wrapper that no longer draws a box, so the card's `::before` paints them
+// into row 1, underneath the title block.
+//
+// Desktop — web "Frame 2147227603" (724:142645): 1192×178, r12, #E0E0F6 1
+// inside stroke, 24 padding, a 12 gap between the title/price row and the
+// facts/CTA row. On this frame Figma's auto layout insets a child by the
+// inside stroke *on top of* the padding (the card sits at x 24688, its first
+// child at 24713), so this is `border: 1` + the full `padding: 24`, not 24 − 1.
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+  // An OUTSIDE stroke takes no layout space, and neither does a spread shadow.
+  box-shadow: 0 0 0 rem(2) var(--border-card-plain);
+
+  &::before {
+    grid-row: 1;
+    grid-column: 1;
+    border-radius: rem(12) rem(12) 0 0;
+    background: var(--bg-surface);
+    box-shadow: inset 0 rem(-1) 0 var(--border-subtle);
+    content: '';
+  }
+
+  @include media(">=desktop") {
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
+    padding: rem(24);
+    border: rem(1) solid var(--border-field);
+    box-shadow: none;
+
+    &::before {
+      content: none;
+    }
+  }
+}
+
+// Featured variant — mweb "plan 1" (682:141432): the 2 outside stroke turns
+// #00AEE5 and the head band #E8F4FD with no bottom stroke. Web "Frame
+// 2147227600" (724:142607): cyan 1 edge, a drop shadow of 0 0 8 0 #000099 @
+// 12%, and no padding of its own — the tinted head, the body and the foot
+// strip each bring their own.
+//
+// `overflow: hidden` clips the head and foot to the card's radius so neither
+// fringes past the edge. It doesn't touch the card's own box-shadow.
+.featured {
+  overflow: hidden;
+  box-shadow: 0 0 0 rem(2) var(--border-card-featured);
+
+  &::before {
+    background: var(--bg-card-featured-head-mobile);
+    box-shadow: none;
+  }
+
+  @include media(">=desktop") {
+    padding: 0;
+    border-color: var(--border-card-featured);
+    box-shadow: 0 0 rem(8) 0 var(--shadow-card-featured);
+  }
+}
+
+.head,
+.headRow,
+.body {
+  display: contents;
+}
+
+.head {
+  @include media(">=desktop") {
+    display: block;
+  }
+}
+
+// Web "Frame 2147227929" (724:142608): #EAF8FF, r12 on the top corners only,
+// padding 20/20/12. Plain web cards have no head band at all.
+.featured .head {
+  @include media(">=desktop") {
+    padding: rem(20) rem(20) rem(12);
+    border-radius: rem(12) rem(12) 0 0;
+    background: var(--bg-card-featured-head);
+  }
+}
+
+// Web "Frame 2147227599" (724:142646): title block left, prices right.
+.headRow {
+  @include media(">=desktop") {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: rem(12) rem(24);
+  }
+}
+
+// mweb "Heading" (682:141466): 10/12 padding, 3 between the two lines.
+// Web "Frame 2147227597" (724:142613): the two lines sit flush, gap 0.
+.titleBlock {
+  display: flex;
+  grid-row: 1;
+  grid-column: 1;
+  flex-direction: column;
+  gap: rem(3);
+  padding: rem(10) rem(12);
+
+  @include media(">=desktop") {
+    gap: 0;
+    padding: 0;
+  }
+}
+
+// mweb "Frame 2147227928" (682:141434): 24 tall, title and pill at either end.
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: rem(8);
+
+  @include media(">=desktop") {
+    display: contents;
+  }
+}
+
+.title {
+  @include search-result-plan-title;
+  min-width: 0;
+  color: var(--text-heading);
+}
+
+// mweb "Chips" (682:141438): 4/12 padding, r1000, #FFF8E5 fill and a 1 inside
+// #A97D0E stroke. The label is a darker #906A0C: Figma's #A97D0E is 3.5:1 on
+// the cream, under the 4.5:1 that 10px text needs.
+.validity {
+  @include search-result-plan-validity;
+  flex-shrink: 0;
+  padding: rem(3) rem(11);
+  border: rem(1) solid var(--border-plan-validity);
+  border-radius: rem(1000);
+  background: var(--bg-plan-validity);
+  color: var(--text-plan-validity);
+  white-space: nowrap;
+
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+
+// mweb "Frame 2147226557" (682:141439): "Single-entry", a 4 #9BA4B8 dot and
+// the stay duration, 6 apart, all #25304B.
+.entry {
+  @include search-result-plan-entry;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 rem(6);
+  color: var(--text-heading);
+
+  @include media(">=desktop") {
+    display: block;
+    color: var(--text-body);
+  }
+}
+
+.stay {
+  display: flex;
+  align-items: center;
+  gap: rem(6);
+
+  &::before {
+    width: rem(4);
+    height: rem(4);
+    border-radius: 50%;
+    background: var(--border-default);
+    content: '';
+  }
+
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+
+// mweb "Frame 2147226535" (682:141443): 8/12 padding around two equal
+// columns with a rule between them, and the dashed "Line 273" (682:141458) —
+// 1 thick, #4B5772, dashes of 2 with gaps of 2, starting half a dash in — as
+// the band's last pixel row.
+// Web "Frame 2147227592" (724:142616): Per Adult · rule · Per Child, no band.
+// Either way the rule is a zero-width Figma item with 20 of gap either side,
+// so the columns are 40 apart with the line centred between them.
+.prices {
+  display: flex;
+  grid-row: 2;
+  align-items: center;
+  gap: rem(40);
+  padding: rem(8) rem(12);
+  background-image: linear-gradient(to right, var(--border-plan-dashed) 50%, transparent 50%);
+  background-position: rem(-1) 100%;
+  background-size: rem(4) rem(1);
+  background-repeat: repeat-x;
+
+  @include media(">=desktop") {
+    padding: 0;
+    background: none;
+  }
+}
+
+// "Line 249" (mweb 682:141453, web 724:142621): 1×40 #9BA4B8, vertically
+// centred on the column pair (54 tall mweb, 66 web).
+.price {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+
+  & + &::before {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: rem(-20);
+    block-size: rem(40);
+    border-inline-start: rem(1) solid var(--border-default);
+    content: '';
+    transform: translateY(-50%);
+  }
+
+  @include media(">=desktop") {
+    flex: 0 1 auto;
+    gap: rem(4);
+  }
+}
+
+.priceLabel {
+  @include search-result-price-label;
+  color: var(--text-body);
+}
+
+.priceAmount {
+  @include search-result-price-amount;
+  color: var(--text-heading);
+}
+
+// "Incl. Taxes" (mweb 682:141452, web 724:142620) carries a 60% node opacity
+// in Figma.
+.priceTax {
+  @include search-result-price-tax;
+  color: var(--text-body);
+  opacity: 0.6;
+}
+
+// Web "Frame 2147227601" (724:142663): facts left, the View Details block right.
+.body {
+  @include media(">=desktop") {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(12);
+  }
+}
+
+.featured .body {
+  @include media(">=desktop") {
+    padding: rem(20);
+  }
+}
+
+// Web "Frame 2147227596" (724:142664): three columns with a 0.6 rule between
+// them. Same zero-width-item trick as the prices, so 50 of gap on each side
+// of the rule means 100 between columns. Not shown on mweb, where the pill
+// and the entry line carry validity and stay.
+.facts {
+  display: none;
+
+  @include media(">=desktop") {
+    display: flex;
+    gap: rem(100);
+  }
+}
+
+// "Line 250" (724:142668): 0.6 wide, 50 tall, #9BA4B8 at 70%.
+.fact {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+
+  & + &::before {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: rem(-50);
+    block-size: rem(50);
+    border-inline-start: rem(0.6) solid var(--border-default);
+    content: '';
+    opacity: 0.7;
+    transform: translateY(-50%);
+  }
+}
+
+.factLabel {
+  @include search-result-fact-label;
+  color: var(--text-body);
+}
+
+.factValue {
+  @include search-result-fact-value;
+  color: var(--text-heading);
+}
+
+// mweb "Frame 2147226536" (682:141459): note and link on one line, 12/16
+// padding, 8 apart.
+// Web "Frame 2147227930" (724:142677): the note sits in a 26-tall box above a
+// 24-tall link, both flush left.
+.cta {
+  display: flex;
+  grid-row: 3;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 rem(8);
+  padding: rem(12) rem(16);
+
+  @include media(">=desktop") {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 0;
+    padding: 0;
+  }
+}
+
+.ctaNote {
+  @include search-result-plan-cta-note;
+  color: var(--text-body);
+
+  @include media(">=desktop") {
+    display: flex;
+    align-items: center;
+    min-block-size: rem(26);
+  }
+}
+
+// "Link" (mweb 682:141462, web 724:142642), Blue/Medium: #000099 and
+// underlined in Figma itself, so the underline is the design, not a browser
+// default.
+.ctaLink {
+  @include search-result-plan-cta-link;
+  color: var(--text-brand);
+  text-decoration: underline;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// "Frame 1321319095" (mweb 682:141463, web 724:142643): #E5E6E9 at 60%, r12
+// on the bottom corners, padding 5/20. Featured plans only.
+.footnote {
+  @include search-result-plan-footnote;
+  grid-row: 4;
+  padding: rem(5) rem(20);
+  border-radius: 0 0 rem(12) rem(12);
+  background: var(--bg-card-footnote);
+  color: var(--text-heading);
+  text-align: center;
+}
+
+.srOnly {
+  position: absolute;
+  clip-path: inset(50%);
+  inline-size: rem(1);
+  block-size: rem(1);
+  overflow: hidden;
+  white-space: nowrap;
+}

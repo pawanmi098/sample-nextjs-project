@@ -21,12 +21,21 @@
   border: rem(2) solid var(--border-search-input);
   border-radius: rem(12);
   background: var(--bg-surface);
+  // The desktop popover renders in place, so it would otherwise inherit the
+  // host field's alignment (e.g. SearchForm's right-aligned `.placeTo`).
+  text-align: left;
 }
 
 // "Select the county you're applying for" (I740:149365;1337:10349).
 .description {
   @include dropdown-description;
   color: var(--text-body);
+}
+
+// Wraps the list. On the desktop card it adds nothing; the mweb sheet puts
+// its padding here (see `<desktop` below).
+.scrollArea {
+  display: contents;
 }
 
 // "List with Scroll" (740:148278). Figma sizes the column to its rows and
@@ -154,5 +163,95 @@
   // must not clamp to its container the way the sheet's card does.
   @include media(">=desktop") {
     max-width: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// mweb sheet — Figma "Popup with Overlay" 776:206235. Below desktop the card
+// is the sheet's content rather than a floating card: no stroke, no radius,
+// full width, the hint styled as the sheet's header, and flat 60-tall rows
+// divided by a rule. Scoped to `<desktop` so the web popover above is
+// untouched.
+// -----------------------------------------------------------------------------
+@include media("<desktop") {
+  .surface {
+    width: 100%;
+  }
+
+  // "Dropdown List" 776:206244: its 2 stroke is hidden, 16 top/bottom
+  // padding and no side padding. The header sits outside it in Figma, so the
+  // list carries the 16s itself and the card has none.
+  .card {
+    gap: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  // "<PopupModalHeader>" 776:206240: 16 top/bottom, Bauhaus 16/20 #25304B.
+  .description {
+    @include dropdown-sheet-header;
+    padding-block: rem(16);
+    color: var(--text-heading);
+  }
+
+  // "Dropdown List" 776:206244's 16 top/bottom padding. It sits on this
+  // wrapper rather than the list so the padding doesn't scroll away.
+  .scrollArea {
+    display: block;
+    padding-block: rem(16);
+  }
+
+  // "Column 1" 776:206247: rows 12 apart, and exactly two of them (60 + 12 +
+  // 60) in view, as Figma draws it — the rest scroll. Figma shows no
+  // scrollbar here (its "Scroll" I776:206299 is hidden), so neither do we.
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
+    max-height: rem(132);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  // "Dropdown-Element" 776:206249/776:206250: 60 tall, 12 top/bottom, no side
+  // padding, 8 gap, no radius. The unselected row has a bottom-only 1 INSIDE
+  // rule #E0E0F6; the selected one has none, so it keeps a transparent one and
+  // both rows stay 60.
+  .option {
+    gap: rem(8);
+    padding: rem(12) 0 rem(11);
+    border: 0;
+    border-bottom: rem(1) solid var(--border-option-divider);
+    border-radius: 0;
+  }
+
+  .optionSelected,
+  .optionActive {
+    border-bottom-color: transparent;
+  }
+
+  @media (hover: hover) {
+    .option:hover {
+      border-bottom-color: transparent;
+    }
+  }
+
+  // "Dubai" Poppins 400 14/20. "DXB" keeps the shared 600 16/24.
+  .optionTitle {
+    @include dropdown-sheet-option-title;
+  }
+
+  // "Dubai International Airport" Poppins 400 10/16 — #4B5772 on a plain
+  // row, #25304B on the selected one, same as the card.
+  .optionDescription {
+    @include dropdown-sheet-option-description;
+  }
+
+  .empty {
+    padding: rem(12) 0;
   }
 }

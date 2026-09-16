@@ -1,0 +1,103 @@
+@use '../../../styles/_shared' as *;
+
+// Mobile — Figma mweb "discount categories" (682:141417): one 26-tall row of
+// chips, 12 apart, that runs off the right edge of the 360 screen (it's 373
+// wide from x 20). There's no sort button in this frame.
+// Desktop — web "Frame 2147227879" (724:142594): 1192×40, the chip row and
+// the 40×40 sort button pushed to opposite ends.
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include media(">=desktop") {
+    gap: rem(40);
+  }
+}
+
+// "discount categories": gap 12 on both viewports.
+//
+// Below desktop the row scrolls sideways and bleeds through the page's 20
+// right gutter to the screen edge, as the frame shows. The 4 of padding (and
+// matching negative margin) on the other three sides only gives the chips'
+// focus ring room inside the scroll box, which would otherwise clip it.
+.chips {
+  display: flex;
+  flex: 1;
+  gap: rem(12);
+  min-width: 0;
+  margin: rem(-4) rem(-20) rem(-4) rem(-4);
+  padding: rem(4) rem(20) rem(4) rem(4);
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include media(">=desktop") {
+    flex: initial;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+}
+
+// "Chips" — mweb (682:141419): hugs its label with 4/16 padding, 48 min
+// width, r8, 1 inside stroke. Web (724:142597): 40 tall, 64 min width, 16 of
+// side padding. The stroke sits inside the padding, hence padding − 1.
+.chip {
+  @include search-result-filter-chip;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: rem(48);
+  padding: rem(3) rem(15);
+  border: rem(1) solid var(--border-chip);
+  border-radius: rem(8);
+  background: var(--bg-surface);
+  color: var(--text-heading);
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    min-block-size: rem(40);
+    min-inline-size: rem(64);
+    padding-block: 0;
+  }
+}
+
+// Selected variant (mweb 682:141418, web 724:142596): #EAF8FF fill, #9999DE
+// stroke, label at 500. Declared after .chip so its (equal-specificity) rules
+// win, inside the desktop media query as well as outside it.
+.chipSelected {
+  @include search-result-filter-chip-selected;
+  border-color: var(--border-chip-selected);
+  background: var(--chip-bg);
+}
+
+// "Icon-Buttons" (724:142605), Ghost/Medium: 40×40, r8, no fill or stroke,
+// a 24 icon centred in 16 of padding. Web only.
+.sort {
+  display: none;
+
+  &:focus-visible {
+    @include focus-ring(0);
+  }
+
+  @include media(">=desktop") {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    inline-size: rem(40);
+    block-size: rem(40);
+    border-radius: rem(8);
+  }
+}

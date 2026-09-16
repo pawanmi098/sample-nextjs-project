@@ -65,6 +65,20 @@ $theme-cloud: (
   bg-option-selected: $color-chip-blue-bg,
   // Dim behind that dropdown when it presents as a mobile bottom sheet
   overlay-modal: color.change($color-navy, $alpha: 0.4),
+  // mweb "Popup with Overlay" (776:206235): the scrim gradient at 80%, the
+  // sheet's grab handle, and the rule under each unselected dropdown row
+  overlay-popup-start: color.change($color-overlay-deep-navy, $alpha: 0.8),
+  overlay-popup-end: color.change($color-overlay-royal, $alpha: 0.8),
+  sheet-handle: $color-slate-text,
+  border-option-divider: $color-lavender-mist,
+  // Tinted head of the recommended visa plan card
+  bg-card-featured-head: $color-chip-blue-bg,
+  // Grey strip at the foot of that card
+  bg-card-footnote: color.change($color-pearl, $alpha: 0.6),
+  // mweb: the featured card's head is a paler blue than the web one, and
+  // each plan's "Validity" pill
+  bg-card-featured-head-mobile: $color-ice-mist,
+  bg-plan-validity: $color-cream,
 
   // Photo overlays (dark gradients laid over imagery)
   overlay-ink: $color-ink,
@@ -80,6 +94,19 @@ $theme-cloud: (
   border-field: $color-lavender-mist,
   border-option-selected: $color-lavender,
   border-card-soft: $color-smoke,
+  // Visa plan list: unselected filter chip, and the cyan edge of the
+  // recommended plan card
+  border-chip: $color-lavender,
+  border-chip-selected: $color-periwinkle,
+  border-card-featured: $color-chip-cyan,
+  // mweb plan card: plain edge, the dashed rule above "View Details", and
+  // the "Validity" pill stroke
+  border-card-plain: $color-card-divider-light,
+  border-plan-dashed: $color-slate-text,
+  border-plan-validity: $color-gold,
+  // Web bottom sticky bar: 4 top edge + dotted divider before the button
+  border-sticky-bar: $color-lavender,
+  border-sticky-bar-divider: $color-lavender-mist,
 
   // Text Colors
   text-heading: $color-navy,
@@ -93,6 +120,7 @@ $theme-cloud: (
   text-link: $color-link-blue,
   text-brand: $color-blue,
   text-accent-gold: $color-gold,
+  text-plan-validity: $color-gold-deep,
 
   // Icons / chips / badges
   icon-brand: $color-blue,
@@ -118,6 +146,7 @@ $theme-cloud: (
   shadow-carousel-button: color.change($color-shadow-indigo, $alpha: 0.08),
   shadow-card: color.change($color-shadow-indigo, $alpha: 0.08),
   shadow-card-raised: color.change($color-shadow-indigo, $alpha: 0.12),
+  shadow-card-featured: color.change($color-blue, $alpha: 0.12),
   shadow-sticky-bar: color.change($color-blue, $alpha: 0.08),
 );
 

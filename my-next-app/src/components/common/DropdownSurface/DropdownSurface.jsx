@@ -27,6 +27,9 @@ import styles from "./DropdownSurface.module.scss";
  * @param rootRef    outermost node, so the caller can tell an outside click
  *                   from one that landed in the popup
  * @param onClose    called when the mobile scrim is tapped
+ * @param modal      mobile only: present the sheet as Figma's "Popup with
+ *                   Overlay" (776:206235) — gradient blurred scrim, rounded
+ *                   sheet with a grab handle. Off keeps the plain sheet.
  */
 
 // Matches $breakpoints.desktop in src/styles/_media.scss. The two
@@ -50,7 +53,7 @@ export function useIsDesktop() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
-export default function DropdownSurface({ align = "start", className, rootRef, onClose, children }) {
+export default function DropdownSurface({ align = "start", className, rootRef, onClose, modal = false, children }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -64,11 +67,12 @@ export default function DropdownSurface({ align = "start", className, rootRef, o
   }
 
   return createPortal(
-    <div ref={rootRef} className={styles.sheetLayer}>
+    <div ref={rootRef} className={[styles.sheetLayer, modal && styles.modal].filter(Boolean).join(" ")}>
       {/* Escape and a tap outside close the popup too, so the scrim needs no
           keyboard role of its own. */}
       <div className={styles.scrim} aria-hidden="true" onClick={onClose} />
       <div className={styles.sheet}>
+        {/* {modal ? <div className={styles.handle} aria-hidden="true" /> : null} */}
         {/* The sheet bar stays edge to edge; the caller's class sizes the card
             inside it, the same box its popover class sizes on desktop. */}
         <div className={className}>{children}</div>

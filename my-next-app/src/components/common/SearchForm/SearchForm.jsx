@@ -58,7 +58,7 @@ function FieldIcon({ src }) {
  * can't be styled into this card. The value still travels in a hidden input,
  * so without JS the form submits the default rather than breaking.
  */
-function ChoiceField({ field, value, dropdownIcon, idPrefix, align }) {
+function ChoiceField({ field, value, dropdownIcon, idPrefix, align, popoverClassName }) {
   const triggerId = `${idPrefix}-${field.id}`;
   const labelId = `${triggerId}-label`;
   const listboxId = `${triggerId}-listbox`;
@@ -213,6 +213,7 @@ function ChoiceField({ field, value, dropdownIcon, idPrefix, align }) {
           onSelect={select}
           onClose={close}
           rootRef={popupRef}
+          className={popoverClassName}
         />
       ) : null}
     </div>
@@ -325,6 +326,7 @@ function TravellerField({ field, value, dropdownIcon, idPrefix }) {
           }}
           onClose={close}
           rootRef={panelRef}
+          className={styles.travellersPopover}
         />
       ) : null}
     </div>
@@ -498,11 +500,18 @@ function DestinationField({ field, value: initialValue, inputId }) {
           optionId={optionId}
           onSelect={select}
           onClose={close}
+          className={styles.destinationPopover}
         />
       ) : null}
     </div>
   );
 }
+
+// One class per select field's popover, keyed by the field's JSON `id`.
+const CHOICE_POPOVER_CLASS = {
+  nationality: styles.nationalityPopover,
+  residence: styles.residencePopover,
+};
 
 export default function SearchForm({
   id,
@@ -598,6 +607,7 @@ export default function SearchForm({
               dropdownIcon={dropdownIcon}
               idPrefix={idPrefix}
               align="end"
+              popoverClassName={CHOICE_POPOVER_CLASS[field.id]}
             />
           </div>
         ))}

@@ -172,3 +172,57 @@
     cursor: not-allowed;
   }
 }
+
+// Header and button label for one viewport each. Only the sheet has a title,
+// and the button reads "Next" there, "Continue" on the web card.
+.sheetTitle,
+.labelDesktop {
+  display: none;
+}
+
+@include media(">=desktop") {
+  .labelMobile {
+    display: none;
+  }
+
+  .labelDesktop {
+    display: inline;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// mweb sheet — Figma "Popup with Overlay" 776:205142. Below desktop the card
+// is the sheet's content: full width, no stroke (its #9999DE stroke is hidden
+// in this frame), a header above the rows, and the footer padded 12 on top.
+// Scoped to `<desktop` so the web popover above is untouched.
+// -----------------------------------------------------------------------------
+@include media("<desktop") {
+  .surface {
+    width: 100%;
+  }
+
+  // "traveller selection" 776:205151: 16 bottom padding, 8 between the rows
+  // and the footer. The header sits outside it in Figma, so the 8 is carried
+  // by the footer here instead of `gap`, which would also space the header.
+  .panel {
+    gap: 0;
+    padding: 0 0 rem(16);
+    border: 0;
+  }
+
+  // "<PopupModalHeader>" 776:205147: 16 top/bottom, Bauhaus 16/20 #25304B.
+  .sheetTitle {
+    @include dropdown-sheet-header;
+    display: block;
+    padding-block: rem(16);
+    color: var(--text-heading);
+  }
+
+  // "Fare Details" 776:205193: 48 tall — 12 on top, 10 at the sides, then
+  // the 36 button.
+  .footer {
+    min-height: rem(48);
+    margin-top: rem(8);
+    padding: rem(12) rem(10) 0;
+  }
+}

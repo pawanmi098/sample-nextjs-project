@@ -4,7 +4,8 @@
 // =============================================================================
 // SEARCH RESULT PAGE TYPOGRAPHY
 // Figma file "IVS":
-// - base values:      mweb frame "srp" (666:139769)
+// - base values:      mweb frame "srp" (682:141406; header/intro first built
+//                     from the earlier 666:139769)
 // - `>=desktop` values: web frame "SRP" (754:167951)
 //
 // NOTE: unlike the home page, these switch at `>=desktop`, not `>=tablet`.
@@ -34,10 +35,16 @@
   }
 }
 
-// "Powered by Calleo" — mweb plain text, Poppins 500 16/24 (666:139789);
-// web the same size inside a dark pill (754:167957).
+// "Powered by Calleo" pill — mweb Poppins 500 14 (841:212258); web 16
+// (754:167957). Both use leading-trim, so the line box is the text box Figma
+// draws (10.8 mweb, 19 web) rather than the 21/24 of the type style — that's
+// what makes the pills 26.8 and 31 tall.
 @mixin search-result-partner-badge {
-  @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+  @include defaultTypoStyles(14, normal, 10.8, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 19, 500, $font-poppins-medium);
+  }
 }
 
 // Page <h1> — mweb Bauhaus Std 500 24/28 (666:139791);
@@ -66,3 +73,127 @@
 // same component (src/components/common/SearchForm), built from the same
 // Figma "Search Input" frame, so they share one set of mixins.
 // -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+// VISA PLAN LIST — Figma web "Frame 2147227914" (724:142593) and mweb
+// "discount categories" (682:141417) + "Frame 2147227865" (682:141431).
+// -----------------------------------------------------------------------------
+
+// Filter chip label — mweb Poppins 12/18 (I682:141419;…); web 16/24. 500 when
+// the chip is selected (I724:142596;1719:29854;1337:10349), 400 otherwise.
+@mixin search-result-filter-chip {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 400, $font-poppins-regular);
+  }
+}
+
+@mixin search-result-filter-chip-selected {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+  }
+}
+
+// Plan name "30 Days E-visa" — mweb Poppins 600 16/20 (682:141435);
+// web 500 24/36 (724:142614).
+@mixin search-result-plan-title {
+  @include defaultTypoStyles(16, normal, 20, 600, $font-poppins-semibold);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(24, normal, 36, 500, $font-poppins-medium);
+  }
+}
+
+// "Single-entry" under the plan name — mweb Poppins 400 12/20, followed by
+// the stay duration (682:141440); web 500 16/24 (724:142615).
+@mixin search-result-plan-entry {
+  @include defaultTypoStyles(12, normal, 20, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+  }
+}
+
+// "Per Adult" / "Per Child" — mweb Poppins 500 12/18 (682:141450);
+// web 400 12/16 (724:142618).
+@mixin search-result-price-label {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(12, normal, 16, 400, $font-poppins-regular);
+  }
+}
+
+// "₹ 2,000" — mweb Poppins 600 14/20 (682:141451); web 20/24 (724:142619).
+@mixin search-result-price-amount {
+  @include defaultTypoStyles(14, normal, 20, 600, $font-poppins-semibold);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(20, normal, 24, 600, $font-poppins-semibold);
+  }
+}
+
+// "Incl. Taxes" — mweb Poppins 500 10/16 (682:141452); web 400 10/18
+// (724:142620). Both at 60% opacity, which lives on the element, not here,
+// so contrast checks still see it.
+@mixin search-result-price-tax {
+  @include defaultTypoStyles(10, normal, 16, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(10, normal, 18, 400, $font-poppins-regular);
+  }
+}
+
+// "Validity: 60 days" pill — mweb only, Poppins 600 10/16 (I682:141438;…).
+@mixin search-result-plan-validity {
+  @include defaultTypoStyles(10, normal, 16, 600, $font-poppins-semibold);
+}
+
+// Web-only fact columns — the mweb card folds validity and stay into the
+// pill and the entry line, so these base values are never visible.
+// Fact label "Validity" — web Poppins 500 14/20 (724:142629).
+@mixin search-result-fact-label {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+  }
+}
+
+// Fact value "60 days" — web Poppins 500 16/24 (724:142630).
+@mixin search-result-fact-value {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+  }
+}
+
+// "For more information on the plan" — mweb Poppins 400 12/20 (682:141461);
+// web 12/18 (724:142641).
+@mixin search-result-plan-cta-note {
+  @include defaultTypoStyles(12, normal, 20, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+  }
+}
+
+// "View Details" link, underlined — mweb Poppins 500 12/18
+// (I682:141462;276:1108); web 16/24 (I724:142642;282:498).
+@mixin search-result-plan-cta-link {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+  }
+}
+
+// Processing-time strip at the foot of the featured card — Poppins 400 12/20
+// on both viewports (mweb 682:141464, web 724:142644).
+@mixin search-result-plan-footnote {
+  @include defaultTypoStyles(12, normal, 20, 400, $font-poppins-regular);
+}
