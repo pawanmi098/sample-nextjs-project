@@ -4,7 +4,7 @@ import styles from "./ResultsIntro.module.scss";
 
 /**
  * Page heading for the search result page — Figma "Frame 2147227589"
- * (754:167952, web) and "Frame 1321316059" (666:139788, mweb).
+ * (754:167952, web) and "Frame 1321316059" (682:141425, mweb).
  *
  * Both the title and the subtitle are worded differently per viewport, so
  * each is one element holding two spans; only one <h1> ever exists.

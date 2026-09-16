@@ -76,8 +76,9 @@
       "icon": "/assets/search-result/icons/edit-travellers.svg",
       "ariaLabel": "Select travellers",
       "valueLabel": { "one": "{count} Traveller", "other": "{count} Travellers" },
+      "sheetTitle": "Select Travellers",
       "summaryLabel": { "one": "{count} Traveller selected", "other": "{count} Travellers selected" },
-      "continueLabel": "Continue",
+      "continueLabel": { "mobile": "Next", "desktop": "Continue" },
       "checkedIcon": "/assets/common/icons/checkbox-checked.svg",
       "uncheckedIcon": "/assets/common/icons/checkbox-unchecked.svg",
       "options": [
@@ -126,6 +127,7 @@
     },
     "submitLabel": "Search"
   },
+  "stickyBar": { "continueLabel": "Continue" },
   "intro": {
     "breadcrumb": {
       "ariaLabel": "Breadcrumb",
@@ -146,5 +148,78 @@
       "mobile": "Plans available for your trip",
       "desktop": "Select the visa that matches your requirements."
     }
+  },
+  "plans": {
+    "ariaLabel": "Visa plans for your trip",
+    "filters": {
+      "ariaLabel": "Filter visa plans by type",
+      "name": "type",
+      "options": [
+        { "id": "all", "label": "All" },
+        { "id": "e-visa", "label": "E-Visa" },
+        { "id": "sticker-visa", "label": "Sticker Visa" },
+        { "id": "visa-on-arrival", "label": "Visa on Arrival" }
+      ]
+    },
+    "sort": {
+      "name": "sort",
+      "icon": "/assets/search-result/icons/results-sort.svg",
+      "toggleLabel": "Sort plans by {label}",
+      "options": [
+        { "id": "price-asc", "label": "price, lowest first" },
+        { "id": "price-desc", "label": "price, highest first" }
+      ]
+    },
+    "priceLabels": { "adult": "Per Adult", "child": "Per Child", "tax": "Incl. Taxes" },
+    "summary": { "validity": "Validity: {value}", "stay": "{value} duration" },
+    "details": {
+      "note": "For more information on the plan",
+      "label": "View Details",
+      "context": "about {title}"
+    },
+    "emptyLabel": "No plans match this filter for your trip.",
+    "items": [
+      {
+        "id": "e-visa-30",
+        "type": "e-visa",
+        "featured": true,
+        "title": "30 Days E-visa",
+        "entry": "Single-entry",
+        "price": { "adult": "\u20b9 2,000", "child": "\u20b9 1,000", "amount": 2000 },
+        "facts": [
+          { "id": "validity", "label": "Validity", "value": "60 days" },
+          { "id": "stay", "label": "Duration of stay", "value": "30 days" },
+          { "id": "processing", "label": "Processing time", "value": "3-5 working days" }
+        ],
+        "footnote": "Visa Processing time 3-5 working days",
+        "detailsHref": "/visa-plans/e-visa-30"
+      },
+      {
+        "id": "sticker-visa-60",
+        "type": "sticker-visa",
+        "title": "60 Days Sticker visa",
+        "entry": "Single-entry",
+        "price": { "adult": "\u20b9 14,700", "child": "\u20b9 5,000", "amount": 14700 },
+        "facts": [
+          { "id": "validity", "label": "Validity", "value": "60 days" },
+          { "id": "stay", "label": "Duration of stay", "value": "60 days" },
+          { "id": "processing", "label": "Processing time", "value": "3-5 working days" }
+        ],
+        "detailsHref": "/visa-plans/sticker-visa-60"
+      },
+      {
+        "id": "sticker-visa-60-alt",
+        "type": "sticker-visa",
+        "title": "60 Days Sticker visa",
+        "entry": "Single-entry",
+        "price": { "adult": "\u20b9 14,700", "child": "\u20b9 5,000", "amount": 14700 },
+        "facts": [
+          { "id": "validity", "label": "Validity", "value": "60 days" },
+          { "id": "stay", "label": "Duration of stay", "value": "60 days" },
+          { "id": "processing", "label": "Processing time", "value": "3-5 working days" }
+        ],
+        "detailsHref": "/visa-plans/sticker-visa-60-alt"
+      }
+    ]
   }
 }

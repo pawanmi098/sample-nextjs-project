@@ -1,6 +1,6 @@
 @use '../../../styles/_shared' as *;
 
-// Mobile — Figma mweb "Frame 1321316059" (666:139788): "Powered by Calleo" →
+// Mobile — Figma mweb "Frame 1321316059" (682:141425): "Powered by Calleo" →
 // 11 → title block. No breadcrumb: the header's back link replaces it.
 // Desktop — "Frame 2147227589" (754:167952): breadcrumb row → 24 → title block.
 //
@@ -33,24 +33,22 @@
   }
 }
 
-// Mobile: plain #25304B text. Desktop "brand name" pill (754:167956): #565564
-// fill, 0.4 inside stroke #EBECEE.
+// "brand name" pill — mweb 841:212257, web 754:167956: #565564 fill, a 0.4
+// inside #EBECEE stroke, r23. 8/12 padding mweb, 6/12 web; the line box lives
+// in the type mixin.
 .partnerBadge {
   @include search-result-partner-badge;
-  color: var(--text-heading);
+  align-self: flex-start;
+  padding: rem(8) rem(12);
+  border-radius: rem(23);
+  background: var(--badge-bg);
+  box-shadow: inset 0 0 0 rem(0.4) var(--badge-border);
+  color: var(--text-on-dark);
+  text-align: center;
+  white-space: nowrap;
 
   @include media(">=desktop") {
-    // Figma's pill is 31 tall with 6 of padding, so the line box is 19 — the
-    // 24 leading of the type style would make it 36 and push the heading
-    // below it out of position.
     padding: rem(6) rem(12);
-    border-radius: rem(23);
-    line-height: rem(19);
-    background: var(--badge-bg);
-    box-shadow: inset 0 0 0 rem(0.4) var(--badge-border);
-    color: var(--text-on-dark);
-    text-align: center;
-    white-space: nowrap;
   }
 }
 

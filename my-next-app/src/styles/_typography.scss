@@ -21,10 +21,17 @@
   @include defaultTypoStyles(20, normal, 24, 500, $font-bauhaus-medium);
 }
 
-// Bottom sticky bar button ("Continue") — Figma "Secondary Bottom Sticky"
-// (653:133835). Poppins 600 14/20. Used by src/components/common/BottomStickyBar.
+// Bottom sticky bar button ("Continue") — Figma mweb "Secondary Bottom Sticky"
+// (653:133835) Poppins 600 14/20; web "Primary Bottom Sticky" (724:142592)
+// Poppins 600 16/24. Switches at desktop, not tablet, because the bar keeps
+// its mweb layout (a 40-tall full-width button) until then.
+// Used by src/components/common/BottomStickyBar.
 @mixin sticky-bar-button-label {
   @include defaultTypoStyles(14, normal, 20, 600, $font-poppins-semibold);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
+  }
 }
 
 // Disclaimer card — Figma mweb node 653:134124. Used by
@@ -130,6 +137,25 @@
 // (I740:148281;2220:821).
 @mixin dropdown-option-description {
   @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+}
+
+// mweb sheet (776:206235) — applied below desktop only, since it's the sheet
+// presentation, not the viewport width, that these belong to.
+// Sheet header "Select the county you're applying for" — Bauhaus Std 500 16/20
+// (I776:206240;1429:6535).
+@mixin dropdown-sheet-header {
+  @include defaultTypoStyles(16, normal, 20, 500, $font-bauhaus-medium);
+}
+
+// Row title "Dubai" — Poppins 400 14/20 (I776:206249;2302:1565;1337:10349).
+@mixin dropdown-sheet-option-title {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+}
+
+// Row subtitle "Dubai International Airport" — Poppins 400 10/16
+// (I776:206249;2302:1566;1337:10349). The "DXB" code keeps 600 16/24.
+@mixin dropdown-sheet-option-description {
+  @include defaultTypoStyles(10, normal, 16, 400, $font-poppins-regular);
 }
 
 // -----------------------------------------------------------------------------

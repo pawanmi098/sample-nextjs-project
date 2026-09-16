@@ -366,3 +366,34 @@
 .panel .submit {
   display: inline-block;
 }
+
+// -----------------------------------------------------------------------------
+// Per-field popovers — one class each, passed down to OptionDropdown /
+// TravellerPicker. DropdownSurface's `.popover` owns `left`/`right`, so nudge
+// with `translate` (e.g. `translate: rem(-20) 0`) rather than `left`, which
+// would tie with it on specificity. Desktop only: below it the class lands on
+// the mobile sheet's card, which shouldn't move.
+// -----------------------------------------------------------------------------
+.destinationPopover {
+  @include media(">=desktop") {
+    transform: translateX(-23px);
+  }
+}
+
+.travellersPopover {
+  @include media(">=desktop") {
+   transform: translateX(-36px);
+  }
+}
+
+.nationalityPopover {
+  @include media(">=desktop") {
+    transform: translateX(175px);
+  }
+}
+
+// .residencePopover {
+//   @include media(">=desktop") {
+//     
+//   }  
+// }

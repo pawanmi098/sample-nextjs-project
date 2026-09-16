@@ -19,6 +19,10 @@ import styles from "./TravellerPicker.module.scss";
  * other way out — Escape, the scrim, a click outside — discards it, which is
  * what a panel with its own confirm button should do.
  *
+ * On mobile it's presented as Figma's "Popup with Overlay" 776:205142: the
+ * modal bottom sheet, a "Select Travellers" header, and the card chrome
+ * dropped — see the `<desktop` block in the SCSS.
+ *
  * Focus moves into the panel while it's open (unlike the destination list,
  * which keeps focus on its combobox input), so this is a dialog.
  *
@@ -29,6 +33,8 @@ import styles from "./TravellerPicker.module.scss";
  * @param onClose    called when the panel should close without committing
  * @param rootRef    outermost node, so the trigger can tell an outside click
  *                   from one that landed in the panel
+ * @param className  the host's own hook for this popup, e.g. a nudge of the
+ *                   desktop popover
  */
 export default function TravellerPicker({
   id,
@@ -37,8 +43,9 @@ export default function TravellerPicker({
   onConfirm,
   onClose,
   rootRef,
+  className,
 }) {
-  const { ariaLabel, options, summaryLabel, continueLabel, checkedIcon, uncheckedIcon } = content;
+  const { ariaLabel, sheetTitle, options, summaryLabel, continueLabel, checkedIcon, uncheckedIcon } = content;
   const [draft, setDraft] = useState(selected);
   const isDesktop = useIsDesktop();
   const panelRef = useRef(null);
@@ -73,7 +80,9 @@ export default function TravellerPicker({
   );
 
   return (
-    <DropdownSurface className={styles.surface} rootRef={rootRef} onClose={onClose}>
+    <DropdownSurface
+      className={[styles.surface, className].filter(Boolean).join(" ")}
+      rootRef={rootRef} onClose={onClose} modal>
       <div
         ref={panelRef}
         id={id}
@@ -84,6 +93,10 @@ export default function TravellerPicker({
         className={styles.panel}
         onKeyDown={onKeyDown}
       >
+        {/* mweb sheet header "Select Travellers" (I776:205147;1429:6535).
+            The web card has no title, so it's hidden from desktop up. */}
+        {sheetTitle ? <p className={styles.sheetTitle}>{sheetTitle}</p> : null}
+
         {/* "Frame 2147227152" (617:75162) — the rows, 12 apart. */}
         <ul className={styles.list}>
           {options.map((option) => {
@@ -128,7 +141,9 @@ export default function TravellerPicker({
             disabled={draft.length === 0}
             onClick={() => onConfirm(draft)}
           >
-            {continueLabel}
+            {/* mweb says "Next" (776:205208), web "Continue" (617:75220). */}
+            <span className={styles.labelMobile}>{continueLabel.mobile}</span>
+            <span className={styles.labelDesktop}>{continueLabel.desktop}</span>
           </button>
         </div>
       </div>
