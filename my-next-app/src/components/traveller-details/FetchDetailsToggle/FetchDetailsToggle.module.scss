@@ -1,0 +1,116 @@
+@use '../../../styles/_shared' as *;
+
+.toggleSet {
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+}
+
+// "Toggle set" — mweb (653:138322): the 44×44 switch, 8 gap, the label,
+// centred. Web (557:14574): the 48×26 switch, 12 gap, top-aligned.
+.row {
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+  cursor: pointer;
+
+  @include media(">=desktop") {
+    align-items: flex-start;
+    gap: rem(12);
+  }
+}
+
+// "toggle-switch" — mweb (I653:138322;795:2878): 44×44 with 14/4 padding
+// around the 36×16 track. Web (I557:14574;795:2954): 48×26 with 6/4/0/4
+// padding around the 40×20 track.
+.switch {
+  position: relative;
+  flex-shrink: 0;
+  width: rem(36);
+  height: rem(16);
+  margin: rem(14) rem(4);
+
+  @include media(">=desktop") {
+    width: rem(40);
+    height: rem(20);
+    margin: rem(6) rem(4) 0;
+  }
+}
+
+// "Switch-bg": r20, #7A85A0 off (web), #000099 on (mweb).
+.input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: rem(20);
+  background: var(--bg-switch-off);
+  cursor: pointer;
+  appearance: none;
+  transition: background-color 0.2s ease;
+
+  &:checked {
+    background: var(--bg-switch-on);
+  }
+
+  &[aria-busy='true'] {
+    cursor: progress;
+    opacity: 0.7;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// "switcher" — mweb: 16×12 white pill, 2 from the top; on, it sits at x 16
+// (36 − 4 − 16), so off mirrors that at x 4, a 16 move. Web: 18×14, 4 in and
+// 3 down; on, 40 − 4 − 18 = 18, a 14 move.
+.knob {
+  position: absolute;
+  top: rem(2);
+  left: rem(4);
+  width: rem(16);
+  height: rem(12);
+  border-radius: rem(16);
+  background: var(--bg-surface);
+  pointer-events: none;
+  transition: transform 0.2s ease;
+
+  .input:checked + & {
+    transform: translateX(rem(16));
+  }
+
+  @include media(">=desktop") {
+    top: rem(3);
+    width: rem(18);
+    height: rem(14);
+
+    .input:checked + & {
+      transform: translateX(rem(14));
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .input,
+  .knob {
+    transition: none;
+  }
+}
+
+// "On Label" — mweb 400 14/21, web 400 16/24, #25304B.
+.label {
+  @include traveller-details-toggle-label;
+  color: var(--text-heading);
+}
+
+.error {
+  @include traveller-details-error;
+  padding-left: rem(52);
+
+  @include media(">=desktop") {
+    padding-left: rem(60);
+  }
+  color: var(--text-error);
+}

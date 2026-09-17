@@ -148,6 +148,29 @@ $theme-cloud: (
   shadow-card-raised: color.change($color-shadow-indigo, $alpha: 0.12),
   shadow-card-featured: color.change($color-blue, $alpha: 0.12),
   shadow-sticky-bar: color.change($color-blue, $alpha: 0.08),
+
+  // Traveller details page (557:14539)
+  // Traveller accordions + summary cards: lavender edge, pale blue open head
+  border-accordion: $color-lavender,
+  bg-accordion-open: $color-chip-blue-bg,
+  // Detail fields: editable ones have a lavender edge; names prefilled from
+  // the booking are read-only on a grey fill
+  border-input: $color-lavender,
+  bg-input-readonly: $color-mist,
+  // "Fetch travellers' information" switch (on state is PROVISIONAL)
+  bg-switch-off: $color-slate-blue,
+  bg-switch-on: $color-blue,
+  // Dashed rule under the primary-contact heading: web frost blue, mweb slate
+  border-contact-divider: $color-frost-blue,
+  border-contact-divider-compact: $color-slate-text,
+  // Stepper bars not reached yet
+  indicator-step-pending: $color-powder-blue,
+  // Sticky "Review your application" button before the form is complete
+  bg-button-inactive: $color-mist,
+  text-button-inactive: $color-slate-text,
+  // PROVISIONAL: validation messages and invalid field edges
+  text-error: $color-error-red,
+  border-error: $color-error-red,
 );
 
 $theme-emergency: (

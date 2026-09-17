@@ -1,11 +1,11 @@
 import SiteHeader from "@/components/common/SiteHeader/SiteHeader";
 import TripSummary from "@/components/search-result/TripSummary/TripSummary";
-import ResultsIntro from "@/components/search-result/ResultsIntro/ResultsIntro";
+import PageIntro from "@/components/common/PageIntro/PageIntro";
 import VisaPlanResults from "@/components/search-result/VisaPlanResults/VisaPlanResults";
 import commonContent from "@/data/commonContent.json";
 import searchResultContent from "@/data/searchResultContent.json";
 import { resolvePlans } from "@/lib/plans";
-import { resolveTrip } from "@/lib/trip";
+import { format, resolveTrip } from "@/lib/trip";
 import styles from "./page.module.scss";
 import homeContent from "@/data/homeContent.json";
 import Disclaimer from "@/components/common/Disclaimer/Disclaimer";
@@ -29,6 +29,8 @@ export default async function SearchResultPage({ searchParams }) {
   const params = await searchParams;
   const trip = resolveTrip(params, searchResultContent.trip);
   const plans = resolvePlans(params, searchResultContent.plans);
+  const { intro } = searchResultContent;
+  const introTokens = { to: trip.to, purpose: trip.purposeAdjective };
 
   return (
     <>
@@ -43,7 +45,16 @@ export default async function SearchResultPage({ searchParams }) {
         }
       />
       <main className={styles.page}>
-        <ResultsIntro content={searchResultContent.intro} trip={trip} />
+        <PageIntro
+          id="search-result-intro"
+          content={{
+            ...intro,
+            title: {
+              mobile: format(intro.title.mobile, introTokens),
+              desktop: format(intro.title.desktop, introTokens),
+            },
+          }}
+        />
         <VisaPlanResults content={searchResultContent.plans} plans={plans} />
         <Disclaimer content={homeContent.disclaimer} />
         {/* Fixed "Continue" bar — web "Primary Bottom Sticky" (724:142592),

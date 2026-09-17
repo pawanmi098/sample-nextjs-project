@@ -1,0 +1,149 @@
+@use "_mixins" as *;
+@use "_media" as *;
+
+// =============================================================================
+// TRAVELLER DETAILS PAGE TYPOGRAPHY
+// Figma file "IVS", web frame "Applicant Details" (557:14539).
+//
+// mweb frame "Applicant Details" (653:138308) supplies the base values; web
+// values switch in at `>=desktop` (layout and type move together, as on the
+// search result page). Styles without a mobile note use one value everywhere.
+// The <h1> and sub-heading are `page-intro-*` in _typography.scss.
+// =============================================================================
+
+// "Fetch travellers' information from IndiGo database." — Poppins 400 16/24
+// (I557:14574;795:2956); mweb 400 14/21 (I653:138322;795:2726).
+@mixin traveller-details-toggle-label {
+  @include defaultTypoStyles(14, normal, 21, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 400, $font-poppins-regular);
+  }
+}
+
+// "Enter passenger details", "Visa Summary", "Trip Summary" — Bauhaus Std 500
+// 24/28 (584:45838, 595:47268). PROVISIONAL base 20/24.
+@mixin traveller-details-section-title {
+  @include defaultTypoStyles(20, normal, 24, 500, $font-bauhaus-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(24, normal, 28, 500, $font-bauhaus-medium);
+  }
+}
+
+// "0/3 Added" — Poppins 400 14/20 (584:45839). PROVISIONAL base 12/18.
+@mixin traveller-details-added-count {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+  }
+}
+
+// Accordion head "Amit Kumar" — Poppins 400 16/24 (I584:45841;4119:18619;…).
+@mixin traveller-details-traveller-name {
+  @include defaultTypoStyles(16, normal, 24, 400, $font-poppins-regular);
+}
+
+// "Traveller 1" under the name — Poppins 400 12/18 (I584:45841;4119:18620;…).
+// Also the stepper's "Next: Review Application" / "1/3" (I595:47265;1694:57933),
+// the summary cards' "E-Visa" / "6E 12347" (I595:47514;4119:18586;1337:10349)
+// and the floating field labels "First Name" (…;1262:3060).
+@mixin traveller-details-caption {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+}
+
+// Closed accordion head "Nishi kumar" — mweb Poppins 500 14/20
+// (I653:138358;4119:18603;1337:10349); web keeps the open head's 400 16/24.
+@mixin traveller-details-traveller-name-closed {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 400, $font-poppins-regular);
+  }
+}
+
+// "Add details" — Poppins 600 14/20 (I584:45842;4119:18590;258:2230);
+// mweb 500 12/18 (I653:138358;4119:18606;266:159).
+@mixin traveller-details-add-link {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 600, $font-poppins-semibold);
+  }
+}
+
+// Field value "Amit" — Poppins 500 14/20 (…;5101:27823;1262:1670); mweb
+// 500 12/18 (I653:138342;1262:1992). The placeholder takes the same size.
+@mixin traveller-details-field-value {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+  }
+}
+
+// Empty field placeholder "Date of birth*" — Poppins 400 14/20 (…;1262:566).
+// Applied to ::placeholder, so only the family and weight differ from the value.
+@mixin traveller-details-field-placeholder {
+  font-family: $font-poppins-regular;
+  font-weight: 400;
+}
+
+// "Enter Passport details" — Poppins 500 16/24 (I584:45841;…;4291:15830;1262:566).
+// Also "Who should receive visa updates?" (557:14662) and the summary card
+// titles "Dubai Tourist Visa" (I595:47514;4119:18587;1337:10349).
+@mixin traveller-details-subheading {
+  @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+}
+
+// "Choose one traveller as the primary contact" — Poppins 400 14/20
+// (557:14663). Also the radio labels (I557:14670;1280:6541) and the visa
+// summary facts "Tourist | 30 Days | Single Entry".
+@mixin traveller-details-body {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+}
+
+// Consent paragraphs — Poppins 400 14/21 (557:14776); mweb 400 12/18
+// (I653:138379;1280:6373).
+@mixin traveller-details-consent {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 21, 400, $font-poppins-regular);
+  }
+}
+
+// "Enter Passport details" — web 500 16/24; mweb 500 14/20 (653:138346).
+@mixin traveller-details-passport-heading {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+  }
+}
+
+// "Who should receive visa updates?" — web 500 16/24 (557:14662); mweb
+// 400 14/20 (653:138365).
+@mixin traveller-details-contact-title {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+  }
+}
+
+// Primary-contact hint and radio labels — web 400 14/20 (557:14663,
+// I557:14670;1280:6541); mweb 400 12/18 (653:138366, I653:138373;1280:6547).
+@mixin traveller-details-contact-text {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+  }
+}
+
+// PROVISIONAL: validation messages. Figma has no error state yet.
+@mixin traveller-details-error {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+}

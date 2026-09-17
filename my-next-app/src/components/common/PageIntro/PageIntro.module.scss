@@ -1,12 +1,15 @@
 @use '../../../styles/_shared' as *;
 
-// Mobile — Figma mweb "Frame 1321316059" (682:141425): "Powered by Calleo" →
-// 11 → title block. No breadcrumb: the header's back link replaces it.
-// Desktop — "Frame 2147227589" (754:167952): breadcrumb row → 24 → title block.
+// Page heading block shared by the search result and traveller details pages.
 //
-// Structurally the same section as home/VisaSearchIntro, down to the type
-// scale. If a third page needs it, lift the two into a common/PageIntro
-// rather than adding a third copy.
+// Mobile — Figma mweb "Frame 1321316059" (682:141425): "Powered by Calleo" →
+// 11 → title block. No breadcrumb: the header’s back link replaces it.
+// Desktop — SRP "Frame 2147227589" (754:167952) and traveller details
+// "Frame 2147227589" (557:15117), identical: breadcrumb row → 24 → title block.
+//
+// home/VisaSearchIntro is the same structure but keeps its own copy: its mweb
+// badge is plain text, not a pill.
+
 .intro {
   display: flex;
   flex-direction: column;
@@ -37,7 +40,7 @@
 // inside #EBECEE stroke, r23. 8/12 padding mweb, 6/12 web; the line box lives
 // in the type mixin.
 .partnerBadge {
-  @include search-result-partner-badge;
+  @include page-intro-partner-badge;
   align-self: flex-start;
   padding: rem(8) rem(12);
   border-radius: rem(23);
@@ -52,6 +55,17 @@
   }
 }
 
+// Traveller details mweb (653:138315): pill → 12 → stepper, then 24 to the
+// heading ("Frame 2147227864"). The intro's own gap is 11, so 1 above and
+// 13 below.
+.mobileSlot {
+  margin: rem(1) 0 rem(13);
+
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+
 .heading {
   display: flex;
   flex-direction: column;
@@ -59,12 +73,12 @@
 }
 
 .title {
-  @include search-result-page-title;
+  @include page-intro-title;
   color: var(--text-heading);
 }
 
 .subtitle {
-  @include search-result-page-subtitle;
+  @include page-intro-subtitle;
   color: var(--text-body);
 }
 

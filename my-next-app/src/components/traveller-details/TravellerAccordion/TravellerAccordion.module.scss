@@ -1,0 +1,176 @@
+@use '../../../styles/_shared' as *;
+
+// Figma "Accordian" — web 584:45841 (open) / 584:45842 (closed): 803 wide,
+// r16; mweb 653:138325 (open) / 653:138358 (closed): 320 wide, r12. Both have
+// a 1 INSIDE stroke #C2C2EB. Figma draws that stroke over the children, so in
+// CSS every padding that touches the card edge loses 1.
+.card {
+  overflow: hidden;
+  border: rem(1) solid var(--border-accordion);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+
+  @include media(">=desktop") {
+    border-radius: rem(16);
+  }
+}
+
+.heading {
+  margin: 0;
+  font: inherit;
+}
+
+// "accordion-header". Open, it fills #EAF8FF.
+// - mweb open (653:138326): 66 tall — 12 padding around the 42-tall row.
+// - mweb closed (I653:138358;4119:18596): 54 tall — 12 side padding; the row
+//   is the 52-tall "Buttons", so it fills the height inside the stroke.
+// - web (I584:45841;4119:18612): 74 tall — 16/24 padding around a 42 row.
+.header {
+  display: flex;
+  align-items: center;
+  gap: rem(12);
+  width: 100%;
+  min-height: rem(52);
+  padding: 0 rem(11);
+  border: 0;
+  background: var(--bg-surface);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  .cardOpen & {
+    padding: rem(11) rem(11) rem(12);
+    background: var(--bg-accordion-open);
+  }
+
+  &:focus-visible {
+    @include focus-ring(-4);
+  }
+
+  @include media(">=desktop") {
+    min-height: 0;
+
+    &,
+    .cardOpen & {
+      padding: rem(15) rem(23) rem(16);
+    }
+  }
+}
+
+.identity {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// "Amit Kumar" — 400 16/24 #25304B. Closed mweb heads use 500 14/20.
+.name {
+  @include traveller-details-traveller-name;
+  color: var(--text-heading);
+
+  .card:not(.cardOpen) & {
+    @include traveller-details-traveller-name-closed;
+  }
+}
+
+// "Traveller 1" — 400 12/18 #4B5772.
+.position {
+  @include traveller-details-caption;
+  color: var(--text-body);
+}
+
+// "Buttons": "Add details" then the chevron, 8 apart. mweb
+// (I653:138358;4119:18606) has 12 of right padding, so a closed card's
+// chevron sits 12 further in than the open card's.
+.action {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: rem(8);
+
+  .card:not(.cardOpen) & {
+    padding-right: rem(12);
+  }
+
+  @include media(">=desktop") {
+    .card:not(.cardOpen) & {
+      padding-right: 0;
+    }
+  }
+}
+
+.actionLabel {
+  @include traveller-details-add-link;
+  color: var(--text-brand);
+}
+
+// One icon for both states: the open card's "Accordions-up" is the same
+// vector turned over. 20 on mweb, 24 on web.
+.chevron {
+  display: block;
+  width: rem(20);
+  height: rem(20);
+  transition: transform 0.2s ease;
+
+  .cardOpen & {
+    transform: rotate(180deg);
+  }
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(24);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// "accordion-body": fields 24 apart on mweb (653:138339: 16/12/12/12 padding,
+// "Stack/<Inside Stacks>" gap 24); web (I584:45841;4119:18624) 16 padding,
+// 16 apart.
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+  padding: rem(16) rem(11) rem(11);
+
+  &[hidden] {
+    display: none;
+  }
+
+  @include media(">=desktop") {
+    gap: rem(16);
+    padding: rem(16) rem(15) rem(15);
+  }
+}
+
+// "Stack/<Additional Stacks>": two fields — stacked 24 apart on mweb, side by
+// side 16 apart on web.
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: rem(24);
+
+  @include media(">=desktop") {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: rem(16);
+  }
+}
+
+.passport {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+
+  @include media(">=desktop") {
+    gap: rem(16);
+  }
+}
+
+// "Enter Passport details" — mweb 500 14/20, web 500 16/24, #4B5772.
+.passportHeading {
+  @include traveller-details-passport-heading;
+  color: var(--text-body);
+}

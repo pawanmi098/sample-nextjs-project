@@ -60,3 +60,17 @@ $font-bauhaus-medium: var(--font-family-bauhaus-std-medium);
   outline: rem(2) solid var(--focus-ring);
   outline-offset: rem($offset);
 }
+
+// Hide an element visually while keeping it in the accessibility tree (for
+// real form controls behind custom visuals, and screen-reader-only text).
+@mixin visually-hidden-box {
+  position: absolute;
+  width: rem(1);
+  height: rem(1);
+  margin: rem(-1);
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
