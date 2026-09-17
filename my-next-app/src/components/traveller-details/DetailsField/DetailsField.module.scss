@@ -1,0 +1,154 @@
+@use '../../../styles/_shared' as *;
+
+// Figma "Dynamic Input / Input" + "Dynamic Input / Date" (I584:45841;4119:18625;…):
+// 48 tall on web, 44 on mweb (653:138342, 653:138349), r8.
+// - editable: white, 1 INSIDE stroke #C2C2EB, 8/12 padding (text box at x 12)
+// - read-only (prefilled): #EBECEE fill, no stroke, 12 padding
+// - date: the calendar icon sits in a 32×36 (mweb 32×32) "Date" frame 12 from
+//   the right edge (12 of left padding, then the 20 icon)
+// Both looks keep a 1 border (transparent when read-only), so the text lines
+// up at x 12 either way.
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+  min-width: 0;
+}
+
+.control {
+  position: relative;
+}
+
+.input {
+  @include traveller-details-field-value;
+  display: block;
+  width: 100%;
+  height: rem(44);
+  padding: 0 rem(11);
+  border: rem(1) solid var(--border-input);
+  border-radius: rem(8);
+  background: var(--bg-surface);
+  color: var(--text-heading);
+  outline: none;
+  appearance: none;
+
+  @include media(">=desktop") {
+    height: rem(48);
+  }
+
+  &::placeholder {
+    @include traveller-details-field-placeholder;
+    color: var(--text-input-placeholder);
+    opacity: 1;
+  }
+
+  // Focus: the label floats up, so the placeholder would say it twice.
+  &:focus::placeholder {
+    color: transparent;
+  }
+
+  // Drawn over the field's own edge (−2 offset) rather than outside it, so the
+  // floating label's notch covers it the same way it covers the border.
+  &:focus-visible {
+    @include focus-ring(-2);
+  }
+
+  // Autofilled and typed values ("Amit" in Figma) use #4B5772 on the grey
+  // read-only fill; editable fields get the heading ink. PROVISIONAL: Figma
+  // only shows editable fields empty.
+  .readOnly & {
+    border-color: transparent;
+    background: var(--bg-input-readonly);
+    color: var(--text-body);
+    cursor: default;
+  }
+
+  .withCalendar & {
+    padding-right: rem(12 + 32 + 12 - 1);
+  }
+
+  .invalid & {
+    border-color: var(--border-error);
+  }
+}
+
+// "Form Label / Dyanmic" (…;1262:1672): 12/18 #25304B text in a 16-tall box at
+// x 8, y −9 with 4 of side padding, straddling the top edge. Its lower 7 is
+// filled with the field's own colour (Rectangle 6) so the edge doesn't cross
+// the text; the upper 9 is clear, showing the card behind.
+.label {
+  @include traveller-details-caption;
+  position: absolute;
+  top: rem(-10);
+  left: rem(8);
+  max-width: calc(100% - #{rem(16)});
+  overflow: hidden;
+  padding: 0 rem(4);
+  background: linear-gradient(to bottom, transparent rem(10), var(--label-notch, var(--bg-surface)) rem(10));
+  color: var(--text-heading);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+
+  .readOnly & {
+    --label-notch: var(--bg-input-readonly);
+  }
+
+  .invalid & {
+    color: var(--text-error);
+  }
+}
+
+// Empty and unfocused: the placeholder is what's visible; the label stays in
+// the accessibility tree.
+.input:placeholder-shown:not(:focus) + .label {
+  @include visually-hidden-box;
+}
+
+.calendarButton {
+  position: absolute;
+  top: rem(6);
+  right: rem(12);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: rem(32);
+  height: rem(32);
+  padding: 0;
+  border: 0;
+  border-radius: rem(4);
+  background: transparent;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring(0);
+  }
+
+  @include media(">=desktop") {
+    height: rem(36);
+  }
+}
+
+// Anchored under the icon so the browser opens the picker there.
+.picker {
+  position: absolute;
+  right: rem(12);
+  bottom: 0;
+  width: rem(20);
+  height: rem(1);
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.error {
+  @include traveller-details-error;
+  padding-inline: rem(12);
+  color: var(--text-error);
+}
+
+.visuallyHidden {
+  @include visually-hidden-box;
+}

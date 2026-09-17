@@ -92,3 +92,33 @@
     padding: rem(12) rem(24);
   }
 }
+
+// Mobile compact — "Primary Bottom Sticky" (653:138388): 360×68, same 4 top
+// stroke, fill, shadow and blur; 16/20 padding (top 16 − 4) and a 36-tall
+// button with a 500 12/18 label. Web keeps the values above.
+.compact {
+  padding-bottom: rem(16);
+
+  @include media(">=desktop") {
+    padding-bottom: 0;
+  }
+
+  .button {
+    @include sticky-bar-button-label-compact;
+    height: rem(36);
+    padding: rem(9) rem(16);
+
+    @include media(">=desktop") {
+      height: rem(48);
+      padding: rem(12) rem(24);
+    }
+  }
+}
+
+// Traveller details "Buttons" (I578:40653;4123:20773) before the form is
+// complete: #EBECEE fill, #4B5772 label, same size as the active button.
+.buttonInactive {
+  background: var(--bg-button-inactive);
+  color: var(--text-button-inactive);
+  cursor: default;
+}

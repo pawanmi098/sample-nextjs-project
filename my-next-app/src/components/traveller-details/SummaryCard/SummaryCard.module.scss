@@ -1,0 +1,129 @@
+@use '../../../styles/_shared' as *;
+
+// "Frame 2147227904": the title, 16 gap, the card.
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+}
+
+// "Visa Summary" — Bauhaus Std 500 24/28 #25304B.
+.title {
+  @include traveller-details-section-title;
+  color: var(--text-heading);
+}
+
+// "Accordian" (595:47514): white, 1 INSIDE stroke #C2C2EB, r12; the trip
+// card (595:47397) is r16.
+.card {
+  overflow: hidden;
+  border: rem(1) solid var(--border-accordion);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+}
+
+.cardTrip {
+  border-radius: rem(16);
+}
+
+// "accordion-header": 16 padding (15 inside the stroke), text block, 12 gap,
+// the 20 chevron centred.
+.summary {
+  display: flex;
+  align-items: center;
+  gap: rem(12);
+  padding: rem(15);
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring(-4);
+  }
+}
+
+// "Heading & Description": 4 apart.
+.text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: rem(4);
+  min-width: 0;
+}
+
+// "{Highlighted Text}": 20 icon, 4 gap, 400 12/18 #25304B.
+.badge {
+  @include traveller-details-caption;
+  display: flex;
+  align-items: center;
+  gap: rem(4);
+  min-height: rem(20);
+  color: var(--text-heading);
+}
+
+// "Dubai Tourist Visa" — 500 16/24 #25304B.
+.name {
+  @include traveller-details-subheading;
+  color: var(--text-heading);
+}
+
+// "Tourist | 30 Days | Single Entry" — 400 14/20 #4B5772.
+.facts {
+  @include traveller-details-body;
+  display: flex;
+  flex-wrap: wrap;
+  color: var(--text-body);
+}
+
+.fact {
+  white-space: nowrap;
+}
+
+.separator {
+  margin-inline: rem(8);
+}
+
+.chevron {
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+
+  .card[open] & {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// PROVISIONAL: the opened card. Label left, value right, under a rule.
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+  margin: 0 rem(15) rem(15);
+  padding-top: rem(12);
+  border-top: rem(1) solid var(--border-subtle);
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  gap: rem(12);
+}
+
+.detailLabel {
+  @include traveller-details-body;
+  color: var(--text-body);
+}
+
+.detailValue {
+  @include traveller-details-body;
+  margin: 0;
+  color: var(--text-heading);
+  text-align: right;
+}

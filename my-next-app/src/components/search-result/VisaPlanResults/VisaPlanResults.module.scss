@@ -33,7 +33,7 @@
 // Not in the design: shown when a filter matches nothing (the "Visa on
 // Arrival" chip, on the fixture data).
 .empty {
-  @include search-result-page-subtitle;
+  @include page-intro-subtitle;
   padding: rem(24);
   border: rem(1) solid var(--border-field);
   border-radius: rem(12);

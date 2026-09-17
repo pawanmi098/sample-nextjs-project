@@ -1,0 +1,180 @@
+@use '../../../styles/_shared' as *;
+
+// "Frame 1321316218" (557:14654): white, r16, drop shadow 0 0 12 #4C5D9E @ 8%.
+.card {
+  overflow: hidden;
+  border-radius: rem(16);
+  background: var(--bg-surface);
+  box-shadow: 0 0 rem(12) 0 var(--shadow-card);
+}
+
+.heading {
+  margin: 0;
+  font: inherit;
+}
+
+// "Passenger Accordion": r8 top corners and a dashed (2 on, 2 off) rule along
+// the bottom only — web (557:14655) 76 tall, 16/20 padding, 1 #C9E0EF; mweb
+// (653:138361) 70 tall, 16 padding, 0.6 #4B5772. The rule is a background so
+// it doesn't take layout space — Figma's INSIDE stroke doesn't either.
+// Collapsed, the card has nothing under the head, so no rule.
+.header {
+  --contact-rule: var(--border-contact-divider-compact);
+  --contact-rule-width: #{rem(0.6)};
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  padding: rem(16);
+  border: 0;
+  border-radius: rem(8) rem(8) 0 0;
+  background: var(--bg-surface);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  .cardOpen & {
+    background:
+      linear-gradient(to right, var(--contact-rule) 50%, transparent 50%) left bottom / rem(4) var(--contact-rule-width) repeat-x,
+      var(--bg-surface);
+  }
+
+  &:focus-visible {
+    @include focus-ring(-4);
+  }
+
+  @include media(">=desktop") {
+    --contact-rule: var(--border-contact-divider);
+    --contact-rule-width: #{rem(1)};
+    padding: rem(16) rem(20);
+  }
+}
+
+.text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// "Who should receive visa updates?" — mweb 400 14/20, web 500 16/24, #25304B.
+.title {
+  @include traveller-details-contact-title;
+  color: var(--text-heading);
+}
+
+// "Choose one traveller as the primary contact" — mweb 400 12/18, web 400
+// 14/20. Deliberate deviation: Figma's #7A85A0 is 3.7:1 on white (fails AA),
+// so it uses --text-body (#4B5772), as the home disclaimer does.
+.hint {
+  @include traveller-details-contact-text;
+  color: var(--text-body);
+}
+
+// "Placeholder - Accordion": 1.5 stroke #25304B, 24 on web (557:14664), 16 on
+// mweb (653:138367). The export points up (open); closed turns it over.
+.chevron {
+  display: block;
+  flex-shrink: 0;
+  width: rem(16);
+  height: rem(16);
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(24);
+  }
+
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+
+  .cardOpen & {
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// Web "Frame 1321315721" (557:14665): 16/20/20/20 padding. mweb "Frame
+// 1321315722" (653:138368): 16 padding, plus the 6 of top padding on the
+// first radio's wrapper (653:138372).
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+  padding: rem(22) rem(16) rem(16);
+
+  &[hidden] {
+    display: none;
+  }
+
+  @include media(">=desktop") {
+    padding: rem(16) rem(20) rem(20);
+  }
+}
+
+// "Frame 2147227609": the radio rows, 16 apart on mweb, 12 on web.
+.options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: rem(16);
+
+  @include media(">=desktop") {
+    gap: rem(12);
+  }
+}
+
+// "Radio-set" (mweb I653:138373, web 557:14670): radio, 8 gap, label with 2
+// of top padding.
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: rem(8);
+  cursor: pointer;
+}
+
+// "Radio-button" "Layer": white circle, 2 INSIDE stroke #000099 — 20 on mweb
+// (I653:138373;1280:6685), 24 on web. PROVISIONAL: the selected dot (Figma
+// only shows unselected).
+.radio {
+  flex-shrink: 0;
+  width: rem(20);
+  height: rem(20);
+  margin: 0;
+  border: rem(2) solid var(--icon-brand);
+  border-radius: 50%;
+  background: var(--bg-surface);
+  cursor: pointer;
+  appearance: none;
+
+  &:checked {
+    background: radial-gradient(circle, var(--icon-brand) rem(5), var(--bg-surface) rem(5.5));
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(24);
+
+    &:checked {
+      background: radial-gradient(circle, var(--icon-brand) rem(6), var(--bg-surface) rem(6.5));
+    }
+  }
+}
+
+// "Amit Kumar" — mweb 400 12/18, web 400 14/20, #25304B.
+.optionLabel {
+  @include traveller-details-contact-text;
+  padding-top: rem(2);
+  color: var(--text-heading);
+}
+
+.error {
+  @include traveller-details-error;
+  color: var(--text-error);
+}

@@ -35,37 +35,9 @@
   }
 }
 
-// "Powered by Calleo" pill — mweb Poppins 500 14 (841:212258); web 16
-// (754:167957). Both use leading-trim, so the line box is the text box Figma
-// draws (10.8 mweb, 19 web) rather than the 21/24 of the type style — that's
-// what makes the pills 26.8 and 31 tall.
-@mixin search-result-partner-badge {
-  @include defaultTypoStyles(14, normal, 10.8, 500, $font-poppins-medium);
-
-  @include media(">=desktop") {
-    @include defaultTypoStyles(16, normal, 19, 500, $font-poppins-medium);
-  }
-}
-
-// Page <h1> — mweb Bauhaus Std 500 24/28 (666:139791);
-// web 40/48 ls -0.8 (754:167959).
-@mixin search-result-page-title {
-  @include defaultTypoStyles(24, normal, 28, 500, $font-bauhaus-medium);
-
-  @include media(">=tablet") {
-    @include defaultTypoStyles(40, -0.8, 48, 500, $font-bauhaus-medium);
-  }
-}
-
-// Sub-heading under the <h1> — mweb Poppins 400 14/20 (666:139792);
-// web 16/20, in a 23-tall text box (754:167960).
-@mixin search-result-page-subtitle {
-  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
-
-  @include media(">=tablet") {
-    @include defaultTypoStyles(16, normal, 23, 400, $font-poppins-regular);
-  }
-}
+// "Powered by Calleo" pill, page <h1> and its sub-heading — now
+// `page-intro-*` in _typography.scss, shared with the traveller details page
+// through src/components/common/PageIntro.
 
 // -----------------------------------------------------------------------------
 // HEADER EDIT PANEL — its text styles now live in _typography.scss as

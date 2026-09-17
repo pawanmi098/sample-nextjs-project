@@ -1,0 +1,91 @@
+@use '../../../styles/_shared' as *;
+
+// "Frame 2147225595": the two rows — 16 apart on mweb (653:138378), 4 on web
+// (557:14771).
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include media(">=desktop") {
+    gap: rem(4);
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+}
+
+// "Checkbox-set" — mweb (653:138379): 20 checkbox, 8 gap, text. Web
+// "Frame 2147227610": checkbox column, 10 gap, text column.
+.row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: rem(8);
+  cursor: pointer;
+
+  @include media(">=desktop") {
+    gap: rem(10);
+  }
+}
+
+.checkbox {
+  @include visually-hidden-box;
+}
+
+// mweb "Checkbox" (I653:138379;1280:6371): a 20 box, r4, 1.5 stroke. The
+// 24 icon's square spans 2–22, so it overhangs the 20 box by 2 each side.
+// Web "Frame 2147227611": 24×28 with 4 of top padding around the 24 "Check Box".
+.box {
+  flex-shrink: 0;
+  width: rem(20);
+  height: rem(20);
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(28);
+    padding-top: rem(4);
+  }
+}
+
+.icon {
+  display: block;
+  margin: rem(-2);
+  border-radius: rem(6);
+
+  @include media(">=desktop") {
+    margin: 0;
+  }
+
+  .checkbox:focus-visible + .box & {
+    @include focus-ring(0);
+  }
+}
+
+// mweb "Label Section": 2 of top padding over 400 12/18. Web "Frame
+// 1321316466": 3/0 padding around 400 14/21. #25304B.
+.text {
+  @include traveller-details-consent;
+  padding-top: rem(2);
+  color: var(--text-heading);
+
+  @include media(">=desktop") {
+    padding-block: rem(3);
+  }
+}
+
+.error {
+  @include traveller-details-error;
+  padding-left: rem(28);
+
+  @include media(">=desktop") {
+    padding-left: rem(34);
+  }
+  color: var(--text-error);
+}

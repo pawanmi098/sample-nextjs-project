@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "title": "Enter traveller details",
+    "description": "Add each traveller's date of birth and passport details, exactly as shown on their passport, to apply for your visa."
+  },
+  "header": {
+    "title": "Traveller Details",
+    "back": {
+      "href": "/search-result",
+      "label": "Back to visa options",
+      "icon": "/assets/common/icons/header-back-chevron.svg"
+    }
+  },
+  "intro": {
+    "breadcrumb": {
+      "ariaLabel": "Breadcrumb",
+      "separatorIcon": "/assets/common/icons/breadcrumb-chevron.svg",
+      "items": [
+        {
+          "label": "Home",
+          "href": "/",
+          "icon": {
+            "src": "/assets/common/icons/breadcrumb-home.svg",
+            "width": 20,
+            "height": 20
+          }
+        },
+        {
+          "label": "Itinerary",
+          "href": "/itinerary"
+        },
+        {
+          "label": "Visa"
+        }
+      ]
+    },
+    "partnerBadge": "Powered by Calleo",
+    "title": "Enter Traveller Details",
+    "subtitle": {
+      "mobile": "Enter applicant’s details exactly as shown on their passport.",
+      "desktop": "Enter traveller’s details exactly as shown on their passport."
+    }
+  },
+  "form": {
+    "id": "traveller-details-form",
+    "fetchToggle": {
+      "label": "Fetch travellers’ information from IndiGo database.",
+      "errorLabel": "We couldn’t fetch saved traveller information. Please enter the details below."
+    },
+    "passengers": {
+      "title": "Enter passenger details",
+      "addedLabel": "{count}/{total} Added",
+      "addLabel": "Add details",
+      "editLabel": "Edit details",
+      "chevronIcon": "/assets/traveller-details/icons/traveller-chevron-down.svg",
+      "fields": {
+        "firstName": {
+          "label": "First Name"
+        },
+        "lastName": {
+          "label": "Last Name"
+        },
+        "dob": {
+          "label": "Date of birth*",
+          "placeholder": "Date of birth*"
+        },
+        "passportHeading": "Enter Passport details",
+        "passportNumber": {
+          "label": "Passport Number*",
+          "placeholder": "Passport Number*"
+        },
+        "passportExpiry": {
+          "label": "Passport Expiry*",
+          "placeholder": "Passport Expiry*"
+        }
+      },
+      "dateHint": "Enter the date as DD/MM/YYYY",
+      "calendarIcon": "/assets/traveller-details/icons/field-calendar.svg",
+      "calendarLabel": "Choose {label} from a calendar"
+    },
+    "primaryContact": {
+      "name": "primaryContact",
+      "title": "Who should receive visa updates?",
+      "hint": "Choose one traveller as the primary contact",
+      "chevronIcon": "/assets/traveller-details/icons/contact-chevron-up.svg"
+    },
+    "consents": {
+      "checkedIcon": "/assets/common/icons/checkbox-checked.svg",
+      "uncheckedIcon": "/assets/common/icons/checkbox-unchecked.svg",
+      "items": [
+        {
+          "id": "terms",
+          "label": "I hereby confirm that I have read, understood, and agree to the Terms & Conditions and Privacy Policy of Calleo. I consent to allow IndiGo to receive my contact details, transaction details, and preferences from Calleo. This enables IndiGo to send me personalized offers, and marketing messages."
+        },
+        {
+          "id": "facilitator",
+          "label": "I agree to IndiGo's T&C and understand that IndiGo is acting only as a facilitator, and the booking will be fulfilled by Calleo."
+        }
+      ]
+    },
+    "submitLabel": "Review your application",
+    "rules": {
+      "passportNumberPattern": "^[A-Z0-9]{6,9}$",
+      "passportMinValidityMonths": 6,
+      "minBirthYear": 1900
+    },
+    "errors": {
+      "dobRequired": "Enter date of birth",
+      "dobInvalid": "Enter a real date as DD/MM/YYYY",
+      "dobFuture": "Date of birth must be in the past",
+      "passportNumberRequired": "Enter passport number",
+      "passportNumberInvalid": "Passport number must be 6–9 letters or digits",
+      "passportExpiryRequired": "Enter passport expiry date",
+      "passportExpiryInvalid": "Enter a real date as DD/MM/YYYY",
+      "passportExpiryTooSoon": "Passport must be valid for at least {months} months from today",
+      "primaryContactRequired": "Choose who should receive visa updates",
+      "consentRequired": "Please accept this to continue"
+    }
+  },
+  "asideLabel": "Your application summary",
+  "stepper": {
+    "nextLabel": "Next: Review Application",
+    "current": 1,
+    "total": 3,
+    "countLabel": "{current}/{total}",
+    "ariaLabel": "Step {current} of {total}"
+  },
+  "visaSummary": {
+    "title": "Visa Summary",
+    "badge": {
+      "label": "E-Visa",
+      "icon": "/assets/traveller-details/icons/summary-visa-id.svg"
+    },
+    "name": "Dubai Tourist Visa",
+    "facts": [
+      "Tourist",
+      "30 Days",
+      "Single Entry"
+    ],
+    "details": [
+      {
+        "label": "Validity",
+        "value": "60 days"
+      },
+      {
+        "label": "Duration of stay",
+        "value": "30 days"
+      },
+      {
+        "label": "Processing time",
+        "value": "3-5 working days"
+      },
+      {
+        "label": "Price per adult",
+        "value": "₹ 2,000"
+      }
+    ],
+    "chevronIcon": "/assets/traveller-details/icons/summary-chevron-down.svg"
+  },
+  "tripSummary": {
+    "title": "Trip Summary",
+    "badge": {
+      "label": "6E 12347",
+      "icon": "/assets/traveller-details/icons/summary-flight.svg"
+    },
+    "name": "Delhi to Dubai",
+    "details": [
+      {
+        "label": "Travel date",
+        "value": "20 Dec"
+      },
+      {
+        "label": "Travellers",
+        "value": "3"
+      },
+      {
+        "label": "Nationality",
+        "value": "Indian"
+      },
+      {
+        "label": "Country of residence",
+        "value": "India"
+      }
+    ],
+    "chevronIcon": "/assets/traveller-details/icons/summary-chevron-down.svg"
+  },
+  "booking": {
+    "reviewHref": "/review-application",
+    "travellers": [
+      {
+        "id": "t1",
+        "position": "Traveller 1",
+        "firstName": "Amit",
+        "lastName": "Kumar"
+      },
+      {
+        "id": "t2",
+        "position": "Traveller 2",
+        "firstName": "Nishi",
+        "lastName": "Kumar"
+      },
+      {
+        "id": "t3",
+        "position": "Traveller 3",
+        "firstName": "Aarav",
+        "lastName": "Kumar"
+      }
+    ],
+    "savedProfiles": {
+      "t1": {
+        "dob": "14/03/1986",
+        "passportNumber": "Z4829163",
+        "passportExpiry": "22/08/2032"
+      },
+      "t2": {
+        "dob": "02/11/1989",
+        "passportNumber": "Y7316240",
+        "passportExpiry": "09/01/2031"
+      }
+    }
+  }
+}

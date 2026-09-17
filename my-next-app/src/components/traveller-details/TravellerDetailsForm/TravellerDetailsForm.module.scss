@@ -1,0 +1,76 @@
+@use '../../../styles/_shared' as *;
+
+// "left column" (557:14572): the form, 32 gap, the consents. mweb "form"
+// (653:138323) keeps everything 24 apart.
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+  min-width: 0;
+
+  @include media(">=desktop") {
+    gap: rem(32);
+  }
+}
+
+// "Frame 2147225975": toggle, passengers, contact card — 24 apart.
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+}
+
+// "Frame 2147227870": header row, 16 gap, the cards.
+.passengers {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+}
+
+// "Frame 2147227838": title and count, space-between, centred. The mweb
+// frame draws neither, so below desktop the row is only for screen readers
+// (it keeps the heading levels intact) and, out of flow, takes no gap.
+.passengersHeader {
+  @include visually-hidden-box;
+
+  @include media(">=desktop") {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(12);
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+}
+
+.passengersTitle {
+  @include traveller-details-section-title;
+  color: var(--text-heading);
+}
+
+// "0/3 Added" — 400 14/20 #4B5772.
+.addedCount {
+  @include traveller-details-added-count;
+  flex-shrink: 0;
+  color: var(--text-body);
+}
+
+// "Frame 2147227871": the traveller cards, 16 apart; mweb "Frame
+// 2147227927" (653:138324) 12 apart.
+.travellerList {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include media(">=desktop") {
+    gap: rem(16);
+  }
+}

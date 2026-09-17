@@ -1,0 +1,48 @@
+@use '../../../styles/_shared' as *;
+
+// "Stepper" (595:47265): 373×37 — the 24-tall label row, 5 gap, the 8 bars.
+.stepper {
+  display: flex;
+  flex-direction: column;
+  gap: rem(5);
+}
+
+// "Steps Name": space-between, 24 tall, text centred in it.
+.labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(10);
+  min-height: rem(24);
+}
+
+// 400 12/18 #25304B.
+.text {
+  @include traveller-details-caption;
+  color: var(--text-heading);
+}
+
+// "Frame 2147226328": three equal bars, 4 apart, 8 tall, r24.
+.bars {
+  display: flex;
+  gap: rem(4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// #D1EFFF still to come, #000099 reached.
+.bar {
+  flex: 1 1 0;
+  height: rem(8);
+  border-radius: rem(24);
+  background: var(--indicator-step-pending);
+}
+
+.barDone {
+  background: var(--indicator-active);
+}
+
+.visuallyHidden {
+  @include visually-hidden-box;
+}
