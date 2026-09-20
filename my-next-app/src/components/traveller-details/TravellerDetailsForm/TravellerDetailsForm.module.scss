@@ -13,11 +13,17 @@
   }
 }
 
-// "Frame 2147225975": toggle, passengers, contact card — 24 apart.
+// "Frame 2147225975" (web): toggle, passengers, contact card — 24 apart.
+// mweb "Frame 2147227958" (999:264593) puts the cards 12 under the switch,
+// and the contact card 24 under them, so the passengers block adds the rest.
 .main {
   display: flex;
   flex-direction: column;
-  gap: rem(24);
+  gap: rem(12);
+
+  @include media(">=desktop") {
+    gap: rem(24);
+  }
 }
 
 // "Frame 2147227870": header row, 16 gap, the cards.
@@ -25,6 +31,11 @@
   display: flex;
   flex-direction: column;
   gap: rem(16);
+  margin-bottom: rem(12);
+
+  @include media(">=desktop") {
+    margin-bottom: 0;
+  }
 }
 
 // "Frame 2147227838": title and count, space-between, centred. The mweb
@@ -60,12 +71,12 @@
   color: var(--text-body);
 }
 
-// "Frame 2147227871": the traveller cards, 16 apart; mweb "Frame
-// 2147227927" (653:138324) 12 apart.
+// "Frame 2147227871": the traveller cards, 16 apart on web; mweb "form"
+// (999:264598) 24 apart.
 .travellerList {
   display: flex;
   flex-direction: column;
-  gap: rem(12);
+  gap: rem(24);
   margin: 0;
   padding: 0;
   list-style: none;

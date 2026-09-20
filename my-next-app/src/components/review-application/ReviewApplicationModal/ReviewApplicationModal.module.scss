@@ -1,0 +1,177 @@
+@use '../../../styles/_shared' as *;
+
+// Figma web "Popup with Overlay" (595:51941), 1280×1113: a 480 panel flush
+// with the right edge, over a gradient scrim. Panel chrome only — the cards
+// inside are ReviewSummary, which the /review-application page renders too.
+//
+// This popup is the desktop presentation of the review; below desktop the
+// review is its own page (mweb "Review application", 999:265215), so the
+// traveller details form never opens it there. The widths here are still
+// written mobile-first in case it is ever shown narrow.
+
+.layer {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+// "Overlay" (595:51942): #15205F → #24409A, both at 80%. The handles
+// (0.861, 0) → (0.543, 1) on the 1280×1372 box give a 196.63deg line, and the
+// stops land at 3.1% and 88.2% along it. The node's background blur is
+// switched off in Figma, so there is none here.
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    196.63deg,
+    var(--overlay-popup-start) 3.1%,
+    var(--overlay-popup-end) 88.2%
+  );
+}
+
+// "Popup Modal" (595:51943): 480 wide, the full height of the frame, white,
+// 20/16 padding, drop shadow 0 0 28 16 #4C5D9E @ 4%. The head and foot stay
+// put and the cards between them scroll, so a longer application still pays
+// from the button it was drawn with.
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-inline: rem(16);
+  background: var(--bg-surface);
+  box-shadow: 0 0 rem(28) rem(16) var(--shadow-review-card);
+  animation: slide-in 0.24s ease-out;
+
+  @include media(">=desktop") {
+    width: rem(480);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(rem(32));
+    opacity: 0;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Head — "Frame 2147227616" (595:51944) and the "Divider" under it
+// -----------------------------------------------------------------------------
+
+.head {
+  flex: none;
+  padding-top: rem(20);
+  // "Divider" (595:51952): 1px #9BA4B8, 16 under the sub-line.
+  border-bottom: rem(1) solid var(--border-review-divider);
+  padding-bottom: rem(16);
+}
+
+// "<PopupModalHeader>": the 25-tall title and the 24 icon both sit 6 down
+// inside a 37 row, with the icon pushed to the far edge.
+.headRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: rem(8);
+  padding-block: rem(6);
+}
+
+// "Review your application" — Bauhaus Std 500 24/28 in a 25-tall box #25304B.
+.title {
+  @include review-title;
+  margin: 0;
+  color: var(--text-heading);
+}
+
+// "Left-icon" (595:51950): the 24 close cross, #000099.
+.close {
+  display: flex;
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.closeText {
+  @include visually-hidden-box;
+}
+
+// "Check your details before making the payment." — Poppins 400 14/20.
+.subtitle {
+  @include review-subtitle;
+  margin: 0;
+  color: var(--text-heading);
+}
+
+// -----------------------------------------------------------------------------
+// Body — the four cards and the amber strip, 16 apart
+// -----------------------------------------------------------------------------
+
+.body {
+  display: flex;
+  // Hugs its content, so at Figma's own 1113 the foot sits straight under the
+  // strip as drawn. A taller application shrinks and scrolls it instead, which
+  // keeps the "Pay" button in view.
+  flex: 0 1 auto;
+  flex-direction: column;
+  gap: rem(16);
+  overflow-y: auto;
+  // 16 under the head's rule; the 16 on to the acknowledgement is the foot's.
+  padding-top: rem(16);
+}
+
+// -----------------------------------------------------------------------------
+// Foot — the acknowledgement and the "Pay" button
+// -----------------------------------------------------------------------------
+
+.foot {
+  flex: none;
+  padding-top: rem(16);
+  padding-bottom: calc(#{rem(20)} + env(safe-area-inset-bottom));
+}
+
+// "Buttons" (595:52042): full width, 48 tall, r8, #000099, drop shadow
+// 0 4 16 #25304B @ 24%, label Poppins 600 16/24 white. "Frame 2147227542"
+// sits 16 under the acknowledgement and pads another 16 above the button.
+.pay {
+  @include review-total;
+  display: block;
+  width: 100%;
+  height: rem(48);
+  margin-top: rem(32);
+  padding: rem(12) rem(24);
+  border: 0;
+  border-radius: rem(8);
+  background: var(--bg-button-primary);
+  box-shadow: 0 rem(4) rem(16) 0 var(--shadow-pay-button);
+  color: var(--text-on-dark);
+  text-align: center;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Before the acknowledgement is ticked, the same grey the sticky
+// "Review your application" button wears while the form is incomplete. It
+// stays clickable, so pressing it can point at what's missing.
+.payInactive {
+  background: var(--bg-button-inactive);
+  box-shadow: none;
+  color: var(--text-button-inactive);
+  cursor: default;
+}

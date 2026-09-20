@@ -22,5 +22,13 @@
       "label": "Chat with 6Eskai",
       "image": "/assets/common/icons/6eskai-avatar.webp"
     }
+  },
+  "toast": {
+    "icons": {
+      "success": "/assets/common/icons/toast-success.svg",
+      "error": "/assets/common/icons/toast-error.svg",
+      "close": "/assets/common/icons/toast-close.svg"
+    },
+    "closeLabel": "Dismiss this message"
   }
 }

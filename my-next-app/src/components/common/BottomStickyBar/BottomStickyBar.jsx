@@ -13,7 +13,9 @@ import styles from "./BottomStickyBar.module.scss";
 //
 // `compact` is the mweb "Primary Bottom Sticky" (traveller details,
 // 653:138388): 68 tall with a 36 button, instead of the 84-tall home/SRP bar.
-// Web is the same either way.
+// `review` is the mweb bar of the review application page (999:265332): 72
+// tall over a 1 top edge, keeping the base 40 button. Web is the same for all
+// three.
 export default function BottomStickyBar({
   label,
   formId,
@@ -21,8 +23,11 @@ export default function BottomStickyBar({
   inactive = false,
   pending = false,
   compact = false,
+  review = false,
 }) {
-  const barClass = [styles.bar, compact && styles.compact, className].filter(Boolean).join(" ");
+  const barClass = [styles.bar, compact && styles.compact, review && styles.review, className]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div className={barClass}>

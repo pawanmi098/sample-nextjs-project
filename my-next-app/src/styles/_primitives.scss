@@ -54,7 +54,15 @@ $color-gold-deep: #906A0C;        // "Validity" pill label — #A97D0E darkened 
 $color-overlay-deep-navy: #15205F;
 $color-overlay-royal: #24409A;
 
-// Traveller details page (Figma "Applicant Details", 557:14539)
+// Traveller details page (Figma "Applicant Details", 557:14539; filled
+// 601:12589)
 $color-frost-blue: #C9E0EF;       // dashed rule under "Who should receive visa updates?"
 $color-powder-blue: #D1EFFF;      // stepper bars still to come
-$color-error-red: #B42318;        // PROVISIONAL: field errors (no error state in Figma yet; 6.3:1 on white)
+$color-alert-red: #C3272E;        // field, consent and message errors (5.8:1 on white) — mweb 999:264577
+$color-teal-deep: #2C76A5;        // "Primary" chip label — #348DC4 darkened to pass 4.5:1 on #EAF8FF
+
+// Toast (Figma "Toast" 595:50608 success, 761:196473 error). The error reuses
+// $color-alert-red for its edge and icon.
+$color-success-green: #218946;    // success toast edge + tick (4.8:1 on its own fill)
+$color-mint-tint: #F0FFF6;        // success toast fill
+$color-blush-tint: #F4DEDF;       // error toast fill

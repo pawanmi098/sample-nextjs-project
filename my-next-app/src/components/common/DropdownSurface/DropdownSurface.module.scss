@@ -5,11 +5,13 @@
 
 // Desktop: a popover under the field. The 12 clears the field's own bottom
 // edge plus the 8 of padding and border below it inside "Search Input", which
-// lands the card 4px under that box exactly as Figma draws it.
+// lands the card 4px under that box exactly as Figma draws it. A caller whose
+// anchor *is* the box — the date picker, hung off a detail field's input —
+// sets `--popover-offset` to the gap it wants instead.
 .popover {
   position: absolute;
   z-index: 2;
-  top: calc(100% + #{rem(12)});
+  top: calc(100% + var(--popover-offset, #{rem(12)}));
   left: 0;
 }
 
@@ -64,10 +66,13 @@
 
   // "Popup Modal" 776:206237: white, 0 16 padding, r20 on the top corners.
   // The bottom inset keeps the last row clear of a phone's home indicator.
+  // A caller whose own sheet runs edge to edge — the date picker, whose close
+  // bar is ruled right across it — zeroes `--sheet-gutter` on its
+  // `sheetClassName` and takes the 16 over itself.
   .sheet {
     flex-direction: column;
     justify-content: flex-start;
-    padding: 0 rem(16) env(safe-area-inset-bottom);
+    padding: 0 var(--sheet-gutter, #{rem(16)}) env(safe-area-inset-bottom);
     border-radius: rem(20) rem(20) 0 0;
   }
 }

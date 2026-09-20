@@ -25,14 +25,22 @@ export const metadata = {
  * summary cards aren't shown, as in the mweb frame. The saved
  * passport profiles in the JSON stay on the server: only the actions read
  * them, and the form receives the booking's names alone.
+ *
+ * The "Review your application" button doesn't leave the page: it opens the
+ * "Popup with Overlay" (595:51941) over it, and paying from there is what
+ * posts the form.
  */
 export default function TravellerDetailsPage() {
-  const { header, intro, form, asideLabel, stepper, visaSummary, tripSummary, booking } = travellerDetailsContent;
-  const travellers = booking.travellers.map(({ id, position, firstName, lastName }) => ({
+  const { header, intro, form, review, asideLabel, stepper, visaSummary, tripSummary, booking } =
+    travellerDetailsContent;
+  // `dob` is only there for a child, whose date of birth the booking already
+  // knows; their card shows it locked and asks for a guardian's authorisation.
+  const travellers = booking.travellers.map(({ id, position, firstName, lastName, dob }) => ({
     id,
     position,
     firstName,
     lastName,
+    ...(dob ? { dob } : null),
   }));
 
   return (
@@ -45,9 +53,11 @@ export default function TravellerDetailsPage() {
         <div className={styles.layout}>
           <TravellerDetailsForm
             content={form}
+            review={review}
             travellers={travellers}
             submitAction={submitTravellerDetails}
             fetchSavedAction={fetchSavedTravellerDetails}
+            toast={commonContent.toast}
           />
           <aside className={styles.aside} aria-label={asideLabel}>
             <StepProgress content={stepper} />

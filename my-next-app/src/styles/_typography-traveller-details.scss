@@ -143,7 +143,55 @@
   }
 }
 
-// PROVISIONAL: validation messages. Figma has no error state yet.
-@mixin traveller-details-error {
+// "Form Message" — the error under a field and the hint under Email Id:
+// Poppins 400 10/16 (I999:264737;1262:2007;1258:2780).
+@mixin traveller-details-message {
+  @include defaultTypoStyles(10, normal, 16, 400, $font-poppins-regular);
+}
+
+// "Child cannot be a primary contact" — Poppins 400 12/20 (999:264811).
+@mixin traveller-details-note {
+  @include defaultTypoStyles(12, normal, 20, 400, $font-poppins-regular);
+}
+
+// =============================================================================
+// Filled state — Figma web frame "Applicant Details-filled" (601:12589).
+// =============================================================================
+
+// The chosen contact's radio label "Amit kumar" (I601:12817;1280:6565) and the
+// summary cards' detail labels "Validity" (601:13142) — Poppins 500 14/20.
+// PROVISIONAL base 12/18, following the unselected label.
+@mixin traveller-details-body-strong {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+  }
+}
+
+// "Primary" chip beside the chosen contact — Poppins 500 12/18 on web
+// (I601:12818;673:1175), 500 10/16 on mweb (I999:264804;673:1671).
+@mixin traveller-details-chip-label {
+  @include defaultTypoStyles(10, normal, 16, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+  }
+}
+
+// "This booking has been authorised by parent / legal guardian."
+// (I601:12682;…;4291:15829;144:1425) — Poppins 400 14/20. PROVISIONAL base
+// 12/18: the mweb frame has no child traveller yet.
+@mixin traveller-details-checkbox-label {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+  }
+}
+
+// The country dialling code beside the phone number
+// (I601:12819;5101:27823;1262:5330;1262:5234) — Poppins 400 12/18.
+@mixin traveller-details-dial-code {
   @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
 }

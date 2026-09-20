@@ -107,6 +107,13 @@ $theme-cloud: (
   // Web bottom sticky bar: 4 top edge + dotted divider before the button
   border-sticky-bar: $color-lavender,
   border-sticky-bar-divider: $color-lavender-mist,
+  // Date picker "Calendar" (1098:310437): the popover card's own edge, and
+  // the rule under every day / month / year cell
+  border-calendar: $color-periwinkle,
+  border-calendar-cell: $color-lavender-mist,
+  // …and the mweb sheet's own lift off the page (999:263696,
+  // DROP_SHADOW #000099 at 8% 0,-4 r16)
+  shadow-calendar-sheet: color.change($color-blue, $alpha: 0.08),
 
   // Text Colors
   text-heading: $color-navy,
@@ -121,6 +128,9 @@ $theme-cloud: (
   text-brand: $color-blue,
   text-accent-gold: $color-gold,
   text-plan-validity: $color-gold-deep,
+  // Date picker: the neighbouring months' days, and any date outside the
+  // field's allowed range (1098:310437)
+  text-calendar-muted: $color-cool-gray,
 
   // Icons / chips / badges
   icon-brand: $color-blue,
@@ -153,9 +163,11 @@ $theme-cloud: (
   // Traveller accordions + summary cards: lavender edge, pale blue open head
   border-accordion: $color-lavender,
   bg-accordion-open: $color-chip-blue-bg,
-  // Detail fields: editable ones have a lavender edge; names prefilled from
-  // the booking are read-only on a grey fill
+  // Detail fields: editable ones have a lavender edge that darkens once they
+  // hold a value (601:12680); names and a child's date of birth come prefilled
+  // from the booking, read-only on a grey fill
   border-input: $color-lavender,
+  border-input-filled: $color-periwinkle,
   bg-input-readonly: $color-mist,
   // "Fetch travellers' information" switch (on state is PROVISIONAL)
   bg-switch-off: $color-slate-blue,
@@ -163,14 +175,45 @@ $theme-cloud: (
   // Dashed rule under the primary-contact heading: web frost blue, mweb slate
   border-contact-divider: $color-frost-blue,
   border-contact-divider-compact: $color-slate-text,
+  // Primary contact, chosen (601:12814): the "Primary" chip, the divider
+  // between the country code and the number, and the rule under the row
+  bg-chip-primary: $color-chip-blue-bg,
+  text-chip-primary: $color-teal-deep,
+  border-country-code: $color-lavender-mist,
+  border-contact-row: $color-cool-gray,
   // Stepper bars not reached yet
   indicator-step-pending: $color-powder-blue,
   // Sticky "Review your application" button before the form is complete
   bg-button-inactive: $color-mist,
   text-button-inactive: $color-slate-text,
-  // PROVISIONAL: validation messages and invalid field edges
-  text-error: $color-error-red,
-  border-error: $color-error-red,
+  // Toast (595:50608, 761:196473): a status edge and tint, with the title and
+  // body staying --text-heading on both
+  bg-toast-success: $color-mint-tint,
+  border-toast-success: $color-success-green,
+  bg-toast-error: $color-blush-tint,
+  border-toast-error: $color-alert-red,
+
+  // Validation messages and invalid field / consent edges (999:264577)
+  text-error: $color-alert-red,
+  border-error: $color-alert-red,
+  // A field being typed into takes the pale blue fill (I999:264780;1262:1962)
+  bg-input-active: $color-chip-blue-bg,
+  // A child can't be the primary contact: their radio and label go grey, and
+  // the card ends with an #EAF8FF note strip (999:264808)
+  border-radio-disabled: $color-cool-gray,
+  bg-note: $color-chip-blue-bg,
+
+  // "Review your application" popup (595:51941): the right-hand panel over a
+  // gradient scrim, its summary cards, and the amber "non-refundable" strip
+  border-review-card: $color-card-divider-light,
+  shadow-review-card: color.change($color-shadow-indigo, $alpha: 0.04),
+  border-review-divider: $color-cool-gray,
+  bg-review-note: $color-cream,
+  border-review-note: $color-gold,
+  // #A97D0E is 3.5:1 on #FFF8E5, so the strip's 12px copy takes the darkened
+  // #906A0C already used for the SRP validity pill
+  text-review-note: $color-gold-deep,
+  shadow-pay-button: color.change($color-navy, $alpha: 0.24),
 );
 
 $theme-emergency: (

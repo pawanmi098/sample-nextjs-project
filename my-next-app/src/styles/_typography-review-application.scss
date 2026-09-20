@@ -1,0 +1,89 @@
+@use "_mixins" as *;
+@use "_media" as *;
+
+// =============================================================================
+// REVIEW APPLICATION TYPOGRAPHY
+// Figma file "IVS". mweb frame "Review application" (999:265215) supplies the
+// base values; the web popup "Popup with Overlay" (595:51941) supplies the
+// `>=desktop` overrides.
+//
+// The review shows at two very different sizes — a page below desktop, a
+// 480 panel over the traveller details form above it — so these live in their
+// own file rather than under either page.
+// The page's <h1> and sub-heading are `page-intro-*` in _typography.scss.
+// =============================================================================
+
+// The popup's own title "Review your application" — Bauhaus Std 500 24/28
+// (595:51949). The text box is 25 tall, not 28, so the line height follows the
+// box and everything under it lines up with the frame. Web only: on the page
+// this string is the <h1>.
+@mixin review-title {
+  @include defaultTypoStyles(24, normal, 25, 500, $font-bauhaus-medium);
+}
+
+// The popup's "Check your details before making the payment." — Poppins
+// 400 14/20 (595:51951). Web only, as above.
+@mixin review-subtitle {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+}
+
+// "Traveller Details", "Primary Traveller", "Price Summary" — Bauhaus Std 500
+// 16/20 on mweb (999:265262), 20/24 on web (595:51972). Figma types the web
+// ones 400; only the Medium cut of Bauhaus Std is subset into the repo, so
+// they render at 500 like every other Bauhaus style.
+@mixin review-card-title {
+  @include defaultTypoStyles(16, normal, 20, 500, $font-bauhaus-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(20, normal, 24, 500, $font-bauhaus-medium);
+  }
+}
+
+// "Dubai tourist 30- days E-Visa" — the one string the frames set in different
+// families: Bauhaus Std 500 16/20 on mweb (999:265245), Poppins 400 16/24 on
+// web (595:51956).
+@mixin review-plan-name {
+  @include defaultTypoStyles(16, normal, 20, 500, $font-bauhaus-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 400, $font-poppins-regular);
+  }
+}
+
+// A traveller's name and the price rows — Poppins 400 16/24 (999:265267).
+@mixin review-name {
+  @include defaultTypoStyles(16, normal, 24, 400, $font-poppins-regular);
+}
+
+// "60 days validity · Single entry · 3 Travellers", "· Adult", and the primary
+// traveller's phone and email — Poppins 400 14/24 (999:265255). The 24 box
+// matches the 16/24 name beside it.
+@mixin review-fact {
+  @include defaultTypoStyles(14, normal, 24, 400, $font-poppins-regular);
+}
+
+// The cards' "Edit" links — Poppins 500 12/18 (I999:265263;276:1108).
+@mixin review-link {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+}
+
+// "Total" and "₹ 9,723" — Poppins 600 16/24 (999:265319).
+@mixin review-total {
+  @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
+}
+
+// The amber "non-refundable" strip — Poppins 400 12/18 (999:265326).
+@mixin review-note {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+}
+
+// The payment acknowledgement — Poppins 400 12/18 (999:265331).
+@mixin review-consent {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+}
+
+// PROVISIONAL: the error under that acknowledgement, which Figma doesn't draw.
+// Follows the traveller details form's own messages — Poppins 400 10/16.
+@mixin review-message {
+  @include defaultTypoStyles(10, normal, 16, 400, $font-poppins-regular);
+}

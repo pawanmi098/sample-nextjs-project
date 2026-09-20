@@ -4,14 +4,15 @@
 // gutters, 24 below the 80-tall header, intro 1192×130, 25 to the two
 // columns, and 58 between the columns' foot and the 80-tall fixed
 // "Review your application" bar, which the bottom padding also clears.
-// Mobile — mweb "Applicant Details" (653:138308), 360 wide: "Frame
+// Mobile — mweb "Applicant Details" (999:264577), 360 wide: "Frame
 // 2147227922" starts 64 below the header's top (the shared header is 56, so
-// 8 of padding), 20 gutters, blocks 24 apart, and 48 between the consents
-// and the 68-tall compact sticky bar, which the bottom padding also clears.
+// 8 of padding), 20 gutters, and 12 between the sub-heading and the switch
+// ("Frame 2147227958"), then 48 between the consents and the 68-tall compact
+// sticky bar, which the bottom padding also clears.
 .page {
   display: flex;
   flex-direction: column;
-  gap: rem(24);
+  gap: rem(12);
   width: 100%;
   max-width: rem(1440);
   margin-inline: auto;

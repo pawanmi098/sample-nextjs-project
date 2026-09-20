@@ -1,0 +1,7 @@
+@use '../../../styles/_shared' as *;
+
+// The acknowledgement sits in the page flow; the button is the fixed bar,
+// which takes itself out of it.
+.form {
+  display: contents;
+}

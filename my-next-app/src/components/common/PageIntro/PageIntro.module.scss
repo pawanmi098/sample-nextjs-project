@@ -13,7 +13,9 @@
 .intro {
   display: flex;
   flex-direction: column;
-  gap: rem(11);
+  // 11 on the search result and traveller details mweb frames; the review
+  // application frame (999:265229) leaves 16, and sets the property to say so.
+  gap: var(--page-intro-gap, #{rem(11)});
 
   @include media(">=desktop") {
     gap: rem(24);

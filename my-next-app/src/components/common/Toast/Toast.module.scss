@@ -1,0 +1,99 @@
+@use '../../../styles/_shared' as *;
+
+// Figma "Toast" — 595:50608 (success, 420x84) and 761:196473 (error, 420x64).
+// One component, two status colours; the height is whatever the message wraps
+// to, which is the only reason the two frames differ.
+//
+// Both frames are the component alone, with no page around them, so the stack
+// below is PROVISIONAL — see ToastStack.jsx.
+
+// Under the sticky header (56 tall on mweb, 80 from desktop — SiteHeader), a
+// 16 gap, and the page's own gutter on the right. A page whose header is
+// taller sets `--toast-top` on itself.
+.stack {
+  position: fixed;
+  z-index: 20;
+  top: var(--toast-top, #{rem(56 + 16)});
+  right: rem(16);
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+  // Never wider than Figma's 420, never past the opposite gutter.
+  width: min(#{rem(420)}, calc(100vw - #{rem(32)}));
+  // The gaps between toasts stay clickable page.
+  pointer-events: none;
+
+  @include media(">=desktop") {
+    top: var(--toast-top, #{rem(80 + 16)});
+    right: rem(44);
+    width: min(#{rem(420)}, calc(100vw - #{rem(88)}));
+  }
+}
+
+// 8/12 padding around a 2 INSIDE stroke, so the CSS padding is that less the
+// border: the icon still starts 12 from the edge. r8, and 8 between the icon,
+// the text column and the close button.
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: rem(8);
+  padding: rem(6) rem(10);
+  border: rem(2) solid;
+  border-radius: rem(8);
+  pointer-events: auto;
+}
+
+.success {
+  border-color: var(--border-toast-success);
+  background: var(--bg-toast-success);
+}
+
+.error {
+  border-color: var(--border-toast-error);
+  background: var(--bg-toast-error);
+}
+
+// "Icon" (I595:50608;4050:16930) — 24, top-aligned with the title's line box.
+.icon,
+.close {
+  flex: none;
+}
+
+// "Placeholder & Button": the text column, 4 between the two lines.
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: rem(4);
+  min-width: 0;
+}
+
+// "Header" (I595:50608;4050:16933): Poppins 600 16/24 #25304B.
+.title {
+  @include toast-title;
+  margin: 0;
+  color: var(--text-heading);
+}
+
+// "Description" (I595:50608;4050:16934): Poppins 400 14/20, the same ink.
+.message {
+  @include toast-message;
+  margin: 0;
+  color: var(--text-heading);
+}
+
+// "Close-filled" (I595:50608;4050:16938): the 24 filled disc, no box of its
+// own — it is its own 24x24 touch target.
+.close {
+  display: flex;
+  width: rem(24);
+  height: rem(24);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring(2);
+  }
+}

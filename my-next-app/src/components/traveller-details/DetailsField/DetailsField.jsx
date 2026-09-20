@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import DateCalendar from "@/components/common/DateCalendar/DateCalendar";
 import { displayToIsoDate, formatDateTyping, isoToDisplayDate } from "@/lib/travellerDetails";
 import styles from "./DetailsField.module.scss";
 
@@ -17,17 +18,33 @@ import styles from "./DetailsField.module.scss";
  * visually while the placeholder is showing.
  *
  * `type="date"` keeps a text input — a native date input can't show the
- * placeholder — typed as DD/MM/YYYY, with the calendar icon opening the
- * browser's own picker on a hidden native date input.
+ * placeholder — typed as DD-MM-YYYY, with the calendar icon opening the
+ * Figma date picker (common/DateCalendar) under the field.
+ *
+ * A field holding a value takes a darker edge (#9999DE, 601:12680) than an
+ * empty one; that's `:not(:placeholder-shown)`, since every field carries a
+ * placeholder.
  *
  * @param value     controlled value; `onValueChange(next)` receives the new one
- * @param readOnly  names prefilled from the booking: grey fill, no edge
+ * @param readOnly  names, and a child's date of birth, prefilled from the
+ *                  booking: grey fill, no edge, and — on a date — a muted icon
+ *                  in place of the calendar button
  * @param error     message shown under the field, and `aria-invalid`
  * @param hint      screen-reader-only format hint (dates)
- * @param calendar  `{ icon, label, limits }` for date fields; `limits()` returns
- *                  the picker's `{ min, max }` as YYYY-MM-DD. It runs when the
- *                  picker opens, not during render, so a server/client clock
- *                  difference can't cause a hydration mismatch.
+ * @param note      "Form Message" under the field — a 16 icon and 10/16 text,
+ *                  red for `error`, `--text-body` for a standing hint such as
+ *                  Email Id's "This email id will be used for all
+ *                  communications" (I999:264805;5101:27329;1262:1984)
+ * @param icons     `{ error, info }` — the message icons
+ * @param prefix    a control drawn inside the field's left edge, before the
+ *                  input — the phone number's country dialling code
+ *                  (I601:12819;5101:27823;1262:5330)
+ * @param calendar  `{ icon, label, limits, content }` for date fields;
+ *                  `limits()` returns the picker's `{ min, max }` as
+ *                  YYYY-MM-DD. It runs when the picker opens, not during
+ *                  render, so a server/client clock difference can't cause a
+ *                  hydration mismatch. `content` is the picker's own copy —
+ *                  form.passengers.calendar.
  */
 export default function DetailsField({
   id,
@@ -41,40 +58,65 @@ export default function DetailsField({
   type = "text",
   error,
   hint,
+  note,
+  icons,
+  prefix,
   calendar,
   autoComplete = "off",
+  inputMode,
   maxLength,
   uppercase = false,
 }) {
-  const inputRef = useRef(null);
+  const controlRef = useRef(null);
+  const buttonRef = useRef(null);
   const pickerRef = useRef(null);
+  // The picker's range is read from the clock when it opens, not on render.
+  const [picker, setPicker] = useState(null);
   const isDate = type === "date";
   const hintId = hint ? `${id}-hint` : undefined;
+  const noteId = note ? `${id}-note` : undefined;
   const errorId = error ? `${id}-error` : undefined;
-  const describedBy = [hintId, errorId].filter(Boolean).join(" ") || undefined;
+  const describedBy = [hintId, noteId, errorId].filter(Boolean).join(" ") || undefined;
 
   const handleChange = (event) => {
     const raw = event.target.value;
     onValueChange?.(isDate ? formatDateTyping(raw) : uppercase ? raw.toUpperCase() : raw);
   };
 
-  const openPicker = () => {
-    const picker = pickerRef.current;
-    const { min = "", max = "" } = calendar.limits?.() ?? {};
-    picker.min = min;
-    picker.max = max;
-    try {
-      picker.showPicker();
-    } catch {
-      // No showPicker() (older browsers): typing is still available.
-      inputRef.current?.focus();
-    }
+  const closePicker = ({ refocus = true } = {}) => {
+    setPicker(null);
+    if (refocus) buttonRef.current?.focus();
   };
+
+  const togglePicker = () => {
+    if (picker) {
+      closePicker();
+      return;
+    }
+    const { min = "", max = "" } = calendar.limits?.() ?? {};
+    setPicker({ min, max });
+  };
+
+  // Close on a click that lands outside both the field and the picker. The
+  // mobile sheet's scrim sits inside the picker, so it closes itself.
+  useEffect(() => {
+    if (!picker) return undefined;
+
+    const onPointerDown = (event) => {
+      if (controlRef.current?.contains(event.target)) return;
+      if (pickerRef.current?.contains(event.target)) return;
+      closePicker({ refocus: false });
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [picker]);
 
   const fieldClass = [
     styles.field,
     readOnly && styles.readOnly,
     isDate && styles.withCalendar,
+    prefix && styles.withPrefix,
     error && styles.invalid,
   ]
     .filter(Boolean)
@@ -82,9 +124,9 @@ export default function DetailsField({
 
   return (
     <div className={fieldClass}>
-      <div className={styles.control}>
+      <div ref={controlRef} className={styles.control}>
+        {prefix}
         <input
-          ref={inputRef}
           id={id}
           name={name}
           type="text"
@@ -95,7 +137,7 @@ export default function DetailsField({
           onBlur={onBlur}
           readOnly={readOnly}
           autoComplete={autoComplete}
-          inputMode={isDate ? "numeric" : undefined}
+          inputMode={isDate ? "numeric" : inputMode}
           maxLength={isDate ? 10 : maxLength}
           spellCheck={false}
           aria-invalid={error ? true : undefined}
@@ -106,23 +148,43 @@ export default function DetailsField({
           {label}
         </label>
 
-        {isDate && calendar && (
+        {isDate && calendar && readOnly && (
+          <span className={styles.calendarIcon}>
+            <Image src={calendar.icon} alt="" aria-hidden="true" width={20} height={20} />
+          </span>
+        )}
+
+        {isDate && calendar && !readOnly && (
           <>
-            <button type="button" className={styles.calendarButton} onClick={openPicker}>
+            <button
+              ref={buttonRef}
+              type="button"
+              className={styles.calendarButton}
+              onClick={togglePicker}
+              aria-haspopup="dialog"
+              aria-expanded={Boolean(picker)}
+              aria-controls={picker ? `${id}-calendar` : undefined}
+            >
               <Image src={calendar.icon} alt={calendar.label} width={20} height={20} />
             </button>
-            {/* The picker's value source only: not focusable, not announced,
-                never submitted (no name). */}
-            <input
-              ref={pickerRef}
-              type="date"
-              className={styles.picker}
-              value={displayToIsoDate(value)}
-              onChange={(event) => onValueChange?.(isoToDisplayDate(event.target.value))}
-              tabIndex={-1}
-              aria-hidden="true"
-              aria-label={calendar.label}
-            />
+
+            {picker && (
+              <DateCalendar
+                id={`${id}-calendar`}
+                label={calendar.label}
+                value={displayToIsoDate(value)}
+                min={picker.min}
+                max={picker.max}
+                content={calendar.content}
+                rootRef={pickerRef}
+                onSelect={(iso) => {
+                  onValueChange?.(isoToDisplayDate(iso));
+                  closePicker();
+                  onBlur?.();
+                }}
+                onClose={closePicker}
+              />
+            )}
           </>
         )}
       </div>
@@ -132,10 +194,24 @@ export default function DetailsField({
           {hint}
         </span>
       )}
-      {error && (
-        <p id={errorId} className={styles.error}>
+      {/* The error replaces the note while it's showing: Figma never draws
+          both under one field. */}
+      {error ? (
+        <p id={errorId} className={`${styles.message} ${styles.messageError}`}>
+          {icons?.error && (
+            <Image src={icons.error} alt="" aria-hidden="true" width={16} height={16} className={styles.messageIcon} />
+          )}
           {error}
         </p>
+      ) : (
+        note && (
+          <p id={noteId} className={styles.message}>
+            {icons?.info && (
+              <Image src={icons.info} alt="" aria-hidden="true" width={16} height={16} className={styles.messageIcon} />
+            )}
+            {note}
+          </p>
+        )
       )}
     </div>
   );

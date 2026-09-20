@@ -80,12 +80,22 @@
   }
 }
 
+// "Error Message" (I999:264813;4361:5832): a 16 icon, 4 gap, 10/16 text,
+// lined up with the label beside the box.
 .error {
-  @include traveller-details-error;
+  @include traveller-details-message;
+  display: flex;
+  align-items: flex-start;
+  gap: rem(4);
   padding-left: rem(28);
+  color: var(--text-error);
 
   @include media(">=desktop") {
     padding-left: rem(34);
   }
-  color: var(--text-error);
+}
+
+.errorIcon {
+  display: block;
+  flex-shrink: 0;
 }

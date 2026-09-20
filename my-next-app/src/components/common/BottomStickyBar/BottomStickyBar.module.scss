@@ -115,6 +115,20 @@
   }
 }
 
+// Review application mweb — "Primary Bottom Sticky" (999:265332): 360×72,
+// white, but a 1 top stroke #E0E0F6 (INSIDE, so CSS padding-top = 16 - 1) and
+// 16 padding all round, with no "safe-area" strip under the 40 button. Web
+// keeps the values above.
+.review {
+  padding: rem(15) rem(16) calc(#{rem(16)} + env(safe-area-inset-bottom));
+  border-top-width: rem(1);
+
+  @include media(">=desktop") {
+    padding: 0;
+    border-top-width: rem(4);
+  }
+}
+
 // Traveller details "Buttons" (I578:40653;4123:20773) before the form is
 // complete: #EBECEE fill, #4B5772 label, same size as the active button.
 .buttonInactive {

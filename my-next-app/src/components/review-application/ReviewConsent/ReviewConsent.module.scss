@@ -1,0 +1,71 @@
+@use '../../../styles/_shared' as *;
+
+.consent {
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+}
+
+// "Frame 2147227611": the 24 box in a 28 column with 4 of padding over it,
+// then 10 to the copy. Identical in both frames.
+.row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: rem(10);
+}
+
+.input {
+  @include visually-hidden-box;
+}
+
+.box {
+  flex: none;
+  width: rem(24);
+  height: rem(28);
+  padding-top: rem(4);
+  cursor: pointer;
+}
+
+.icon {
+  display: block;
+  border-radius: rem(6);
+
+  .input:focus-visible + .box & {
+    @include focus-ring(0);
+  }
+}
+
+// "Frame 1321316466": 3 of padding around Poppins 400 12/18 #25304B, with
+// "Terms and conditions" underlined in #000099.
+.text {
+  @include review-consent;
+  padding-block: rem(3);
+  color: var(--text-heading);
+
+  a {
+    color: var(--text-brand);
+    text-decoration: underline;
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+}
+
+// PROVISIONAL, see the component: a 16 icon, 4 gap, 10/16 copy, lined up under
+// the label beside the box.
+.error {
+  @include review-message;
+  display: flex;
+  align-items: flex-start;
+  gap: rem(4);
+  margin: 0;
+  padding-left: rem(34);
+  color: var(--text-error);
+
+  img {
+    display: block;
+    flex: none;
+  }
+}

@@ -9,11 +9,15 @@ import styles from "./ConsentList.module.scss";
  * (557:14771). Real checkboxes, moved off screen; the icon beside each is the
  * visual, as in common/TravellerPicker.
  *
+ * An unticked consent that's being complained about turns red — box and
+ * message both (I999:264813;4361:5826).
+ *
  * @param checked   `{ [consentId]: boolean }`
  * @param errorFor  `(fieldName) => message | undefined`
+ * @param icons     `{ error }` — the icon beside the message
  */
-export default function ConsentList({ content, checked, onChange, errorFor }) {
-  const { items, checkedIcon, uncheckedIcon } = content;
+export default function ConsentList({ content, checked, onChange, errorFor, icons }) {
+  const { items, checkedIcon, uncheckedIcon, uncheckedErrorIcon } = content;
 
   return (
     <ul className={styles.list}>
@@ -41,7 +45,7 @@ export default function ConsentList({ content, checked, onChange, errorFor }) {
               />
               <span className={styles.box}>
                 <Image
-                  src={isChecked ? checkedIcon : uncheckedIcon}
+                  src={isChecked ? checkedIcon : error ? uncheckedErrorIcon : uncheckedIcon}
                   alt=""
                   aria-hidden="true"
                   width={24}
@@ -53,6 +57,16 @@ export default function ConsentList({ content, checked, onChange, errorFor }) {
             </label>
             {error && (
               <p id={errorId} className={styles.error}>
+                {icons?.error && (
+                  <Image
+                    src={icons.error}
+                    alt=""
+                    aria-hidden="true"
+                    width={16}
+                    height={16}
+                    className={styles.errorIcon}
+                  />
+                )}
                 {error}
               </p>
             )}
