@@ -15,9 +15,25 @@ import { format } from "./trip";
 /** The editable fields each traveller has. Names come from the booking. */
 export const TRAVELLER_FIELDS = ["dob", "passportNumber", "passportExpiry"];
 
+/** The primary contact's own fields, asked once the traveller is chosen. */
+export const CONTACT_FIELDS = ["phone", "email"];
+
 /** Form field name — and error key — for one traveller's field, e.g. `t1.dob`. */
 export function travellerFieldName(travellerId, field) {
   return `${travellerId}.${field}`;
+}
+
+/**
+ * Form field name — and error key — for a child's "authorised by parent /
+ * legal guardian" checkbox, e.g. `t3.guardian`.
+ */
+export function guardianFieldName(travellerId) {
+  return `${travellerId}.guardian`;
+}
+
+/** Form field name — and error key — for a primary-contact field. */
+export function contactFieldName(field) {
+  return `contact.${field}`;
 }
 
 /** Form field name — and error key — for a consent checkbox. */
@@ -26,23 +42,23 @@ export function consentFieldName(consentId) {
 }
 
 // -----------------------------------------------------------------------------
-// Dates — shown and typed as DD/MM/YYYY.
+// Dates — shown and typed as DD-MM-YYYY (Figma 601:12680, "01-11-1970").
 // -----------------------------------------------------------------------------
 
 /**
  * Format what's being typed into a date field: keep the digits and put the
- * slashes in, so "14031986" reads "14/03/1986".
+ * dashes in, so "14031986" reads "14-03-1986".
  */
 export function formatDateTyping(raw) {
   const digits = raw.replace(/\D/g, "").slice(0, 8);
   if (digits.length <= 2) return digits;
-  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
-  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+  if (digits.length <= 4) return `${digits.slice(0, 2)}-${digits.slice(2)}`;
+  return `${digits.slice(0, 2)}-${digits.slice(2, 4)}-${digits.slice(4)}`;
 }
 
-/** "DD/MM/YYYY" → `{ year, month, day }`, or null if it isn't a real date. */
+/** "DD-MM-YYYY" → `{ year, month, day }`, or null if it isn't a real date. */
 export function parseDisplayDate(value) {
-  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value ?? "");
+  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value ?? "");
   if (!match) return null;
 
   const [day, month, year] = [Number(match[1]), Number(match[2]), Number(match[3])];
@@ -53,7 +69,7 @@ export function parseDisplayDate(value) {
   return real ? { year, month, day } : null;
 }
 
-/** "DD/MM/YYYY" → "YYYY-MM-DD" for a native date picker, or "" if invalid. */
+/** "DD-MM-YYYY" → "YYYY-MM-DD" for a native date picker, or "" if invalid. */
 export function displayToIsoDate(value) {
   const parts = parseDisplayDate(value);
   if (!parts) return "";
@@ -61,10 +77,10 @@ export function displayToIsoDate(value) {
   return `${parts.year}-${pad(parts.month)}-${pad(parts.day)}`;
 }
 
-/** "YYYY-MM-DD" (a native date picker's value) → "DD/MM/YYYY". */
+/** "YYYY-MM-DD" (a native date picker's value) → "DD-MM-YYYY". */
 export function isoToDisplayDate(value) {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value ?? "");
-  return match ? `${match[3]}/${match[2]}/${match[1]}` : "";
+  return match ? `${match[3]}-${match[2]}-${match[1]}` : "";
 }
 
 /** Comparable day number (YYYYMMDD) for a `{ year, month, day }`. */
@@ -85,13 +101,36 @@ export function localIsoDate(now = new Date(), addMonths = 0) {
   return `${year}-${pad(month)}-${pad(day)}`;
 }
 
+/** Whole years between `dob` and `today`, both `{ year, month, day }`. */
+function ageInYears(dob, today) {
+  const years = today.year - dob.year;
+  return dayKey({ ...dob, year: today.year }) > dayKey(today) ? years - 1 : years;
+}
+
+/**
+ * True when the date of birth typed for a traveller puts them in the child
+ * band — 2 years up to, but not including, 12, the airline's own `child` fare
+ * category. That is what puts the "authorised by parent / legal guardian"
+ * checkbox on their card (Figma 601:12682, Aarav Kumar).
+ *
+ * @param childAgeYears  form.rules.childAgeYears — `{ min, max }`, max exclusive
+ */
+export function isChildDob(dobValue, childAgeYears, today = new Date()) {
+  const dob = parseDisplayDate(dobValue);
+  if (!dob) return false;
+
+  const age = ageInYears(dob, localDate(today));
+  return age >= childAgeYears.min && age < childAgeYears.max;
+}
+
 // -----------------------------------------------------------------------------
 // Validation
 // -----------------------------------------------------------------------------
 
 /**
- * @param values  `{ travellers: { [id]: { dob, passportNumber, passportExpiry } },
- *                  primaryContact, consents: { [id]: boolean } }`
+ * @param values  `{ travellers: { [id]: { dob, passportNumber, passportExpiry,
+ *                  guardian } }, primaryContact, contact: { phone, email },
+ *                  consents: { [id]: boolean } }`
  * @param config  `{ travellers, consents, rules, errors }` — the booking's
  *                travellers, the consent items, and form.rules / form.errors
  * @returns       `{ [fieldName]: message }` — empty when the form is complete
@@ -128,10 +167,36 @@ export function validateTravellerDetails(values, config, today = new Date()) {
         months: rules.passportMinValidityMonths,
       });
     }
+
+    // A child (2–12) needs the guardian's authorisation before the rest of
+    // their card counts as done.
+    if (isChildDob(dobValue, rules.childAgeYears, today) && !entry.guardian) {
+      errors[guardianFieldName(traveller.id)] = messages.guardianRequired;
+    }
   }
 
-  if (!travellers.some((traveller) => traveller.id === values.primaryContact)) {
+  const chosen = travellers.find((traveller) => traveller.id === values.primaryContact);
+  const chosenIsChild =
+    chosen && isChildDob(values.travellers?.[chosen.id]?.dob ?? "", rules.childAgeYears, today);
+
+  if (!chosen) {
     errors.primaryContact = messages.primaryContactRequired;
+  } else if (chosenIsChild) {
+    // Visa updates can't go to a child (999:264807).
+    errors.primaryContact = messages.primaryContactChild;
+  } else {
+    // The chosen traveller's own phone and email — the visa updates go there.
+    const phone = (values.contact?.phone ?? "").replace(/[\s-]/g, "");
+    if (!phone) errors[contactFieldName("phone")] = messages.phoneRequired;
+    else if (!new RegExp(rules.phonePattern).test(phone)) {
+      errors[contactFieldName("phone")] = messages.phoneInvalid;
+    }
+
+    const email = (values.contact?.email ?? "").trim();
+    if (!email) errors[contactFieldName("email")] = messages.emailRequired;
+    else if (!new RegExp(rules.emailPattern).test(email)) {
+      errors[contactFieldName("email")] = messages.emailInvalid;
+    }
   }
 
   for (const consent of consents) {
@@ -141,9 +206,12 @@ export function validateTravellerDetails(values, config, today = new Date()) {
   return errors;
 }
 
-/** True when none of this traveller's fields has an error. */
+/** True when none of this traveller's fields — guardian included — has an error. */
 export function isTravellerComplete(travellerId, errors) {
-  return TRAVELLER_FIELDS.every((field) => !errors[travellerFieldName(travellerId, field)]);
+  return (
+    TRAVELLER_FIELDS.every((field) => !errors[travellerFieldName(travellerId, field)]) &&
+    !errors[guardianFieldName(travellerId)]
+  );
 }
 
 /** Read a submitted form back into the shape validateTravellerDetails() takes. */
@@ -157,14 +225,80 @@ export function readTravellerDetails(formData, { travellers, consents }) {
     travellers: Object.fromEntries(
       travellers.map((traveller) => [
         traveller.id,
-        Object.fromEntries(
-          TRAVELLER_FIELDS.map((field) => [field, text(travellerFieldName(traveller.id, field))]),
-        ),
+        {
+          ...Object.fromEntries(
+            TRAVELLER_FIELDS.map((field) => [field, text(travellerFieldName(traveller.id, field))]),
+          ),
+          // A date of birth the booking already knows is shown locked, so the
+          // booking's value wins over whatever the request carried.
+          ...(traveller.dob ? { dob: traveller.dob } : null),
+          guardian: formData.get(guardianFieldName(traveller.id)) === "on",
+        },
       ]),
     ),
     primaryContact: text("primaryContact"),
+    // The dialling code rides with the number but isn't validated, so it sits
+    // outside CONTACT_FIELDS — read it by name or the review step shows a
+    // number with no country on it.
+    contact: {
+      dialCode: text(contactFieldName("dialCode")),
+      ...Object.fromEntries(CONTACT_FIELDS.map((field) => [field, text(contactFieldName(field))])),
+    },
     consents: Object.fromEntries(
       consents.map((consent) => [consent.id, formData.get(consentFieldName(consent.id)) === "on"]),
     ),
   };
+}
+
+// -----------------------------------------------------------------------------
+// Review popup — Figma "Price Summary" (595:52006)
+// -----------------------------------------------------------------------------
+
+/** "₹ 3,000" — the currency symbol, a space, then Indian digit grouping. */
+export function formatAmount(amount, currency) {
+  return `${currency} ${new Intl.NumberFormat("en-IN").format(amount)}`;
+}
+
+/**
+ * The rows and total the review popup prices the application at.
+ *
+ * Adults and children are counted from the dates of birth already typed into
+ * the form, not from anything the booking stores, so the figures always match
+ * the travellers listed above them. A fare category with nobody in it drops
+ * out; one traveller reads "1 Child · ₹ 2,000", more than one "2 Adults ·
+ * 2 X ₹ 3,000".
+ *
+ * @param counts  `{ adult, child }` — how many travellers in each category
+ * @param price   review.price — rates, row labels, the fixed fees and copy
+ * @returns       `{ rows: [{ id, label, value }], total, totalAmount }`
+ */
+export function buildPriceSummary(counts, price) {
+  const { currency, rates, labels, multipleFormat, fees, totalLabel } = price;
+
+  const travellerRows = Object.keys(rates)
+    .filter((category) => counts[category] > 0)
+    .map((category) => {
+      const count = counts[category];
+      const rate = rates[category];
+      const unit = formatAmount(rate, currency);
+
+      return {
+        id: category,
+        label: count === 1 ? labels[category].one : format(labels[category].other, { count }),
+        value: count === 1 ? unit : format(multipleFormat, { count, amount: unit }),
+        amount: count * rate,
+      };
+    });
+
+  const feeRows = fees.map((fee) => ({
+    id: fee.id,
+    label: fee.label,
+    value: formatAmount(fee.amount, currency),
+    amount: fee.amount,
+  }));
+
+  const rows = [...travellerRows, ...feeRows];
+  const totalAmount = rows.reduce((sum, row) => sum + row.amount, 0);
+
+  return { rows, totalLabel, total: formatAmount(totalAmount, currency), totalAmount };
 }

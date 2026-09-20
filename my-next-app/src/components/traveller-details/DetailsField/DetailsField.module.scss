@@ -54,9 +54,14 @@
     @include focus-ring(-2);
   }
 
-  // Autofilled and typed values ("Amit" in Figma) use #4B5772 on the grey
-  // read-only fill; editable fields get the heading ink. PROVISIONAL: Figma
-  // only shows editable fields empty.
+  // A field that holds a value takes the darker #9999DE edge the filled frame
+  // draws (601:12680); empty ones keep the lavender one.
+  &:not(:placeholder-shown) {
+    border-color: var(--border-input-filled);
+  }
+
+  // Values typed or fetched ("Amit" in Figma) use #4B5772 on the grey
+  // read-only fill; editable fields get the heading ink.
   .readOnly & {
     border-color: transparent;
     background: var(--bg-input-readonly);
@@ -68,8 +73,20 @@
     padding-right: rem(12 + 32 + 12 - 1);
   }
 
+  // The dialling code box (93 wide, from x 12) and then the 12 gap Figma's
+  // "Input Form" leaves before the number.
+  .withPrefix & {
+    padding-left: rem(12 + 93 + 12 - 1);
+  }
+
   .invalid & {
     border-color: var(--border-error);
+  }
+
+  // Being typed into: the field takes the pale blue fill and its label's notch
+  // follows (I999:264780;1262:1962).
+  &:focus {
+    background: var(--bg-input-active);
   }
 }
 
@@ -95,6 +112,10 @@
     --label-notch: var(--bg-input-readonly);
   }
 
+  .input:focus + & {
+    --label-notch: var(--bg-input-active);
+  }
+
   .invalid & {
     color: var(--text-error);
   }
@@ -104,6 +125,17 @@
 // the accessibility tree.
 .input:placeholder-shown:not(:focus) + .label {
   @include visually-hidden-box;
+}
+
+// A locked date (a child's, from the booking) keeps the icon but not the
+// button: "Chevron-Down" at #4B5772 (I601:12682;…;1262:6469).
+.calendarIcon {
+  position: absolute;
+  top: 50%;
+  right: rem(12);
+  display: flex;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .calendarButton {
@@ -130,23 +162,23 @@
   }
 }
 
-// Anchored under the icon so the browser opens the picker there.
-.picker {
-  position: absolute;
-  right: rem(12);
-  bottom: 0;
-  width: rem(20);
-  height: rem(1);
-  padding: 0;
-  border: 0;
-  opacity: 0;
-  pointer-events: none;
+// "Form Message" (I999:264737;1262:2007): a 16 icon, 4 gap, 10/16 text, 4
+// under the field. Red for an error, --text-body for a standing hint.
+.message {
+  @include traveller-details-message;
+  display: flex;
+  align-items: flex-start;
+  gap: rem(4);
+  color: var(--text-body);
 }
 
-.error {
-  @include traveller-details-error;
-  padding-inline: rem(12);
+.messageError {
   color: var(--text-error);
+}
+
+.messageIcon {
+  display: block;
+  flex-shrink: 0;
 }
 
 .visuallyHidden {

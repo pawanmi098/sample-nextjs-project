@@ -27,14 +27,21 @@
 }
 
 // "accordion-header": 16 padding (15 inside the stroke), text block, 12 gap,
-// the 20 chevron centred.
+// the 20 chevron centred. Closed it is white (I595:47514;4119:18580); open it
+// takes the #EAF8FF tint (601:13121), like the traveller cards' heads.
 .summary {
   display: flex;
   align-items: center;
   gap: rem(12);
-  padding: rem(15);
+  // 16 all round; the edges the card's stroke runs along lose its 1.
+  padding: rem(15) rem(15) rem(16);
+  background: var(--bg-surface);
   cursor: pointer;
   list-style: none;
+
+  .card[open] & {
+    background: var(--bg-accordion-open);
+  }
 
   &::-webkit-details-marker {
     display: none;
@@ -54,7 +61,9 @@
   min-width: 0;
 }
 
-// "{Highlighted Text}": 20 icon, 4 gap, 400 12/18 #25304B.
+// "{Highlighted Text}": 20 icon, 4 gap, 400 12/18. The visa card's "E-Visa"
+// is #25304B (601:13127); the trip card's flight number is #4B5772
+// (728:145944).
 .badge {
   @include traveller-details-caption;
   display: flex;
@@ -62,6 +71,10 @@
   gap: rem(4);
   min-height: rem(20);
   color: var(--text-heading);
+
+  .cardTrip & {
+    color: var(--text-body);
+  }
 }
 
 // "Dubai Tourist Visa" — 500 16/24 #25304B.
@@ -100,30 +113,32 @@
   }
 }
 
-// PROVISIONAL: the opened card. Label left, value right, under a rule.
+// "accordion-body" (601:13134): white, 16 padding (15 inside the stroke),
+// the facts 16 apart.
 .details {
   display: flex;
   flex-direction: column;
-  gap: rem(8);
-  margin: 0 rem(15) rem(15);
-  padding-top: rem(12);
-  border-top: rem(1) solid var(--border-subtle);
+  gap: rem(16);
+  margin: 0;
+  padding: rem(16) rem(15) rem(15);
+  background: var(--bg-surface);
 }
 
+// "Frame 2147227159": the label over its value, 4 apart.
 .detail {
   display: flex;
-  justify-content: space-between;
-  gap: rem(12);
+  flex-direction: column;
+  gap: rem(4);
 }
 
+// "Validity" — 500 14/20 #25304B; "60 days" — 400 14/20 #4B5772.
 .detailLabel {
-  @include traveller-details-body;
-  color: var(--text-body);
+  @include traveller-details-body-strong;
+  color: var(--text-heading);
 }
 
 .detailValue {
   @include traveller-details-body;
   margin: 0;
-  color: var(--text-heading);
-  text-align: right;
+  color: var(--text-body);
 }

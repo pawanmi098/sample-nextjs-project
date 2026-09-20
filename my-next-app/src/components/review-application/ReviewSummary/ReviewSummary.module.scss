@@ -1,0 +1,264 @@
+@use '../../../styles/_shared' as *;
+
+// Mobile — Figma mweb "Review application" (999:265215), 320-wide cards.
+// Desktop — the web popup "Popup with Overlay" (595:51941), 448-wide cards.
+// The two frames differ in card padding, the title type and the note strip;
+// everything between the rules is the same at both widths.
+
+// "Section - Journey Summary Card": white, r12, 1 OUTSIDE stroke #E2EBF2 and a
+// soft shadow. 12 of padding on mweb, 16 on web; the stroke takes 1 of it
+// back, leaving the 296 / 416 content width Figma draws.
+.card {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  padding: rem(11);
+  border: rem(1) solid var(--border-review-card);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+  box-shadow: 0 0 rem(28) rem(16) var(--shadow-review-card);
+
+  @include media(">=desktop") {
+    padding: rem(15);
+  }
+}
+
+// "Frame 2147227617": the card's title with its "Edit" link at the far edge —
+// a 20 row on mweb, 24 on web.
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(16);
+  min-height: rem(20);
+
+  @include media(">=desktop") {
+    min-height: rem(24);
+  }
+}
+
+// "Traveller Details" / "Primary Traveller" / "Price Summary" — Bauhaus 16/20
+// on mweb, 20/24 on web.
+.cardTitle {
+  @include review-card-title;
+  margin: 0;
+  color: var(--text-heading);
+}
+
+// "Dubai tourist 30- days E-Visa" — the one string the two frames set
+// differently: Bauhaus 16/20 on mweb, Poppins 400 16/24 on web.
+.planName {
+  @include review-plan-name;
+  margin: 0;
+  color: var(--text-heading);
+}
+
+// "Link": the 16 pencil, 4 gap, "Edit" in Poppins 500 12/18 #000099. The box
+// is 18 tall in both frames, so the hit area is stretched to 24 rather than
+// the box, which would grow the mweb card's 20 head.
+.edit {
+  @include review-link;
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: rem(4);
+  color: var(--text-brand);
+  text-decoration: underline;
+  cursor: pointer;
+  // The popup renders this as a <button>.
+  padding: 0;
+  border: 0;
+  background: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: rem(-3) 0;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.editIcon {
+  display: block;
+}
+
+// The in-card "Divider" instances: 1px #9BA4B8 at 70%, 12 clear of the rows
+// either side of it.
+.rule {
+  display: block;
+  height: rem(1);
+  margin-block: rem(12);
+  background: var(--border-review-divider);
+  opacity: 0.7;
+}
+
+// "Frame 1321315562": a 24-tall row of facts. Figma writes the dot into the
+// text that follows it ("·  Single entry") and leaves 8 between the nodes;
+// here it is its own span, 8 either side.
+//
+// The visa card's three facts need 313 and the mweb frame gives them 296, so
+// Figma lets them overflow its own card. They wrap here instead, which is why
+// the row gap is 0: a wrap then costs exactly one 24 line and nothing more.
+// At 390 and up they fit on one line, as drawn.
+.facts {
+  @include review-fact;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 rem(8);
+  margin: 0;
+  color: var(--text-body);
+}
+
+.factItem {
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+}
+
+// "Amit Kumar" leads its row in Poppins 400 16/24 #25304B; what follows the
+// dot stays 14/24 #4B5772.
+.factStrong {
+  @include review-name;
+  color: var(--text-heading);
+}
+
+// "Frame 2147227620": the traveller rows, 4 apart.
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// -----------------------------------------------------------------------------
+// Primary traveller (999:265278 / 595:51988)
+// -----------------------------------------------------------------------------
+
+// The name over the contact line, 2 apart.
+.primary {
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+}
+
+.primaryName {
+  @include review-name;
+  margin: 0;
+  color: var(--text-heading);
+}
+
+// "Frame 2147227931": the number and the email 12 either side of a 17-tall
+// rule ("Line 274", #E2EBF2).
+.primaryContact {
+  @include review-fact;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: rem(12);
+  margin: 0;
+  color: var(--text-body);
+  overflow-wrap: anywhere;
+}
+
+.contactRule {
+  flex: none;
+  width: rem(1);
+  height: rem(17);
+  background: var(--border-review-card);
+}
+
+// -----------------------------------------------------------------------------
+// Price summary (999:265298 / 595:52006) — identical in both frames
+// -----------------------------------------------------------------------------
+
+// "Frame 2147227620": the rows 8 apart, each 24 tall with its amount at the
+// far edge.
+.price {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+  margin: 0;
+}
+
+.priceRow {
+  @include review-name;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(8);
+  min-height: rem(24);
+  color: var(--text-heading);
+
+  dd {
+    margin: 0;
+  }
+}
+
+// The "Divider" above "Total": a 20-tall box with its 1px line centred, so the
+// 8 gaps either side add up to Figma's 36.
+.priceRule {
+  height: rem(20);
+  background-image: linear-gradient(
+    var(--border-review-divider),
+    var(--border-review-divider)
+  );
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% rem(1);
+  opacity: 0.7;
+}
+
+// "Total" — Poppins 600 16/24 #25304B, its amount #000099.
+.priceTotal {
+  @include review-total;
+
+  dd {
+    color: var(--text-brand);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// "Section 3: Important Information" (999:265322 / 595:52035)
+// -----------------------------------------------------------------------------
+
+// #FFF8E5 fill, 1 INSIDE #A97D0E stroke, a 20 icon then the copy. mweb: r12,
+// 12 padding, 8 gap; web: r8, 16 padding, 12 gap. Figma lays this frame's
+// padding out from inside the stroke ("Container" at 13,13 in a 98-tall mweb
+// frame), so unlike the cards above it the border adds to the padding rather
+// than eating into it. Figma sets the copy #A97D0E too — 3.5:1 on the fill —
+// so it takes the darkened #906A0C instead.
+.note {
+  @include review-note;
+  display: flex;
+  flex: none;
+  gap: rem(8);
+  // The page leaves 24 between the last card and this strip, where the popup's
+  // scrolling body leaves 16 like every other gap in it.
+  margin: rem(8) 0 0;
+  padding: rem(12);
+  border: rem(1) solid var(--border-review-note);
+  border-radius: rem(12);
+  background: var(--bg-review-note);
+  color: var(--text-review-note);
+
+  @include media(">=desktop") {
+    gap: rem(12);
+    margin-top: 0;
+    padding: rem(16);
+    border-radius: rem(8);
+  }
+}
+
+// "Container": 2 of padding above the 20 icon.
+.noteIcon {
+  display: block;
+  flex: none;
+  margin-top: rem(2);
+}

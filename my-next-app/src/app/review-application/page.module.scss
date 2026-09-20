@@ -1,0 +1,35 @@
+@use '../../styles/_shared' as *;
+
+// Mobile — Figma mweb "Review application" (999:265215), 360 wide: content
+// starts 20 below the 56-tall header, 20 gutters, and the intro, the summary
+// and the acknowledgement are 24 apart. The bottom padding clears the 72-tall
+// fixed "Pay" bar.
+// Desktop — PROVISIONAL: Figma has no web frame for this page, because above
+// desktop the traveller details form shows the review as a popup instead of
+// coming here. A centred column, since there is only one.
+.page {
+  // The mweb frame leaves 16 between the "Powered by Calleo" pill and the
+  // heading, where the search result and traveller details frames leave 11.
+  --page-intro-gap: #{rem(16)};
+
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+  width: 100%;
+  max-width: rem(1440);
+  margin-inline: auto;
+  padding: rem(20) rem(20) rem(24 + 72);
+
+  @include media(">=desktop") {
+    max-width: rem(760);
+    padding: rem(24) rem(44) rem(58 + 80);
+  }
+}
+
+// "Frame 2147227951": the four cards 16 apart. ReviewSummary's amber strip
+// adds the rest of the 24 Figma leaves before it.
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+}

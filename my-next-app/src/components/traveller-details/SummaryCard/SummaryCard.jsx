@@ -5,14 +5,16 @@ import styles from "./SummaryCard.module.scss";
  * "Visa Summary" / "Trip Summary" — Figma "Frame 2147227904" (595:47266) and
  * "Frame 2147227903" (595:47393): a section title over a collapsed card.
  *
- * The card is a native <details>, so it opens without JavaScript. Figma only
- * draws it closed; the opened list of `details` is PROVISIONAL.
+ * The card is a native <details>, so it opens and closes without JavaScript.
+ * It starts open, as the filled frame draws it (601:13120, 728:145937): the
+ * head takes the accordions' #EAF8FF tint and the facts sit under it on
+ * white, each label over its value.
  *
  * @param id       prefix for the section heading id
  * @param content  `{ title, badge: { label, icon }, name, facts?, details, chevronIcon }`
  * @param variant  "visa" (r12 card) or "trip" (r16 card), as in Figma
  */
-export default function SummaryCard({ id, content, variant = "visa" }) {
+export default function SummaryCard({ id, content, variant = "visa", defaultOpen = true }) {
   const { title, badge, name, facts, details, chevronIcon } = content;
   const titleId = `${id}-title`;
 
@@ -21,7 +23,10 @@ export default function SummaryCard({ id, content, variant = "visa" }) {
       <h2 id={titleId} className={styles.title}>
         {title}
       </h2>
-      <details className={variant === "trip" ? `${styles.card} ${styles.cardTrip}` : styles.card}>
+      <details
+        open={defaultOpen}
+        className={variant === "trip" ? `${styles.card} ${styles.cardTrip}` : styles.card}
+      >
         <summary className={styles.summary}>
           <span className={styles.text}>
             <span className={styles.badge}>

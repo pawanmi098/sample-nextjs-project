@@ -4,8 +4,10 @@
 // r16; mweb 653:138325 (open) / 653:138358 (closed): 320 wide, r12. Both have
 // a 1 INSIDE stroke #C2C2EB. Figma draws that stroke over the children, so in
 // CSS every padding that touches the card edge loses 1.
+// No `overflow: hidden` here: a date field's calendar hangs below its input
+// and out of the card. The head rounds its own top corners instead, which is
+// all the clipping the tinted open head ever needed.
 .card {
-  overflow: hidden;
   border: rem(1) solid var(--border-accordion);
   border-radius: rem(12);
   background: var(--bg-surface);
@@ -32,7 +34,10 @@
   width: 100%;
   min-height: rem(52);
   padding: 0 rem(11);
+  // The card's radius less its 1 stroke, so the open head's #EAF8FF fill
+  // follows the corners it sits in.
   border: 0;
+  border-radius: rem(11) rem(11) 0 0;
   background: var(--bg-surface);
   color: inherit;
   text-align: left;
@@ -49,6 +54,7 @@
 
   @include media(">=desktop") {
     min-height: 0;
+    border-radius: rem(15) rem(15) 0 0;
 
     &,
     .cardOpen & {
@@ -127,14 +133,14 @@
   }
 }
 
-// "accordion-body": fields 24 apart on mweb (653:138339: 16/12/12/12 padding,
+// "accordion-body": fields 24 apart on mweb (999:264677: 12 padding,
 // "Stack/<Inside Stacks>" gap 24); web (I584:45841;4119:18624) 16 padding,
-// 16 apart.
+// 16 apart. The card's stroke takes 1 off every edge it runs along.
 .panel {
   display: flex;
   flex-direction: column;
   gap: rem(24);
-  padding: rem(16) rem(11) rem(11);
+  padding: rem(12) rem(11) rem(11);
 
   &[hidden] {
     display: none;
@@ -173,4 +179,79 @@
 .passportHeading {
   @include traveller-details-passport-heading;
   color: var(--text-body);
+}
+
+// "Checkbox-set" (I601:12682;…;4291:15829): the 24 box, 8 gap, then the label
+// in a 48-tall row, so the box sits 12 from the row's top. Only a child's card
+// has it.
+.guardian {
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+}
+
+// mweb "Checkbox-set" (999:264776): the 20 box top-aligned against a label
+// that wraps to two lines, its "Label Section" 2 below the box's top. Web
+// (I601:12682;…;4291:15829) centres both in a 48-tall row instead.
+.guardianRow {
+  display: flex;
+  align-items: flex-start;
+  gap: rem(8);
+  cursor: pointer;
+
+  @include media(">=desktop") {
+    align-items: center;
+    min-height: rem(48);
+  }
+}
+
+.guardianInput {
+  @include visually-hidden-box;
+}
+
+.guardianBox {
+  display: flex;
+  flex-shrink: 0;
+  width: rem(20);
+  height: rem(20);
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(24);
+  }
+}
+
+// The 24 icon's square spans 2–22, so on the 20 box it overhangs by 2 a side.
+.guardianIcon {
+  display: block;
+  margin: rem(-2);
+  border-radius: rem(6);
+
+  @include media(">=desktop") {
+    margin: 0;
+  }
+
+  .guardianInput:focus-visible + .guardianBox & {
+    @include focus-ring(0);
+  }
+}
+
+.guardianLabel {
+  @include traveller-details-checkbox-label;
+  padding-top: rem(2);
+  color: var(--text-heading);
+
+  @include media(">=desktop") {
+    padding-top: 0;
+  }
+}
+
+.guardianError {
+  @include traveller-details-message;
+  padding-left: rem(28);
+  color: var(--text-error);
+
+  @include media(">=desktop") {
+    padding-left: rem(32);
+  }
 }

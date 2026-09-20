@@ -30,6 +30,10 @@ import styles from "./DropdownSurface.module.scss";
  * @param modal      mobile only: present the sheet as Figma's "Popup with
  *                   Overlay" (776:206235) — gradient blurred scrim, rounded
  *                   sheet with a grab handle. Off keeps the plain sheet.
+ * @param sheetClassName  mobile only: the caller's own class on the sheet bar
+ *                   itself, for what belongs to the full-bleed surface rather
+ *                   than the card inside it — the date picker's edge-to-edge
+ *                   close bar and its own drop shadow.
  */
 
 // Matches $breakpoints.desktop in src/styles/_media.scss. The two
@@ -53,7 +57,15 @@ export function useIsDesktop() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
-export default function DropdownSurface({ align = "start", className, rootRef, onClose, modal = false, children }) {
+export default function DropdownSurface({
+  align = "start",
+  className,
+  sheetClassName,
+  rootRef,
+  onClose,
+  modal = false,
+  children,
+}) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -71,7 +83,7 @@ export default function DropdownSurface({ align = "start", className, rootRef, o
       {/* Escape and a tap outside close the popup too, so the scrim needs no
           keyboard role of its own. */}
       <div className={styles.scrim} aria-hidden="true" onClick={onClose} />
-      <div className={styles.sheet}>
+      <div className={[styles.sheet, sheetClassName].filter(Boolean).join(" ")}>
         {/* {modal ? <div className={styles.handle} aria-hidden="true" /> : null} */}
         {/* The sheet bar stays edge to edge; the caller's class sizes the card
             inside it, the same box its popover class sizes on desktop. */}

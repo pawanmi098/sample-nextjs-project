@@ -44,7 +44,10 @@
   "form": {
     "id": "traveller-details-form",
     "fetchToggle": {
-      "label": "Fetch travellers’ information from IndiGo database.",
+      "label": {
+        "mobile": "Pre-fill details from IndiGo database.",
+        "desktop": "Fetch travellers’ information from IndiGo database."
+      },
       "errorLabel": "We couldn’t fetch saved traveller information. Please enter the details below."
     },
     "passengers": {
@@ -72,17 +75,135 @@
         "passportExpiry": {
           "label": "Passport Expiry*",
           "placeholder": "Passport Expiry*"
+        },
+        "guardian": {
+          "label": "This booking has been authorised by parent / legal guardian."
         }
       },
-      "dateHint": "Enter the date as DD/MM/YYYY",
+      "dateHint": "Enter the date as DD-MM-YYYY",
       "calendarIcon": "/assets/traveller-details/icons/field-calendar.svg",
-      "calendarLabel": "Choose {label} from a calendar"
+      "calendarLabel": "Choose {label} from a calendar",
+      "calendar": {
+        "weekdays": [
+          "Sun",
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ],
+        "weekdaysLong": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "months": [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ],
+        "rangeLabel": "{start} - {end}",
+        "dayLabel": "{day} {month} {year}",
+        "viewLabel": {
+          "days": "{current}, choose a month",
+          "months": "{current}, choose a year"
+        },
+        "prevLabel": {
+          "days": "Previous month",
+          "months": "Previous year",
+          "years": "Previous 20 years"
+        },
+        "nextLabel": {
+          "days": "Next month",
+          "months": "Next year",
+          "years": "Next 20 years"
+        },
+        "prevIcon": {
+          "enabled": "/assets/common/icons/calendar-nav-prev.svg",
+          "disabled": "/assets/common/icons/calendar-nav-prev-disabled.svg"
+        },
+        "nextIcon": {
+          "enabled": "/assets/common/icons/calendar-nav-next.svg",
+          "disabled": "/assets/common/icons/calendar-nav-next-disabled.svg"
+        },
+        "closeIcon": "/assets/common/icons/calendar-close.svg",
+        "closeLabel": "Close the calendar"
+      },
+      "checkedIcon": "/assets/common/icons/checkbox-checked.svg",
+      "uncheckedIcon": "/assets/common/icons/checkbox-unchecked.svg",
+      "lockedDateIcon": "/assets/traveller-details/icons/field-calendar-locked.svg",
+      "lockedDateHint": "Taken from your booking"
     },
     "primaryContact": {
       "name": "primaryContact",
       "title": "Who should receive visa updates?",
       "hint": "Choose one traveller as the primary contact",
-      "chevronIcon": "/assets/traveller-details/icons/contact-chevron-up.svg"
+      "chevronIcon": "/assets/traveller-details/icons/contact-chevron-up.svg",
+      "primaryLabel": "Primary",
+      "fields": {
+        "phone": {
+          "label": "Phone Number",
+          "placeholder": "Phone Number",
+          "countryLabel": "Country dialling code",
+          "chevronIcon": "/assets/traveller-details/icons/country-chevron-down.svg",
+          "codes": [
+            {
+              "value": "+91",
+              "label": "+91",
+              "country": "India",
+              "flag": "/assets/traveller-details/icons/flag-india.webp"
+            },
+            {
+              "value": "+971",
+              "label": "+971",
+              "country": "United Arab Emirates"
+            },
+            {
+              "value": "+65",
+              "label": "+65",
+              "country": "Singapore"
+            },
+            {
+              "value": "+44",
+              "label": "+44",
+              "country": "United Kingdom"
+            },
+            {
+              "value": "+1",
+              "label": "+1",
+              "country": "United States"
+            }
+          ]
+        },
+        "email": {
+          "label": "Email Id",
+          "placeholder": "Email Id",
+          "note": "This email id will be used for all communications"
+        }
+      },
+      "childNote": {
+        "label": "Child cannot be a primary contact",
+        "icon": "/assets/traveller-details/icons/note-info.svg"
+      },
+      "toast": {
+        "title": "Primary Traveller",
+        "message": "Traveller set as primary for future communications",
+        "durationSeconds": 10
+      }
     },
     "consents": {
       "checkedIcon": "/assets/common/icons/checkbox-checked.svg",
@@ -96,25 +217,42 @@
           "id": "facilitator",
           "label": "I agree to IndiGo's T&C and understand that IndiGo is acting only as a facilitator, and the booking will be fulfilled by Calleo."
         }
-      ]
+      ],
+      "uncheckedErrorIcon": "/assets/common/icons/checkbox-unchecked-error.svg"
     },
     "submitLabel": "Review your application",
     "rules": {
       "passportNumberPattern": "^[A-Z0-9]{6,9}$",
       "passportMinValidityMonths": 6,
-      "minBirthYear": 1900
+      "minBirthYear": 1900,
+      "childAgeYears": {
+        "min": 2,
+        "max": 12
+      },
+      "phonePattern": "^[0-9]{7,15}$",
+      "emailPattern": "^[^@\\s]+@[^@\\s.]+(\\.[^@\\s.]+)+$"
     },
     "errors": {
       "dobRequired": "Enter date of birth",
-      "dobInvalid": "Enter a real date as DD/MM/YYYY",
+      "dobInvalid": "Enter a real date as DD-MM-YYYY",
       "dobFuture": "Date of birth must be in the past",
       "passportNumberRequired": "Enter passport number",
-      "passportNumberInvalid": "Passport number must be 6–9 letters or digits",
+      "passportNumberInvalid": "Invalid Passport number",
       "passportExpiryRequired": "Enter passport expiry date",
-      "passportExpiryInvalid": "Enter a real date as DD/MM/YYYY",
+      "passportExpiryInvalid": "Enter a real date as DD-MM-YYYY",
       "passportExpiryTooSoon": "Passport must be valid for at least {months} months from today",
       "primaryContactRequired": "Choose who should receive visa updates",
-      "consentRequired": "Please accept this to continue"
+      "consentRequired": "Read and provide consent before moving forward",
+      "guardianRequired": "Confirm that a parent or legal guardian authorised this child's booking",
+      "phoneRequired": "Enter a phone number",
+      "phoneInvalid": "Enter a phone number of 7 to 15 digits",
+      "emailRequired": "Enter an email address",
+      "emailInvalid": "Enter an email address like name@example.com",
+      "primaryContactChild": "A child can't be the primary contact"
+    },
+    "messageIcons": {
+      "error": "/assets/traveller-details/icons/message-error.svg",
+      "info": "/assets/traveller-details/icons/message-info.svg"
     }
   },
   "asideLabel": "Your application summary",
@@ -139,20 +277,16 @@
     ],
     "details": [
       {
+        "label": "Number of Traveller(s)",
+        "value": "3 Travellers"
+      },
+      {
         "label": "Validity",
         "value": "60 days"
       },
       {
-        "label": "Duration of stay",
-        "value": "30 days"
-      },
-      {
-        "label": "Processing time",
-        "value": "3-5 working days"
-      },
-      {
-        "label": "Price per adult",
-        "value": "₹ 2,000"
+        "label": "Processing Time",
+        "value": "3-5 business days"
       }
     ],
     "chevronIcon": "/assets/traveller-details/icons/summary-chevron-down.svg"
@@ -166,26 +300,135 @@
     "name": "Delhi to Dubai",
     "details": [
       {
-        "label": "Travel date",
-        "value": "20 Dec"
-      },
-      {
-        "label": "Travellers",
-        "value": "3"
-      },
-      {
-        "label": "Nationality",
-        "value": "Indian"
-      },
-      {
-        "label": "Country of residence",
-        "value": "India"
+        "label": "Date of Travel",
+        "value": "Sun, 20 Dec"
       }
     ],
     "chevronIcon": "/assets/traveller-details/icons/summary-chevron-down.svg"
   },
+  "review": {
+    "title": "Review your application",
+    "subtitle": "Check your details before making the payment.",
+    "page": {
+      "meta": {
+        "title": "Review your application",
+        "description": "Check the travellers, the primary contact and the price of your visa application before paying."
+      },
+      "header": {
+        "title": "Review Application",
+        "back": {
+          "href": "/traveller-details",
+          "label": "Back to traveller details",
+          "icon": "/assets/common/icons/header-back-chevron.svg"
+        }
+      },
+      "intro": {
+        "breadcrumb": {
+          "ariaLabel": "Breadcrumb",
+          "separatorIcon": "/assets/common/icons/breadcrumb-chevron.svg",
+          "items": [
+            {
+              "label": "Home",
+              "href": "/",
+              "icon": {
+                "src": "/assets/common/icons/breadcrumb-home.svg",
+                "width": 20,
+                "height": 20
+              }
+            },
+            {
+              "label": "Itinerary",
+              "href": "/itinerary"
+            },
+            {
+              "label": "Visa",
+              "href": "/traveller-details"
+            },
+            {
+              "label": "Review"
+            }
+          ]
+        },
+        "partnerBadge": "Powered by Calleo"
+      },
+      "summaryLabel": "Your application"
+    },
+    "closeLabel": "Close the review",
+    "closeIcon": "/assets/traveller-details/icons/review-close.svg",
+    "editIcon": "/assets/traveller-details/icons/review-edit.svg",
+    "plan": {
+      "name": "Dubai tourist 30- days E-Visa",
+      "facts": [
+        "60 days validity",
+        "Single entry",
+        "{count} Travellers"
+      ]
+    },
+    "travellers": {
+      "title": "Traveller Details",
+      "editLabel": "Edit",
+      "editAriaLabel": "Edit the traveller details",
+      "editTarget": "passengers-title",
+      "types": {
+        "adult": "Adult",
+        "child": "Child"
+      }
+    },
+    "primary": {
+      "title": "Primary Traveller",
+      "editLabel": "Edit",
+      "editAriaLabel": "Edit the primary traveller",
+      "editTarget": "primary-contact-toggle"
+    },
+    "price": {
+      "title": "Price Summary",
+      "currency": "₹",
+      "rates": {
+        "adult": 3000,
+        "child": 2000
+      },
+      "labels": {
+        "adult": {
+          "one": "1 Adult",
+          "other": "{count} Adults"
+        },
+        "child": {
+          "one": "1 Child",
+          "other": "{count} Children"
+        }
+      },
+      "multipleFormat": "{count} X {amount}",
+      "fees": [
+        {
+          "id": "service",
+          "label": "Service fee",
+          "amount": 1200
+        },
+        {
+          "id": "embassy",
+          "label": "Embassy fee",
+          "amount": 523
+        }
+      ],
+      "totalLabel": "Total"
+    },
+    "note": {
+      "icon": "/assets/traveller-details/icons/review-warning.svg",
+      "label": "This payment is non-refundable. Exact document requirements will be shown after payment and any change based on embassy requirements."
+    },
+    "consent": {
+      "id": "payment",
+      "label": "By clicking this button, you acknowledge that you have read and agreed to the <a href=\"/terms\">Terms and conditions</a> and privacy policy of IVS.",
+      "error": "Read and provide consent before moving forward",
+      "checkedIcon": "/assets/common/icons/checkbox-checked.svg",
+      "uncheckedIcon": "/assets/common/icons/checkbox-unchecked.svg",
+      "uncheckedErrorIcon": "/assets/common/icons/checkbox-unchecked-error.svg"
+    },
+    "payLabel": "Pay {amount}"
+  },
   "booking": {
     "reviewHref": "/review-application",
+    "paymentHref": "/payment",
     "travellers": [
       {
         "id": "t1",
@@ -203,20 +446,30 @@
         "id": "t3",
         "position": "Traveller 3",
         "firstName": "Aarav",
-        "lastName": "Kumar"
+        "lastName": "Kumar",
+        "dob": "10-09-2019"
       }
     ],
     "savedProfiles": {
       "t1": {
-        "dob": "14/03/1986",
-        "passportNumber": "Z4829163",
-        "passportExpiry": "22/08/2032"
+        "dob": "01-11-1970",
+        "passportNumber": "ABH43651",
+        "passportExpiry": "31-12-2028"
       },
       "t2": {
-        "dob": "02/11/1989",
-        "passportNumber": "Y7316240",
-        "passportExpiry": "09/01/2031"
+        "dob": "15-07-1975",
+        "passportNumber": "AS234F",
+        "passportExpiry": "12-11-2028"
+      },
+      "t3": {
+        "passportNumber": "AVG2345",
+        "passportExpiry": "11-12-2027"
       }
+    },
+    "sampleContact": {
+      "dialCode": "+91",
+      "phone": "654387654",
+      "email": "amit@example.com"
     }
   }
 }

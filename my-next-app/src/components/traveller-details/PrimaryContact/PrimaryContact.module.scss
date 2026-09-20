@@ -97,13 +97,14 @@
 }
 
 // Web "Frame 1321315721" (557:14665): 16/20/20/20 padding. mweb "Frame
-// 1321315722" (653:138368): 16 padding, plus the 6 of top padding on the
-// first radio's wrapper (653:138372).
+// 1321315722" (999:264798): 16 all round. The 6 above the first radio isn't
+// the panel's — it belongs to the chosen block ("Frame 2147227598"), so it
+// travels with whoever is chosen; see .optionRowChosen.
 .panel {
   display: flex;
   flex-direction: column;
   gap: rem(12);
-  padding: rem(22) rem(16) rem(16);
+  padding: rem(16);
 
   &[hidden] {
     display: none;
@@ -114,25 +115,65 @@
   }
 }
 
-// "Frame 2147227609": the radio rows, 16 apart on mweb, 12 on web.
+// "Frame 2147227609": the radio rows, 16 apart. The empty web frame
+// (557:14669) puts them 12 apart; the filled one (601:12813) says 16, and it
+// is the later drawing of this card.
 .options {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: rem(16);
+}
 
-  @include media(">=desktop") {
-    gap: rem(12);
-  }
+// One traveller: the radio row, and — for the chosen one — their phone and
+// email 24 below it, ruled off from the travellers underneath
+// ("Frame 2147227613", 14 of bottom padding over a 1 #9BA4B8 line).
+.optionRow {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+}
+
+.optionRowChosen {
+  // "Frame 2147227598" holds the chosen radio 6 below the block's top.
+  padding-top: rem(6);
+  padding-bottom: rem(13);
+  border-bottom: rem(1) solid var(--border-contact-row);
 }
 
 // "Radio-set" (mweb I653:138373, web 557:14670): radio, 8 gap, label with 2
 // of top padding.
 .option {
   display: flex;
+  align-self: flex-start;
   align-items: flex-start;
   gap: rem(8);
   cursor: pointer;
+}
+
+// A child: the radio's 2 stroke and the label both go grey (999:264807).
+.optionBarred {
+  cursor: not-allowed;
+
+  .radio {
+    border-color: var(--border-radio-disabled);
+  }
+}
+
+// "Chip" (601:12818): r12 on #EAF8FF, 3/8 padding, 500 12/18 #348DC4. Figma
+// leaves 10 between the name and the chip, 2 more than the radio's gap.
+.chip {
+  @include traveller-details-chip-label;
+  margin-left: rem(2);
+  padding: rem(2) rem(8);
+
+  @include media(">=desktop") {
+    padding: rem(3) rem(8);
+  }
+
+  border-radius: rem(12);
+  background: var(--bg-chip-primary);
+  color: var(--text-chip-primary);
+  white-space: nowrap;
 }
 
 // "Radio-button" "Layer": white circle, 2 INSIDE stroke #000099 — 20 on mweb
@@ -150,7 +191,7 @@
   appearance: none;
 
   &:checked {
-    background: radial-gradient(circle, var(--icon-brand) rem(5), var(--bg-surface) rem(5.5));
+    background: radial-gradient(circle, var(--icon-brand) rem(4), var(--bg-surface) rem(4.5));
   }
 
   &:focus-visible {
@@ -167,14 +208,114 @@
   }
 }
 
-// "Amit Kumar" — mweb 400 12/18, web 400 14/20, #25304B.
+// "Amit Kumar" — mweb 400 12/18, web 400 14/20, #25304B. The chosen one is
+// 500 (I601:12817;1280:6565).
 .optionLabel {
   @include traveller-details-contact-text;
   padding-top: rem(2);
   color: var(--text-heading);
 }
 
+.optionLabelChosen {
+  @include traveller-details-body-strong;
+  padding-top: rem(2);
+}
+
+.optionLabelBarred {
+  color: var(--text-body);
+}
+
+// "Stack/<Additional Stacks>" (601:12819): the two fields side by side, 16
+// apart, on web. PROVISIONAL: stacked 24 apart below desktop, like the
+// traveller cards' field rows — the mweb frame has no chosen contact yet.
+.contactFields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: rem(24);
+
+  @include media(">=desktop") {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: rem(16);
+  }
+}
+
+// "Selection input" (I601:12819;5101:27823;1262:5330): the flag, the code and
+// a chevron in a 93-wide box inside the field's left edge, ruled off from the
+// number by a 1 #E0E0F6 line. The <select> lies over the box invisibly, so
+// the code keeps Figma's width instead of the widest option's.
+.dialCode {
+  position: absolute;
+  top: 50%;
+  left: rem(12);
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+  width: rem(93);
+  height: rem(32);
+  padding-right: rem(12);
+  border-right: rem(1) solid var(--border-country-code);
+  transform: translateY(-50%);
+
+  @include media(">=desktop") {
+    height: rem(36);
+  }
+}
+
+.flag {
+  display: block;
+  flex-shrink: 0;
+  width: rem(25);
+  height: rem(16);
+}
+
+.dialValue {
+  @include traveller-details-dial-code;
+  color: var(--text-heading);
+}
+
+.dialChevron {
+  display: block;
+  flex-shrink: 0;
+  width: rem(20);
+  height: rem(20);
+}
+
+.dialSelect {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: rem(4);
+  opacity: 0;
+  cursor: pointer;
+  appearance: none;
+
+  &:focus-visible {
+    @include focus-ring(0);
+    opacity: 1;
+  }
+}
+
 .error {
-  @include traveller-details-error;
+  @include traveller-details-message;
   color: var(--text-error);
+}
+
+// "Frame 1321319095" (999:264808): a 30-tall #EAF8FF strip closing the card,
+// 5/16 padding around a 16 icon, 8 gap, 12/20 #25304B.
+.childNote {
+  @include traveller-details-note;
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+  padding: rem(5) rem(16);
+  border-radius: 0 0 rem(12) rem(12);
+  background: var(--bg-note);
+  color: var(--text-heading);
+}
+
+.noteIcon {
+  display: block;
+  flex-shrink: 0;
 }
