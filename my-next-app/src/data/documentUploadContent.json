@@ -1,0 +1,225 @@
+{
+  "meta": {
+    "title": "Upload documents",
+    "description": "Upload each traveller's passport, photo and supporting documents to continue your visa application, and track what happens next."
+  },
+  "header": {
+    "title": "Upload Documents"
+  },
+  "intro": {
+    "breadcrumb": {
+      "ariaLabel": "Breadcrumb",
+      "separatorIcon": "/assets/common/icons/breadcrumb-chevron.svg",
+      "items": [
+        {
+          "label": "Home",
+          "href": "/",
+          "icon": {
+            "src": "/assets/common/icons/breadcrumb-home.svg",
+            "width": 20,
+            "height": 20
+          }
+        },
+        {
+          "label": "Itinerary",
+          "href": "/itinerary"
+        },
+        {
+          "label": "Visa"
+        }
+      ]
+    },
+    "partnerBadge": "Powered by Calleo",
+    "title": {
+      "mobile": "Upload documents",
+      "desktop": "Upload Documents"
+    },
+    "subtitle": {
+      "mobile": "Upload the required documents to complete your visa application.",
+      "desktop": "Track your application status and notifications here."
+    }
+  },
+  "stepper": {
+    "nextLabel": "Upload documents",
+    "current": 3,
+    "completed": 2,
+    "total": 3,
+    "countLabel": "{current}/{total}",
+    "ariaLabel": "Step {current} of {total}"
+  },
+  "asideLabel": "Your application summary",
+  "documents": {
+    "title": "Required Documents",
+    "primaryLabel": "Primary",
+    "uploadedLabel": "{count} of {total} uploaded",
+    "chevronIcon": {
+      "mobile": "/assets/traveller-details/icons/country-chevron-down.svg",
+      "desktop": "/assets/traveller-details/icons/traveller-chevron-down.svg"
+    },
+    "infoIcon": "/assets/document-upload/icons/doc-info.svg",
+    "infoLabel": "About {document}",
+    "guide": {
+      "closeLabel": "Close",
+      "closeIcon": "/assets/document-upload/icons/guide-close.svg",
+      "arrows": {
+        "horizontal": "/assets/document-upload/icons/guide-arrow-horizontal.svg",
+        "vertical": "/assets/document-upload/icons/guide-arrow-vertical.svg"
+      },
+      "dosTitle": "DO’S",
+      "dontsTitle": "DONT’S"
+    },
+    "upload": {
+      "label": "Upload",
+      "ariaLabel": "Upload {document} for {traveller}",
+      "icon": "/assets/document-upload/icons/upload.svg",
+      "accept": ".jpeg,.jpg,.png,.pdf,image/jpeg,image/png,application/pdf"
+    },
+    "formats": "(.jpeg, .png, .jpg. .pdf, smaller than 7MB)",
+    "required": [
+      {
+        "id": "passportPhoto",
+        "label": {
+          "mobile": "Photograph",
+          "desktop": "Passport photo"
+        },
+        "icon": "/assets/document-upload/icons/doc-profile.svg",
+        "hint": "A recent colour photo of the traveller's face on a plain, light background.",
+        "guide": {
+          "title": "Photograph",
+          "intro": "Photograph keep in mind the following prerequisites for Photograph",
+          "image": {
+            "src": "/assets/document-upload/photos/photo-guide-sample.webp",
+            "alt": "Sample passport photograph: a head-and-shoulders portrait, facing forward, on a plain white background",
+            "width": 170,
+            "height": 173
+          },
+          "dimensions": {
+            "width": "45 MM",
+            "height": "45 MM",
+            "widthLabel": "Width: 45 mm",
+            "heightLabel": "Height: 45 mm"
+          },
+          "dos": [
+            "Photograph Size : 35 x 45 MM",
+            "The background should be white in color",
+            "Make Sure to Upload a Recent Photograph"
+          ],
+          "donts": [
+            "Make Sure You Do Not Use Flash",
+            "Do Not Wear Spectacles while getting your photograph clicked"
+          ]
+        }
+      },
+      {
+        "id": "flightTicket",
+        "label": "Flight ticket",
+        "icon": "/assets/document-upload/icons/doc-flight-ticket.svg",
+        "hint": "The confirmed return or onward ticket for this trip."
+      },
+      {
+        "id": "passportFront",
+        "label": "Passport front page",
+        "icon": "/assets/document-upload/icons/doc-profile.svg",
+        "hint": "The page with the traveller's photo and passport details."
+      },
+      {
+        "id": "passportBack",
+        "label": "Passport back page",
+        "icon": "/assets/document-upload/icons/doc-passport.svg",
+        "hint": "The last page of the passport, with the address details."
+      },
+      {
+        "id": "panCard",
+        "label": {
+          "mobile": "PAN card",
+          "desktop": "PAN Card"
+        },
+        "icon": "/assets/document-upload/icons/doc-pan-card.svg",
+        "hint": "The front of the traveller's PAN card, with the number clearly visible."
+      }
+    ]
+  },
+  "application": {
+    "title": "Visa Application ID",
+    "bookingLabel": "Booking ID",
+    "bookingId": "3664658587873456789767",
+    "confirmation": "A confirmation has been sent to <span>a****@example.com</span>"
+  },
+  "copy": {
+    "label": "Copy",
+    "copiedLabel": "Copied",
+    "ariaLabel": "Copy {label}",
+    "copiedAnnouncement": "{label} copied",
+    "icon": "/assets/document-upload/icons/copy.svg"
+  },
+  "nextSteps": {
+    "title": "Next Steps",
+    "doneIcon": "/assets/document-upload/icons/step-done.svg",
+    "statusLabels": {
+      "done": "Completed",
+      "current": "Current step",
+      "pending": "Not started"
+    },
+    "steps": [
+      {
+        "id": "payment",
+        "status": "done",
+        "title": "Payment",
+        "description": "Complete the secure payment process."
+      },
+      {
+        "id": "upload",
+        "status": "current",
+        "title": "Upload Documents",
+        "description": "The exact documents required are now available for each traveller. Upload them to continue your application."
+      },
+      {
+        "id": "track",
+        "status": "pending",
+        "title": "Track Status",
+        "description": "Monitor progress and receive your visa."
+      }
+    ]
+  },
+  "payment": {
+    "title": "Payment Summary",
+    "chevronIcon": "/assets/document-upload/icons/section-chevron-down.svg",
+    "transactionLabel": "Transaction ID",
+    "transactionId": "366465858787",
+    "note": "You can check the status of the payment with your bank in case of any issue"
+  },
+  "help": {
+    "title": {
+      "mobile": "Need help ?",
+      "desktop": "Need help with Your Booking?"
+    },
+    "icon": "/assets/document-upload/icons/help-contact.svg",
+    "name": "Contact Mokobara",
+    "description": "About any issue related to your application",
+    "email": "info.calleo@gmail.com",
+    "phone": "7975298840"
+  },
+  "moreInfo": {
+    "title": "More Information",
+    "items": [
+      {
+        "id": "terms",
+        "label": "Terms & Conditions",
+        "icon": "/assets/document-upload/icons/terms.svg",
+        "body": "Visa fees are non-refundable once the application is submitted. Read the full terms before uploading your documents.",
+        "link": {
+          "label": "Read the full Terms & Conditions",
+          "href": "/terms"
+        }
+      }
+    ],
+    "chevronIcon": "/assets/document-upload/icons/section-chevron-down.svg"
+  },
+  "track": {
+    "label": {
+      "mobile": "Track Application Status",
+      "desktop": "Track your application"
+    },
+    "href": "/track-application"
+  }
+}

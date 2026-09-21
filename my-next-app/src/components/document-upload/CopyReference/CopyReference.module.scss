@@ -1,0 +1,107 @@
+@use '../../../styles/_shared' as *;
+
+// #EAF8FF, r8, a 1 INSIDE #00AEE5 edge dashed 2/2.
+// - mweb (1207:85453, 1207:85514): both boxes 44 tall and full width, 12
+//   padding, the text and the copy icon pushed apart. The icon keeps a 24
+//   target where Figma draws 20, so 2 comes off the top and bottom.
+// - web Booking ID (948:243282): 12/20 padding, the text and "Copy" 16 apart,
+//   hugging its content (433 wide); Transaction ID (948:243853) as mweb.
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(4) rem(16);
+  width: 100%;
+  padding: rem(9) rem(11);
+  border: rem(1) dashed var(--border-reference);
+  border-radius: rem(8);
+  background: var(--bg-reference);
+
+  @include media(">=desktop") {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: auto;
+    max-width: 100%;
+    padding: rem(11) rem(19);
+  }
+}
+
+.small {
+  @include media(">=desktop") {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: rem(9) rem(11);
+  }
+}
+
+// "Booking ID : 3664658587873456789767" — 500 16/24 #25304B. The number is
+// one unbroken run, so it may break anywhere rather than overflow at 320.
+.text {
+  @include document-upload-reference;
+  min-width: 0;
+  color: var(--text-heading);
+  overflow-wrap: anywhere;
+
+  .small & {
+    @include document-upload-reference-small;
+  }
+}
+
+// "Link" (948:243284): the 20 copy icon, 4 gap, "Copy" 500 14/20 #000099
+// underlined.
+.copy {
+  @include document-upload-copy-link;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: rem(4);
+  min-height: rem(24);
+  padding: 0;
+  border: 0;
+  border-radius: rem(4);
+  background: none;
+  color: var(--text-brand);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.icon {
+  display: block;
+  width: rem(20);
+  height: rem(20);
+}
+
+// mweb draws the icon alone; the word shows from desktop, and on mweb only
+// while it says "Copied" (PROVISIONAL), so a copy is still seen to happen.
+.copyLabel {
+  @include visually-hidden-box;
+  text-decoration: underline;
+  text-underline-offset: rem(2);
+
+  &[data-copied] {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  @include media(">=desktop") {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+  }
+}
+
+.status {
+  @include visually-hidden-box;
+}

@@ -1,0 +1,150 @@
+@use "_mixins" as *;
+@use "_media" as *;
+
+// =============================================================================
+// DOCUMENT UPLOAD PAGE TYPOGRAPHY
+// Figma file "IVS": mweb frame "Document Upload" (1168:23394) supplies the
+// base values, web frame "Document upload" (761:196637) the `>=desktop` ones.
+// Styles already defined for the traveller details and review pages are
+// reused from those partials rather than repeated here.
+// =============================================================================
+
+// "Next Steps", "Need help with Your Booking?" — web Bauhaus Std 500 24/32,
+// ls −0.6 (761:196814); mweb 500 20/24, ls 0 (1207:85459). Both text boxes
+// are 27 tall, so the line height follows the box. "More Information"
+// (761:196906) keeps the full 32 box on web, and sets its own line height.
+@mixin document-upload-aside-title {
+  @include defaultTypoStyles(20, normal, 27, 500, $font-bauhaus-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(24, -0.6, 27, 500, $font-bauhaus-medium);
+  }
+}
+
+// "Passport photo" — Poppins 500 20/30 (761:196680); mweb "Photograph"
+// 500 14/20 (1207:85331).
+@mixin document-upload-doc-title {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(20, normal, 30, 500, $font-poppins-medium);
+  }
+}
+
+// "(.jpeg, .png, .jpg. .pdf, smaller than 7MB)" — Poppins 400 14/20
+// (761:196684); mweb 400 12/18 (1207:85333).
+@mixin document-upload-doc-formats {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+  }
+}
+
+// "Upload" — Poppins 600 14/20 (I948:243097;258:2195); mweb 500 12/18
+// (I1207:85335;266:98).
+@mixin document-upload-button-label {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 600, $font-poppins-semibold);
+  }
+}
+
+// "0 of 5 uploaded" — Poppins 500 14/20 (761:196660); mweb 500 12/18
+// (I1207:85310;266:159).
+@mixin document-upload-count {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+  }
+}
+
+// The "Next Steps" step titles (1250:87097, mweb 1207:85464) and "Contact
+// Mokobara" (761:196895, mweb 1207:85564) — Poppins 500 14/20 at both widths.
+@mixin document-upload-label-strong {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+}
+
+// "Visa Application ID" — Poppins 500 20/30 in a 24-tall heading frame
+// (948:243276), so the line height follows the frame; mweb 500 16/24
+// (1207:85447).
+@mixin document-upload-card-title {
+  @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(20, normal, 24, 500, $font-poppins-medium);
+  }
+}
+
+// "Booking ID : 3664…" — Poppins 500 16/24 (948:243283); mweb 500 14/20
+// (1207:85454).
+@mixin document-upload-reference {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 500, $font-poppins-medium);
+  }
+}
+
+// "Transaction ID : 3664…" — Poppins 400 12/18 in a 20 box (948:243854).
+@mixin document-upload-reference-small {
+  @include defaultTypoStyles(12, normal, 20, 400, $font-poppins-regular);
+}
+
+// "Copy" — Poppins 500 14/20, underlined (I948:243284;276:1125).
+@mixin document-upload-copy-link {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+}
+
+// Payment rows "2 Adults  2 X ₹ 3,000" — Poppins 400 16/24 at both widths
+// (948:243834, mweb 1207:85496).
+@mixin document-upload-price-row {
+  @include defaultTypoStyles(16, normal, 24, 400, $font-poppins-regular);
+}
+
+// "Total  ₹ 9,723" — Poppins 600 16/24 at both widths (948:243847,
+// mweb 1207:85509).
+@mixin document-upload-price-total {
+  @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
+}
+
+// Document guide popup — web "Photograph" (557:23258). No mweb frame yet, so
+// the base values below desktop are PROVISIONAL.
+
+// "Photograph" — Bauhaus Std 500 32/44, ls −0.8 (557:23264). PROVISIONAL
+// mweb: 24/32, ls −0.6, the size the page's other Bauhaus titles step down to.
+@mixin document-upload-guide-title {
+  @include defaultTypoStyles(24, -0.6, 32, 500, $font-bauhaus-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(32, -0.8, 44, 500, $font-bauhaus-medium);
+  }
+}
+
+// "Photograph keep in mind…" — Poppins 400 16/24 (557:23266). PROVISIONAL
+// mweb: 14/20.
+@mixin document-upload-guide-intro {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(16, normal, 24, 400, $font-poppins-regular);
+  }
+}
+
+// "45 MM" — Poppins 600 14/24 (557:23272), in a 16-tall box over the width
+// arrow, so there the line height follows the box.
+@mixin document-upload-guide-dimension {
+  @include defaultTypoStyles(14, normal, 24, 600, $font-poppins-semibold);
+}
+
+// "DO’S" / "DONT’S" — Poppins 300 14/20 (557:23282).
+@mixin document-upload-guide-label {
+  @include defaultTypoStyles(14, normal, 20, 300, $font-poppins-light);
+}
+
+// "Photograph Size : 35 x 45 MM" — Poppins 400 14/24 (557:23284).
+@mixin document-upload-guide-item {
+  @include defaultTypoStyles(14, normal, 24, 400, $font-poppins-regular);
+}

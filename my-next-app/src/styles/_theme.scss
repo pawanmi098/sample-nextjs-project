@@ -214,6 +214,31 @@ $theme-cloud: (
   // #906A0C already used for the SRP validity pill
   text-review-note: $color-gold-deep,
   shadow-pay-button: color.change($color-navy, $alpha: 0.24),
+
+  // Document upload page (761:196637)
+  // Stepper bars for steps already finished (I761:196812;1694:57889)
+  indicator-step-done: $color-success-green,
+  // A document row: pale blue icon disc, and the outlined "Upload" button
+  bg-doc-icon: $color-chip-blue-bg,
+  border-button-secondary: $color-blue,
+  // Booking / transaction ID boxes: pale blue fill, 2/2 dashed cyan edge
+  bg-reference: $color-chip-blue-bg,
+  border-reference: $color-chip-cyan,
+  // Dotted rules: under "Visa Application ID", and above the payment total
+  // (#9BA4B8 at the divider's 70% opacity)
+  border-dotted-soft: $color-card-divider-light,
+  border-price-divider: color.change($color-cool-gray, $alpha: 0.7),
+  // "Next Steps": the rail, the current step's ring + dot, a pending step's
+  bg-step-current: $color-periwinkle,
+  dot-step-current: $color-indigo-dot,
+  bg-step-pending: $color-mist,
+  dot-step-pending: $color-slate-text,
+  border-step-rail: $color-cool-gray,
+  // …and mweb's lighter take (1207:85460): a 1 #E2EBF2 rail, the current
+  // step a plain #7A85A0 dot, a pending one #9BA4B8
+  border-step-rail-compact: $color-card-divider-light,
+  dot-step-current-compact: $color-slate-blue,
+  dot-step-pending-compact: $color-cool-gray,
 );
 
 $theme-emergency: (

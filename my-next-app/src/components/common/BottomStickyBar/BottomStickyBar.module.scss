@@ -80,6 +80,9 @@
   border-radius: rem(8);
   background: var(--bg-button-primary);
   color: var(--text-on-dark);
+  // The `href` variant is an <a>.
+  text-align: center;
+  text-decoration: none;
   cursor: pointer;
 
   &:focus-visible {

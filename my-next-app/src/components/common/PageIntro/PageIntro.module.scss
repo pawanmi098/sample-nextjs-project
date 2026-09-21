@@ -59,9 +59,10 @@
 
 // Traveller details mweb (653:138315): pill → 12 → stepper, then 24 to the
 // heading ("Frame 2147227864"). The intro's own gap is 11, so 1 above and
-// 13 below.
+// 13 below. Document upload (1207:85215) leaves 16 above the stepper, and
+// sets the property to say so.
 .mobileSlot {
-  margin: rem(1) 0 rem(13);
+  margin: var(--page-intro-slot-margin, #{rem(1) 0 rem(13)});
 
   @include media(">=desktop") {
     display: none;
@@ -82,6 +83,12 @@
 .subtitle {
   @include page-intro-subtitle;
   color: var(--text-body);
+
+  // 23 on the search result and traveller details web frames; the document
+  // upload frame (761:196974) sets it 16/20, and says so with the property.
+  @include media(">=desktop") {
+    line-height: var(--page-intro-subtitle-leading, #{rem(23)});
+  }
 }
 
 // The two frames word the title and the subtitle differently.

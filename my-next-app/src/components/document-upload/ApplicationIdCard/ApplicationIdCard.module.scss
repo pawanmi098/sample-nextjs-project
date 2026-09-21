@@ -1,0 +1,55 @@
+@use '../../../styles/_shared' as *;
+
+// "Payment details 4" — mweb 1207:85444: 320×168, 12 padding (11 inside the
+// stroke); web 948:243273: 803×159, 16 padding (15). White, r12, a 1 INSIDE
+// #E2EBF2 edge, everything 12 apart.
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: rem(12);
+  padding: rem(11);
+  border: rem(1) solid var(--border-subtle);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+
+  @include media(">=desktop") {
+    padding: rem(15);
+  }
+}
+
+// "Visa Application ID" — 500 20/30 in a 24-tall frame, #25304B.
+.title {
+  @include document-upload-card-title;
+  color: var(--text-heading);
+}
+
+// "Vector 2479": a 1 #E2EBF2 rule dashed 0.1/2 with round caps — a row of
+// 1px dots every 2.1. Full width on mweb (1207:85451); on web 731 of the
+// card's 771, so 40 short on the right.
+.rule {
+  align-self: stretch;
+  height: rem(1);
+  background-image: radial-gradient(circle, var(--border-dotted-soft) rem(0.5), transparent rem(0.5));
+  background-size: rem(2.1) rem(1);
+  background-repeat: repeat-x;
+  // Figma's rule is a 0-tall vector between the 12 gaps; this one is 1.
+  margin-bottom: rem(-1);
+
+  @include media(">=desktop") {
+    margin-right: rem(40);
+  }
+}
+
+// "A confirmation has been sent to a****@example.com" — 400 14/20 #4B5772,
+// the address #000099. The text box is 19 tall in Figma; the 20 line box
+// keeps it on the page's grid.
+.confirmation {
+  @include traveller-details-body;
+  color: var(--text-body);
+
+  span {
+    color: var(--text-brand);
+    overflow-wrap: anywhere;
+  }
+}

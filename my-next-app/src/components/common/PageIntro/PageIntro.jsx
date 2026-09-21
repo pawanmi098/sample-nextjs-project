@@ -1,8 +1,12 @@
 import Breadcrumb from "@/components/common/Breadcrumb/Breadcrumb";
 import styles from "./PageIntro.module.scss";
 
-/** A copy string, or `{ mobile, desktop }` when the two frames word it differently. */
-function ResponsiveCopy({ copy }) {
+/**
+ * A copy string, or `{ mobile, desktop }` when the two frames word it
+ * differently. Exported for the other places a page's frames disagree on
+ * wording (the document upload page's titles, labels and sticky button).
+ */
+export function ResponsiveCopy({ copy }) {
   if (typeof copy === "string") return copy;
 
   return (

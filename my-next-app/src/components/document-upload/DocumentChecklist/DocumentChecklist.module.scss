@@ -1,0 +1,433 @@
+@use '../../../styles/_shared' as *;
+
+// Mobile — mweb "form" (1207:85228): the cards 16 apart, no section title.
+// Desktop — web "Frame 2147227949" (761:196643): the title, 16 gap, the cards
+// 16 apart.
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+}
+
+// "Required Documents" — Bauhaus 24/28 #25304B (761:196644). The mweb frame
+// has no title (the page's own heading sits right above the cards), so below
+// desktop it's kept for screen readers only.
+.title {
+  @include visually-hidden-box;
+
+  @include media(">=desktop") {
+    @include traveller-details-section-title;
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+    color: var(--text-heading);
+  }
+}
+
+.travellers {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  list-style: none;
+}
+
+// "Accordian" — mweb 1207:85293 r12, web 761:196646 r16; both 1 INSIDE
+// #C2C2EB on white. Every padding that touches the card's edge loses the
+// stroke's 1. No `overflow: hidden`: a document's info tip may hang below the
+// card. The head rounds its own corners instead.
+.card {
+  border: rem(1) solid var(--border-accordion);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+
+  @include media(">=desktop") {
+    border-radius: rem(16);
+  }
+}
+
+// "accordion-header".
+// - mweb open (1207:85294): 76 tall, #EAF8FF — 12 padding round a 52 row.
+// - mweb closed (I1207:85409;4119:18596): 54 tall, white — the 52 row fills
+//   the height inside the stroke, 12 side padding.
+// - web (761:196647): 74 tall — 16/24 padding round a 42 row; closed, the
+//   head is the whole card, stroke included.
+// "0 of 5 uploaded" and the chevron are 8 apart on mweb; on web 12 open and
+// 8 closed.
+.summary {
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+  min-height: rem(52);
+  padding: 0 rem(11);
+  // The card's radius less its 1 stroke; closed, the head is all there is of
+  // the card, so it rounds its bottom corners too.
+  border-radius: rem(11) rem(11) 0 0;
+  background: var(--bg-surface);
+  cursor: pointer;
+  list-style: none;
+
+  .card:not([open]) & {
+    border-radius: rem(11);
+  }
+
+  // 1 stroke + 11 + the 52 row + 12 = 76.
+  .card[open] & {
+    min-height: rem(75);
+    padding: rem(11) rem(11) rem(12);
+    background: var(--bg-accordion-open);
+  }
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring(-4);
+  }
+
+  @include media(">=desktop") {
+    gap: rem(8) rem(12);
+    min-height: 0;
+    border-radius: rem(15) rem(15) 0 0;
+
+    &,
+    .card[open] & {
+      min-height: 0;
+      padding: rem(15) rem(23) rem(16);
+    }
+
+    .card:not([open]) & {
+      padding-bottom: rem(15);
+      border-radius: rem(15);
+    }
+  }
+}
+
+.identity {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// "{Header}": the name, then the "Primary" chip — 4 along on mweb, 16 on web.
+.nameRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: rem(4);
+
+  @include media(">=desktop") {
+    gap: rem(4) rem(16);
+  }
+}
+
+// "Amit Kumar" — 400 16/24 #25304B. A closed card's name is 500 14/20 on mweb
+// ("Nishi kumar", I1207:85409;4119:18603), as on traveller details.
+.name {
+  @include traveller-details-traveller-name;
+  color: var(--text-heading);
+
+  .card:not([open]) & {
+    @include traveller-details-traveller-name-closed;
+  }
+}
+
+// "Chip" — mweb 1207:85304: 500 10/16, 2/8 padding (20 tall); web 761:196656:
+// 500 12/18, 3/8 padding. White, r12, #25304B.
+.chip {
+  @include traveller-details-chip-label;
+  padding: rem(2) rem(8);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+  color: var(--text-heading);
+
+  @include media(">=desktop") {
+    padding: rem(3) rem(8);
+  }
+}
+
+// "Traveller 1" — 400 12/18 #4B5772.
+.position {
+  @include traveller-details-caption;
+  color: var(--text-body);
+}
+
+// "0 of 5 uploaded" — mweb 500 12/18, web 500 14/20; #25304B.
+.count {
+  @include document-upload-count;
+  flex-shrink: 0;
+  color: var(--text-heading);
+}
+
+// One icon per width for both states: the open card's "Accordions-up" is the
+// closed card's chevron turned over. mweb draws it 20 in #25304B, web 24 in
+// #000099.
+.chevron {
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+
+  .card[open] & {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.chevronMobile {
+  width: rem(20);
+  height: rem(20);
+
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+
+.chevronDesktop {
+  display: none;
+
+  @include media(">=desktop") {
+    display: block;
+    width: rem(24);
+    height: rem(24);
+    margin-left: rem(-4);
+
+    .card[open] & {
+      margin-left: 0;
+    }
+  }
+}
+
+// "accordion-body" — mweb 1207:85313: 12 padding (11 against the card's
+// stroke); web 761:196663: 16 (15). The rows 16 apart at both widths.
+.documents {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  padding: rem(12) rem(11) rem(11);
+  list-style: none;
+
+  @include media(">=desktop") {
+    padding: rem(16) rem(15) rem(15);
+  }
+}
+
+// A document row, 1 INSIDE #E2EBF2 on white.
+// - mweb "before upload" (1207:85325): 296×134, r8, 12 padding (11 inside the
+//   stroke): the 42 disc and the text 12 apart in a 58 row, the disc centred;
+//   16 below, the full-width "Upload" button.
+// - web "Frame 1321318879" (761:196671): 96 tall, r12, 20 padding laid out
+//   from inside the edge (the content sits at 21,21), so there the border adds
+//   to the padding. The disc, 20 gap, the text, and the button pushed right
+//   and centred. Its background blur sits over plain white, so it draws
+//   nothing and is left out.
+.document {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: rem(16) rem(12);
+  padding: rem(11);
+  border: rem(1) solid var(--border-subtle);
+  border-radius: rem(8);
+  background: var(--bg-surface);
+
+  @include media(">=desktop") {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: rem(20);
+    padding: rem(20);
+    border-radius: rem(12);
+  }
+}
+
+// 42 disc #EAF8FF with the 24 icon centred.
+.docIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: rem(42);
+  height: rem(42);
+  border-radius: 50%;
+  background: var(--bg-doc-icon);
+}
+
+// The title row, then the formats — 2 apart on mweb (20 + 2 + 36 = 58), 4 on
+// web (30 + 4 + 20 = 54).
+.docText {
+  display: flex;
+  flex-direction: column;
+  gap: rem(2);
+  min-width: 0;
+
+  @include media(">=desktop") {
+    gap: rem(4);
+  }
+}
+
+// The title, then the info icon 8 along — mweb 16, centred on the 20 line;
+// web 24, 4 lower than the title's top.
+.docTitleRow {
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+
+  @include media(">=desktop") {
+    align-items: flex-start;
+  }
+}
+
+// "Photograph" — mweb 500 14/20; "Passport photo" — web 500 20/30; #25304B.
+.docTitle {
+  @include document-upload-doc-title;
+  margin: 0;
+  color: var(--text-heading);
+}
+
+// "(.jpeg, .png, .jpg. .pdf, smaller than 7MB)" — mweb 400 12/18 (two lines
+// at 218 wide), web 400 14/20; #4B5772.
+.formats {
+  @include document-upload-doc-formats;
+  color: var(--text-body);
+}
+
+// Below desktop the tip hangs from the whole row, so it stays inside the
+// gutters however far right the icon sits; from desktop, from the icon.
+.info {
+  display: flex;
+  flex-shrink: 0;
+
+  @include media(">=desktop") {
+    position: relative;
+    padding-top: rem(4);
+  }
+}
+
+// The icon is 16 on mweb; the button keeps a 24 target round it without
+// taking more room in the row.
+.infoButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+  width: rem(16);
+  height: rem(16);
+  margin: rem(-4);
+  padding: rem(4);
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: help;
+
+  &:focus-visible {
+    @include focus-ring(-2);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(24);
+    margin: 0;
+    padding: 0;
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+}
+
+// PROVISIONAL: no frame draws the tip. It takes the page's heading ink on
+// white with the cards' #C2C2EB edge, and shows while the icon is hovered
+// or focused. Hidden with `display`, not `visibility`, so a hidden tip never
+// widens the page.
+.tip {
+  @include traveller-details-caption;
+  position: absolute;
+  top: calc(100% + #{rem(4)});
+  right: rem(11);
+  left: rem(11);
+  z-index: 5;
+  display: none;
+  padding: rem(8) rem(12);
+  border: rem(1) solid var(--border-accordion);
+  border-radius: rem(8);
+  background: var(--bg-surface);
+  box-shadow: 0 rem(4) rem(12) 0 var(--shadow-card);
+  color: var(--text-heading);
+  pointer-events: none;
+
+  .info:hover &,
+  .infoButton:focus-visible + & {
+    display: block;
+  }
+
+  @include media(">=desktop") {
+    top: calc(100% + #{rem(8)});
+    right: auto;
+    left: 50%;
+    width: max-content;
+    max-width: rem(240);
+    transform: translateX(-50%);
+  }
+}
+
+// "Buttons", white, r8, #000099 edge (INSIDE), icon then "Upload" 8 apart.
+// - mweb (1207:85335): full width × 36, a 1 edge, the 20 icon, 500 12/18.
+// - web (948:243097): 128×40, a 2 edge, the 24 icon, 600 14/20, 16 sides.
+.upload {
+  @include document-upload-button-label;
+  display: inline-flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: center;
+  gap: rem(8);
+  height: rem(36);
+  padding: 0 rem(11);
+  border: rem(1) solid var(--border-button-secondary);
+  border-radius: rem(8);
+  background: var(--bg-surface);
+  color: var(--text-brand);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--bg-doc-icon);
+  }
+
+  &:has(.uploadInput:focus-visible) {
+    @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    grid-column: auto;
+    min-width: rem(128);
+    height: rem(40);
+    padding: 0 rem(14);
+    border-width: rem(2);
+  }
+}
+
+.uploadIcon {
+  display: block;
+  width: rem(20);
+  height: rem(20);
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(24);
+  }
+}
+
+.uploadInput {
+  @include visually-hidden-box;
+}
