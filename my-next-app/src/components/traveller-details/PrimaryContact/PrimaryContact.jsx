@@ -14,8 +14,9 @@ import styles from "./PrimaryContact.module.scss";
  * name, then their phone number and email id under a rule. The other rows stay
  * as they are, so choosing someone else moves the two fields to them.
  *
- * A child can't take visa updates, so their radio is disabled and the card
- * ends with the "#EAF8FF" note strip saying so (999:264807, 999:264808).
+ * A child can't take visa updates, so their radio is disabled. On mweb the
+ * card ends with the "#EAF8FF" note strip saying so (999:264807, 999:264808);
+ * on web the note sits under the child's own name instead (728:143223).
  *
  * @param travellers  the booking's travellers; each radio's value is its id
  * @param contact     `{ dialCode, phone, email }` for the chosen traveller
@@ -117,29 +118,39 @@ export default function PrimaryContact({
           className={styles.options}
         >
           {travellers.map((traveller, index) => {
-            const chosen = value === traveller.id;
             const barred = childIds.includes(traveller.id);
+            // A traveller chosen before their date of birth made them a child
+            // doesn't stay chosen: the form then asks for someone else.
+            const chosen = value === traveller.id && !barred;
             const labelClass = [styles.optionLabel, chosen && styles.optionLabelChosen, barred && styles.optionLabelBarred]
               .filter(Boolean)
               .join(" ");
+            const rowClass = [styles.optionRow, chosen && styles.optionRowChosen, barred && styles.optionRowBarred]
+              .filter(Boolean)
+              .join(" ");
+            const childNoteId = `primary-contact-child-note-${traveller.id}`;
 
             return (
-              <div
-                key={traveller.id}
-                className={chosen ? `${styles.optionRow} ${styles.optionRowChosen}` : styles.optionRow}
-              >
+              <div key={traveller.id} className={rowClass}>
                 <label className={barred ? `${styles.option} ${styles.optionBarred}` : styles.option}>
                   <input
                     type="radio"
                     name={name}
                     value={traveller.id}
                     checked={chosen}
-                    onChange={() => onChange(traveller.id)}
+                    // React fires a radio's onChange during the click itself, so
+                    // preventDefault below can't stop it — refuse it here too.
+                    // This also covers arrow keys moving onto a child's radio.
+                    onChange={() => {
+                      if (!barred) onChange(traveller.id);
+                    }}
                     className={styles.radio}
                     // Kept in the tab order and announced, unlike `disabled`,
-                    // so the note below explains why it can't be chosen.
+                    // so the note below explains why it can't be chosen. It
+                    // points at the row's own note, which is hidden below
+                    // desktop but still read as the description.
                     aria-disabled={barred || undefined}
-                    aria-describedby={barred ? "primary-contact-child-note" : undefined}
+                    aria-describedby={barred ? childNoteId : undefined}
                     onClick={(event) => {
                       if (barred) event.preventDefault();
                     }}
@@ -151,6 +162,13 @@ export default function PrimaryContact({
                   </span>
                   {chosen && <span className={styles.chip}>{primaryLabel}</span>}
                 </label>
+
+                {barred && (
+                  <p id={childNoteId} className={styles.childInlineNote}>
+                    <Image src={icons.info} alt="" aria-hidden="true" width={16} height={16} className={styles.noteIcon} />
+                    {childNote.label.desktop}
+                  </p>
+                )}
 
                 {chosen && (
                   <div className={styles.contactFields}>
@@ -197,9 +215,9 @@ export default function PrimaryContact({
       </div>
 
       {open && hasChild && (
-        <p id="primary-contact-child-note" className={styles.childNote}>
+        <p className={styles.childNote}>
           <Image src={childNote.icon} alt="" aria-hidden="true" width={16} height={16} className={styles.noteIcon} />
-          {childNote.label}
+          {childNote.label.mobile}
         </p>
       )}
     </section>

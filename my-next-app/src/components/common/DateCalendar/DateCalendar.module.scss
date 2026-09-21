@@ -16,16 +16,16 @@
 // view as an inline card, but a picker that changed container halfway through
 // a drill-down would jump under the finger.
 
-// The desktop popover hangs 4 under the input box and starts at its left
-// edge, so the card lines up with the field it belongs to. 375 is Figma's own
-// width; the passport expiry field is ~377 wide on web, so the card sits
-// almost exactly over it, and the full-width date of birth field keeps the
-// same card rather than stretching it across the whole accordion.
+// The desktop popover hangs 4 under the input box and spans it edge to edge:
+// pinned to both the left and right of the field's control, so the card is
+// always exactly as wide as the input it belongs to.
 .surface {
   --popover-offset: #{rem(4)};
 
   @include media(">=desktop") {
-    width: rem(375);
+    right: 0;
+    left: 0;
+    width: auto;
   }
 }
 

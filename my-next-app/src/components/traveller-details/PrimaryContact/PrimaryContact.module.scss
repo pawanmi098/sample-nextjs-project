@@ -133,6 +133,13 @@
   gap: rem(24);
 }
 
+// A child's row on web (728:143223): the note sits 26 below the row's top —
+// the label's 2 of top padding, its 20 line and a 4 gap — which is 2 under
+// the 24 radio. Below desktop the note is hidden, so the gap never applies.
+.optionRowBarred {
+  gap: rem(2);
+}
+
 .optionRowChosen {
   // "Frame 2147227598" holds the chosen radio 6 below the block's top.
   padding-top: rem(6);
@@ -302,8 +309,27 @@
   color: var(--text-error);
 }
 
+// "Info Message" under a child's name, web only (I728:143223;1280:6578): a 16
+// #4B5772 info icon, 4 gap, 400 10/16 #4B5772, lined up with the name (the 24
+// radio plus the 8 gap in from the left). Below desktop the strip below says
+// it instead; the radio still reads this one as its description.
+.childInlineNote {
+  display: none;
+
+  @include media(">=desktop") {
+    @include traveller-details-message;
+    display: flex;
+    align-items: center;
+    gap: rem(4);
+    margin: 0;
+    padding-left: rem(32);
+    color: var(--text-body);
+  }
+}
+
 // "Frame 1321319095" (999:264808): a 30-tall #EAF8FF strip closing the card,
-// 5/16 padding around a 16 icon, 8 gap, 12/20 #25304B.
+// 5/16 padding around a 16 icon, 8 gap, 12/20 #25304B. mweb only — the web
+// frame (728:143214) puts the note under the child's name instead.
 .childNote {
   @include traveller-details-note;
   display: flex;
@@ -313,6 +339,10 @@
   border-radius: 0 0 rem(12) rem(12);
   background: var(--bg-note);
   color: var(--text-heading);
+
+  @include media(">=desktop") {
+    display: none;
+  }
 }
 
 .noteIcon {

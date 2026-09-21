@@ -43,6 +43,12 @@
   text-align: left;
   cursor: pointer;
 
+  // Closed, the head is all there is of the card, so it rounds its bottom
+  // corners too — square ones would paint over the card's rounded stroke.
+  .card:not(.cardOpen) & {
+    border-radius: rem(11);
+  }
+
   .cardOpen & {
     padding: rem(11) rem(11) rem(12);
     background: var(--bg-accordion-open);
@@ -55,6 +61,10 @@
   @include media(">=desktop") {
     min-height: 0;
     border-radius: rem(15) rem(15) 0 0;
+
+    .card:not(.cardOpen) & {
+      border-radius: rem(15);
+    }
 
     &,
     .cardOpen & {
