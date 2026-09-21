@@ -196,7 +196,10 @@
         }
       },
       "childNote": {
-        "label": "Child cannot be a primary contact",
+        "label": {
+          "mobile": "Child cannot be a primary contact",
+          "desktop": "Child cannot be primary contact"
+        },
         "icon": "/assets/traveller-details/icons/note-info.svg"
       },
       "toast": {

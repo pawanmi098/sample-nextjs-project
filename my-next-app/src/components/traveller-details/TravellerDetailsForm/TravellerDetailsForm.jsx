@@ -88,12 +88,10 @@ export default function TravellerDetailsForm({
     contact: { dialCode: primaryContact.fields.phone.codes[0].value, phone: "", email: "" },
     consents: Object.fromEntries(consents.items.map((item) => [item.id, false])),
   }));
-  // The filled frame (601:12672) opens every traveller's card, and the contact
-  // card with it. A card holding prefilled values — a child's locked date of
-  // birth, and the guardian checkbox that comes with it — would otherwise be
-  // hidden behind "Add details" on load.
+  // Only the first traveller's card starts open; the rest wait behind
+  // "Add details". Submitting still opens any card that hides an error.
   const [openTravellers, setOpenTravellers] = useState(() =>
-    Object.fromEntries(travellers.map((traveller) => [traveller.id, true])),
+    Object.fromEntries(travellers.map((traveller, index) => [traveller.id, index === 0])),
   );
   const [contactOpen, setContactOpen] = useState(true);
   const [touched, setTouched] = useState({});

@@ -6,15 +6,16 @@ import styles from "./SummaryCard.module.scss";
  * "Frame 2147227903" (595:47393): a section title over a collapsed card.
  *
  * The card is a native <details>, so it opens and closes without JavaScript.
- * It starts open, as the filled frame draws it (601:13120, 728:145937): the
- * head takes the accordions' #EAF8FF tint and the facts sit under it on
- * white, each label over its value.
+ * It starts closed; opened, as the filled frame draws it (601:13120,
+ * 728:145937), the head takes the accordions' #EAF8FF tint and the facts sit
+ * under it on white, each label over its value.
  *
  * @param id       prefix for the section heading id
  * @param content  `{ title, badge: { label, icon }, name, facts?, details, chevronIcon }`
  * @param variant  "visa" (r12 card) or "trip" (r16 card), as in Figma
+ * @param defaultOpen  whether the card starts open (closed by default)
  */
-export default function SummaryCard({ id, content, variant = "visa", defaultOpen = true }) {
+export default function SummaryCard({ id, content, variant = "visa", defaultOpen = false }) {
   const { title, badge, name, facts, details, chevronIcon } = content;
   const titleId = `${id}-title`;
 
