@@ -4,9 +4,18 @@ import styles from "./StepProgress.module.scss";
 /**
  * "Next: Review Application  1/3" and three bars — Figma "Stepper"
  * (595:47265). Bars up to `current` are filled.
+ *
+ * `completed` (optional) turns the first bars green for steps already
+ * finished, as the document upload page draws them ("Upload documents 3/3",
+ * I761:196812;1694:57889): two green, then the current step's blue.
  */
 export default function StepProgress({ content }) {
-  const { nextLabel, current, total, countLabel, ariaLabel } = content;
+  const { nextLabel, current, completed = 0, total, countLabel, ariaLabel } = content;
+  const barClass = (index) => {
+    if (index < completed) return `${styles.bar} ${styles.barComplete}`;
+    if (index < current) return `${styles.bar} ${styles.barDone}`;
+    return styles.bar;
+  };
   const tokens = { current, total };
 
   return (
@@ -20,7 +29,7 @@ export default function StepProgress({ content }) {
       </div>
       <ol className={styles.bars} aria-hidden="true">
         {Array.from({ length: total }, (_, index) => (
-          <li key={index} className={index < current ? `${styles.bar} ${styles.barDone}` : styles.bar} />
+          <li key={index} className={barClass(index)} />
         ))}
       </ol>
     </div>

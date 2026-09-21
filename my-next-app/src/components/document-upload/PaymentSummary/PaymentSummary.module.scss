@@ -1,0 +1,135 @@
+@use '../../../styles/_shared' as *;
+
+// "Frame 2147227933": the title row, then the card — 12 apart on mweb
+// (1207:85484), 16 on web (948:243822). A <details> can't be a flex
+// container in every browser, so the card's own margin makes the gap.
+.section {
+  display: block;
+}
+
+// "Frame 2147225657": the title then the 16 chevron, 6 in from the right edge
+// (web, 28 tall). The mweb frame (1207:85485) draws the title alone.
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(17);
+  border-radius: rem(4);
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  @include media(">=desktop") {
+    padding-right: rem(6);
+    cursor: pointer;
+  }
+}
+
+// "Payment Summary" — Bauhaus Std 500 24/28 #25304B.
+.title {
+  @include traveller-details-section-title;
+  color: var(--text-heading);
+}
+
+// Web only.
+.chevron {
+  display: none;
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+  transition: transform 0.2s ease;
+
+  .section[open] & {
+    transform: none;
+  }
+
+  @include media(">=desktop") {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// "Section - Journey Summary Card" — mweb 1207:85488, web 948:243826: white,
+// r12, a 1 OUTSIDE #E2EBF2 edge (a spread-1 shadow, so it takes no room),
+// 0 0 28 16 #4C5D9E @ 4%, the price and the foot 16 apart; 12 padding on
+// mweb, 16 on web.
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+  margin-top: rem(12);
+  padding: rem(12);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+  box-shadow:
+    0 0 0 rem(1) var(--border-subtle),
+    0 0 rem(28) rem(16) var(--shadow-review-card);
+
+  @include media(">=desktop") {
+    margin-top: rem(16);
+    padding: rem(16);
+  }
+}
+
+// "Frame 2147227620": the rows 8 apart.
+.price {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+  margin: 0;
+}
+
+// "2 Adults  2 X ₹ 3,000" — 400 16/24 #25304B, pushed apart.
+.row {
+  @include document-upload-price-row;
+  display: flex;
+  justify-content: space-between;
+  gap: rem(8);
+  color: var(--text-heading);
+
+  dd {
+    margin: 0;
+    text-align: right;
+  }
+}
+
+// "Divider" (948:243845): a 20 box with a 1 #9BA4B8 rule in its middle at 70%
+// opacity, dashed 0.1/2 with round caps — a row of dots every 2.1.
+.rule {
+  display: block;
+  height: rem(20);
+  background-image: radial-gradient(circle, var(--border-price-divider) rem(0.5), transparent rem(0.5));
+  background-position: 0 50%;
+  background-size: rem(2.1) rem(1);
+  background-repeat: repeat-x;
+}
+
+// "Total  ₹ 9,723" — 600 16/24, the amount #000099.
+.total {
+  @include document-upload-price-total;
+
+  dd {
+    color: var(--text-brand);
+  }
+}
+
+// "Frame 2147227939": the transaction box, 12 gap, the note.
+.foot {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+}
+
+// "You can check the status…" — 400 14/20 #4B5772.
+.note {
+  @include traveller-details-body;
+  color: var(--text-body);
+}

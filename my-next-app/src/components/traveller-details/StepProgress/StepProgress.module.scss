@@ -43,6 +43,11 @@
   background: var(--indicator-active);
 }
 
+// #218946 for a step already finished (document upload, 761:196812).
+.barComplete {
+  background: var(--indicator-step-done);
+}
+
 .visuallyHidden {
   @include visually-hidden-box;
 }

@@ -1,0 +1,94 @@
+@use '../../styles/_shared' as *;
+
+// Mobile — mweb "Document Upload" (1168:23394), 360 wide: content starts 20
+// under the 56 header (at 170, the header at 94), 20 gutters; the intro's
+// heading, 12, the traveller cards; everything else 24 apart; 43 between the
+// last card and the 72-tall `review` sticky bar, which the bottom padding also
+// clears.
+// Desktop — web "Document upload" (761:196637), 1280 wide: 44 side gutters,
+// 24 below the 80-tall header, intro 1192×127, 27 to the two columns, and 49
+// between the right column's foot and the 80-tall fixed "Track your
+// application" bar.
+.page {
+  // mweb "Frame 1321316059" (1207:85215): pill → 16 → stepper → 24 → heading.
+  --page-intro-slot-margin: #{rem(5) 0 rem(13)};
+
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+  width: 100%;
+  max-width: rem(1440);
+  margin-inline: auto;
+  padding: rem(20) rem(20) rem(43 + 72);
+
+  @include media(">=desktop") {
+    --page-intro-subtitle-leading: #{rem(20)};
+    gap: rem(27);
+    padding: rem(24) rem(44) rem(49 + 80);
+  }
+}
+
+// mweb: one column, every section 24 apart — documents, visa summary,
+// application ID, next steps, payment, help, more information. The two web
+// columns dissolve (`display: contents`) so their sections share this one
+// list, and the application ID card and everything after the visa summary
+// take `order: 1` to fall in behind it. Keyboard order follows the DOM, so
+// the ID card's "Copy" is reached before the visa summary on mweb.
+// web "Frame 2147227905" (761:196641): the 803 documents column and the 373
+// summary column, space-between in 1192 (so 16 apart). The documents column
+// takes the slack on wider screens.
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
+
+  @include media(">=desktop") {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) rem(373);
+    align-items: start;
+    gap: rem(16);
+  }
+}
+
+// web "Frame 1618868726" (761:196642): the documents, then the application ID
+// card 24 below.
+.main {
+  display: contents;
+
+  > :nth-child(2) {
+    order: 1;
+  }
+
+  @include media(">=desktop") {
+    display: flex;
+    flex-direction: column;
+    gap: rem(24);
+    min-width: 0;
+  }
+}
+
+// web "Frame 1321316948" (761:196811): stepper, visa summary, next steps,
+// payment summary, help, more information — 32 apart.
+.aside {
+  display: contents;
+
+  > :nth-child(n + 3) {
+    order: 1;
+  }
+
+  @include media(">=desktop") {
+    display: flex;
+    flex-direction: column;
+    gap: rem(32);
+    min-width: 0;
+  }
+}
+
+// Below desktop the stepper sits under the intro's pill instead.
+.stepper {
+  display: none;
+
+  @include media(">=desktop") {
+    display: block;
+  }
+}

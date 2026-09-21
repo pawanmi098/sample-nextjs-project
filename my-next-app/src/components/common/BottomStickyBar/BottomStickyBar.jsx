@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ResponsiveCopy } from "@/components/common/PageIntro/PageIntro";
 import styles from "./BottomStickyBar.module.scss";
 
 // Fixed bottom action bar. The button submits the form named by `formId`, so
@@ -16,8 +18,17 @@ import styles from "./BottomStickyBar.module.scss";
 // `review` is the mweb bar of the review application page (999:265332): 72
 // tall over a 1 top edge, keeping the base 40 button. Web is the same for all
 // three.
+//
+// `label` may be `{ mobile, desktop }` when the frames word it differently —
+// document upload's "Track Application Status" (mweb 1168:23747) / "Track
+// your application" (web).
+//
+// `href` makes the button a link instead — document upload's "Track your
+// application" (I835:206992;4123:20773) goes to another page rather than
+// submitting anything. It isn't prefetched, as its route may not exist yet.
 export default function BottomStickyBar({
   label,
+  href,
   formId,
   className,
   inactive = false,
@@ -34,16 +45,22 @@ export default function BottomStickyBar({
       <div className={styles.inner}>
         {/* Web only: the dotted rule before the button. */}
         <span className={styles.divider} aria-hidden="true" />
-        <button
-          type={formId ? "submit" : "button"}
-          form={formId}
-          className={inactive || pending ? `${styles.button} ${styles.buttonInactive}` : styles.button}
-          aria-disabled={inactive || undefined}
-          disabled={pending}
-          aria-busy={pending || undefined}
-        >
-          {label}
-        </button>
+        {href ? (
+          <Link href={href} prefetch={false} className={styles.button}>
+            <ResponsiveCopy copy={label} />
+          </Link>
+        ) : (
+          <button
+            type={formId ? "submit" : "button"}
+            form={formId}
+            className={inactive || pending ? `${styles.button} ${styles.buttonInactive}` : styles.button}
+            aria-disabled={inactive || undefined}
+            disabled={pending}
+            aria-busy={pending || undefined}
+          >
+            <ResponsiveCopy copy={label} />
+          </button>
+        )}
       </div>
     </div>
   );

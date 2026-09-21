@@ -1,0 +1,118 @@
+@use '../../../styles/_shared' as *;
+
+// "Frame 1321316897": the title, then the rows — 12 apart on mweb
+// (1207:85574), 16 on web (761:196905).
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12);
+
+  @include media(">=desktop") {
+    gap: rem(16);
+  }
+}
+
+// "More Information" — web Bauhaus Std 500 24/32, ls −0.6, and unlike the
+// other aside titles its text box is the full 32; mweb 20/24 in a 27 box.
+.title {
+  @include document-upload-aside-title;
+  color: var(--text-heading);
+
+  @include media(">=desktop") {
+    line-height: rem(32);
+  }
+}
+
+// "review summary" (761:196927): 56 tall, white, r12, 0 0 12 #4C5D9E @ 8%.
+.card {
+  border-radius: rem(12);
+  background: var(--bg-surface);
+  box-shadow: 0 0 rem(12) 0 var(--shadow-card);
+}
+
+// "Frame 1321316872": a 24 row — the icon, 16 gap, the label taking the
+// slack, the 16 chevron — with 12 padding round it on mweb (1207:85576,
+// 48 tall), 16 on web (56).
+.summary {
+  display: flex;
+  align-items: center;
+  gap: rem(16);
+  padding: rem(12);
+  border-radius: rem(12);
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring(-4);
+  }
+
+  @include media(">=desktop") {
+    padding: rem(16);
+  }
+}
+
+.icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+// "Terms & Conditions" — 400 14/20 #25304B in a 24 box.
+.label {
+  @include traveller-details-body;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-block: rem(2);
+  color: var(--text-heading);
+}
+
+// mweb draws the closed row's chevron pointing right
+// ("Placeholder - Accordion" 1207:85583, rot −90°); web points it down. Open,
+// it points up at both widths.
+.chevron {
+  display: block;
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+  transition: transform 0.2s ease;
+
+  .card[open] & {
+    transform: rotate(180deg);
+  }
+
+  @include media(">=desktop") {
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// PROVISIONAL: the open row's text, lined up under the label.
+.body {
+  @include traveller-details-body;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: rem(8);
+  padding: 0 rem(12) rem(12) rem(52);
+  color: var(--text-body);
+
+  @include media(">=desktop") {
+    padding: 0 rem(16) rem(16) rem(56);
+  }
+}
+
+.link {
+  border-radius: rem(2);
+  color: var(--text-brand);
+  text-decoration: underline;
+  text-underline-offset: rem(2);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
