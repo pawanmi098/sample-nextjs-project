@@ -41,6 +41,27 @@
   }
 }
 
+// An uploaded row's file name, "photo.png" — Poppins 500 14/20 (1338:114227);
+// mweb "photo.pdf" 500 12/18 (1338:128171). The formats line's size in the
+// medium weight at both widths.
+@mixin document-upload-doc-filename {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+  }
+}
+
+// "Upload failed. Please try again." — web 400 14/20 (1338:114244); mweb
+// 500 12/18 (1338:128288), the one line the two frames weight differently.
+@mixin document-upload-doc-error {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=desktop") {
+    @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
+  }
+}
+
 // "Upload" — Poppins 600 14/20 (I948:243097;258:2195); mweb 500 12/18
 // (I1207:85335;266:98).
 @mixin document-upload-button-label {

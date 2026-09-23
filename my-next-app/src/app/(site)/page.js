@@ -3,6 +3,7 @@ import VisaSearchWidget from "@/components/home/VisaSearchWidget/VisaSearchWidge
 import DestinationPromo from "@/components/home/DestinationPromo/DestinationPromo";
 import VisaProcessShowcase from "@/components/home/VisaProcessShowcase/VisaProcessShowcase";
 import CountryCarousel from "@/components/home/CountryCarousel/CountryCarousel";
+import DisclaimerPopup from "@/components/home/DisclaimerPopup/DisclaimerPopup";
 import Disclaimer from "@/components/common/Disclaimer/Disclaimer";
 import BottomStickyBar from "@/components/common/BottomStickyBar/BottomStickyBar";
 import homeContent from "@/data/homeContent.json";
@@ -16,6 +17,9 @@ export const metadata = {
 export default function Home() {
   return (
     <main className={styles.page}>
+      {/* Figma 1351:143538 draws the page behind its overlay: the disclaimer
+          is acknowledged before the search is used. */}
+      <DisclaimerPopup content={homeContent.disclaimerPopup} />
       <div className={styles.searchArea}>
         <VisaSearchIntro content={homeContent.intro} />
         <VisaSearchWidget content={homeContent.search} />

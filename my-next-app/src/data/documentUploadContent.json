@@ -72,7 +72,27 @@
       "label": "Upload",
       "ariaLabel": "Upload {document} for {traveller}",
       "icon": "/assets/document-upload/icons/upload.svg",
-      "accept": ".jpeg,.jpg,.png,.pdf,image/jpeg,image/png,application/pdf"
+      "accept": ".jpeg,.jpg,.png,.pdf,image/jpeg,image/png,application/pdf",
+      "endpoint": "/api/documents/upload",
+      "maxBytes": 7340032
+    },
+    "status": {
+      "uploadingLabel": "Uploading... {percent}%",
+      "progressLabel": "Uploading {document} for {traveller}",
+      "cancelLabel": "Cancel the upload of {document} for {traveller}",
+      "cancelIcon": "/assets/document-upload/icons/upload-cancel.svg",
+      "uploadedLabel": "{document} uploaded for {traveller}",
+      "uploadedIcon": "/assets/document-upload/icons/upload-success.svg",
+      "retry": {
+        "label": "Try again",
+        "ariaLabel": "Upload {document} for {traveller} again",
+        "icon": "/assets/document-upload/icons/upload-retry.svg"
+      },
+      "errors": {
+        "failed": "Upload failed. Please try again.",
+        "tooLarge": "This file is larger than 7MB. Please try again.",
+        "type": "This file type isn’t supported. Please try again."
+      }
     },
     "formats": "(.jpeg, .png, .jpg. .pdf, smaller than 7MB)",
     "required": [
