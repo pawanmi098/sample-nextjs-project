@@ -15,11 +15,16 @@
 // wrapper that no longer draws a box, so the card's `::before` paints them
 // into row 1, underneath the title block.
 //
-// Desktop — web "Frame 2147227603" (724:142645): 1192×178, r12, #E0E0F6 1
+// Desktop — web "Frame 2147227603" (1075:305174): 1192×178, r12, #E0E0F6 1
 // inside stroke, 24 padding, a 12 gap between the title/price row and the
-// facts/CTA row. On this frame Figma's auto layout insets a child by the
-// inside stroke *on top of* the padding (the card sits at x 24688, its first
-// child at 24713), so this is `border: 1` + the full `padding: 24`, not 24 − 1.
+// facts row. On this frame Figma's auto layout insets a child by the inside
+// stroke *on top of* the padding (the card sits at x 24738, its first child
+// at 24763), so this is `border: 1` + the full `padding: 24`, not 24 − 1.
+//
+// The web frames draw three price columns — the per-infant one is web-only —
+// and they switch off both the "View Details" block (1075:305206 plain,
+// 1075:305168 featured) and the featured foot strip (1075:305172), so those
+// two are mweb-only.
 .card {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -53,9 +58,9 @@
 
 // Featured variant — mweb "plan 1" (682:141432): the 2 outside stroke turns
 // #00AEE5 and the head band #E8F4FD with no bottom stroke. Web "Frame
-// 2147227600" (724:142607): cyan 1 edge, a drop shadow of 0 0 8 0 #000099 @
-// 12%, and no padding of its own — the tinted head, the body and the foot
-// strip each bring their own.
+// 2147227600" (1075:305136): 1192×190, cyan 1 edge, a drop shadow of
+// 0 0 8 0 #000099 @ 12%, and no padding of its own — the tinted head and the
+// body each bring their own.
 //
 // `overflow: hidden` clips the head and foot to the card's radius so neither
 // fringes past the edge. It doesn't touch the card's own box-shadow.
@@ -69,6 +74,7 @@
   }
 
   @include media(">=desktop") {
+    gap: 0;
     padding: 0;
     border-color: var(--border-card-featured);
     box-shadow: 0 0 rem(8) 0 var(--shadow-card-featured);
@@ -87,7 +93,7 @@
   }
 }
 
-// Web "Frame 2147227929" (724:142608): #EAF8FF, r12 on the top corners only,
+// Web "Frame 2147227929" (1075:305137): #EAF8FF, r12 on the top corners only,
 // padding 20/20/12. Plain web cards have no head band at all.
 .featured .head {
   @include media(">=desktop") {
@@ -97,7 +103,7 @@
   }
 }
 
-// Web "Frame 2147227599" (724:142646): title block left, prices right.
+// Web "Frame 2147227599" (1075:305138): title block left, prices right.
 .headRow {
   @include media(">=desktop") {
     display: flex;
@@ -109,7 +115,7 @@
 }
 
 // mweb "Heading" (682:141466): 10/12 padding, 3 between the two lines.
-// Web "Frame 2147227597" (724:142613): the two lines sit flush, gap 0.
+// Web "Frame 2147227597" (1075:305142): the two lines sit flush, gap 0.
 .titleBlock {
   display: flex;
   grid-row: 1;
@@ -198,7 +204,8 @@
 // columns with a rule between them, and the dashed "Line 273" (682:141458) —
 // 1 thick, #4B5772, dashes of 2 with gaps of 2, starting half a dash in — as
 // the band's last pixel row.
-// Web "Frame 2147227592" (724:142616): Per Adult · rule · Per Child, no band.
+// Web "Frame 2147227592" (1075:305145): Per Adult · rule · Per Child · rule ·
+// Per Infant, no band.
 // Either way the rule is a zero-width Figma item with 20 of gap either side,
 // so the columns are 40 apart with the line centred between them.
 .prices {
@@ -218,8 +225,8 @@
   }
 }
 
-// "Line 249" (mweb 682:141453, web 724:142621): 1×40 #9BA4B8, vertically
-// centred on the column pair (54 tall mweb, 66 web).
+// "Line 249"/"Line 250" (mweb 682:141453, web 1075:305150 and 1075:305543):
+// 1×40 #9BA4B8, vertically centred on the columns (54 tall mweb, 66 web).
 .price {
   position: relative;
   display: flex;
@@ -242,6 +249,18 @@
   }
 }
 
+// "Frame 2147227592" (1075:305545 plain, 1075:305539 featured): the third
+// price column is drawn on web only. The mweb head keeps its two equal
+// columns, so this one is hidden below desktop, and the rule before it — drawn
+// by the `.price + .price` rule above — goes with it.
+.priceWebOnly {
+  display: none;
+
+  @include media(">=desktop") {
+    display: flex;
+  }
+}
+
 .priceLabel {
   @include search-result-price-label;
   color: var(--text-body);
@@ -260,7 +279,9 @@
   opacity: 0.6;
 }
 
-// Web "Frame 2147227601" (724:142663): facts left, the View Details block right.
+// Web "Frame 2147227601" (1075:305192 plain, 1075:305155 featured): the facts
+// row. Its View Details sibling is switched off in both frames, so on web the
+// facts are all this row holds.
 .body {
   @include media(">=desktop") {
     display: flex;
@@ -277,7 +298,7 @@
   }
 }
 
-// Web "Frame 2147227596" (724:142664): three columns with a 0.6 rule between
+// Web "Frame 2147227596" (1075:305156): three columns with a 0.6 rule between
 // them. Same zero-width-item trick as the prices, so 50 of gap on each side
 // of the rule means 100 between columns. Not shown on mweb, where the pill
 // and the entry line carry validity and stay.
@@ -287,10 +308,16 @@
   @include media(">=desktop") {
     display: flex;
     gap: rem(100);
+    // The row is 50 tall in Figma even though its columns are 48: the dividing
+    // rules set its height. Ours draw as `::before`, which takes no layout
+    // space, so the row needs that 50 of its own — it is the 2 between a
+    // 176-tall card and the frame's 178.
+    min-block-size: rem(50);
   }
 }
 
-// "Line 250" (724:142668): 0.6 wide, 50 tall, #9BA4B8 at 70%.
+// "Line 250"/"Line 251" (1075:305160, 1075:305164): 0.6 wide, 50 tall,
+// #9BA4B8 at 70%.
 .fact {
   position: relative;
   display: flex;
@@ -321,8 +348,9 @@
 
 // mweb "Frame 2147226536" (682:141459): note and link on one line, 12/16
 // padding, 8 apart.
-// Web "Frame 2147227930" (724:142677): the note sits in a 26-tall box above a
-// 24-tall link, both flush left.
+// The web frames draw the same block as "Frame 2147227930" but switch it off
+// (1075:305206 plain, 1075:305168 featured), so from desktop up it isn't
+// rendered at all.
 .cta {
   display: flex;
   grid-row: 3;
@@ -332,28 +360,17 @@
   padding: rem(12) rem(16);
 
   @include media(">=desktop") {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    gap: 0;
-    padding: 0;
+    display: none;
   }
 }
 
 .ctaNote {
   @include search-result-plan-cta-note;
   color: var(--text-body);
-
-  @include media(">=desktop") {
-    display: flex;
-    align-items: center;
-    min-block-size: rem(26);
-  }
 }
 
-// "Link" (mweb 682:141462, web 724:142642), Blue/Medium: #000099 and
-// underlined in Figma itself, so the underline is the design, not a browser
-// default.
+// "Link" (mweb 682:141462), Blue/Medium: #000099 and underlined in Figma
+// itself, so the underline is the design, not a browser default.
 .ctaLink {
   @include search-result-plan-cta-link;
   color: var(--text-brand);
@@ -364,8 +381,10 @@
   }
 }
 
-// "Frame 1321319095" (mweb 682:141463, web 724:142643): #E5E6E9 at 60%, r12
-// on the bottom corners, padding 5/20. Featured plans only.
+// "Frame 1321319095" (mweb 682:141463): #E5E6E9 at 60%, r12 on the bottom
+// corners, padding 5/20. Featured plans only, and mweb only: the web featured
+// frame draws the strip (1075:305172) switched off, and its 190 height leaves
+// no room for it — on web the processing time is a facts column instead.
 .footnote {
   @include search-result-plan-footnote;
   grid-row: 4;
@@ -374,6 +393,10 @@
   background: var(--bg-card-footnote);
   color: var(--text-heading);
   text-align: center;
+
+  @include media(">=desktop") {
+    display: none;
+  }
 }
 
 .srOnly {

@@ -1,0 +1,162 @@
+@use '../../../styles/_shared' as *;
+
+// Figma "Popup Modal" 999:258977 — 360x400, r20 top corners, 0/16 padding,
+// over the standard scrim. The sheet itself (the white surface, the radius,
+// the 16 gutter and the safe-area inset) is DropdownSurface's `modal`; what
+// follows is the three bands inside it, which stack to Figma's 400:
+// header 56 + search 48 + list 296.
+//
+// mweb only. This component is never rendered from desktop up — SearchForm
+// hands those widths to OptionDropdown instead — so nothing here needs a
+// media query, and none of it can reach the web popover.
+
+.surface {
+  width: 100%;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  // The rows and the search box both read left even though the field they
+  // came from may not (SearchForm's right-aligned `.placeTo`).
+  text-align: left;
+}
+
+// -----------------------------------------------------------------------------
+// "<PopupModalHeader>" 999:258980: 56 tall, 16 top/bottom, the 296-wide title
+// against the 24 close icon with 8 between them.
+// -----------------------------------------------------------------------------
+.head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: rem(8);
+  padding-block: rem(16);
+}
+
+// "{Header}" (I999:258980;1429:6535) — "Select nationality".
+.title {
+  @include choice-sheet-title;
+  flex: 1 1 auto;
+  margin: 0;
+  color: var(--text-heading);
+}
+
+// The 24 "Left-icon" (I999:258980;1429:6548), its own touch target.
+.close {
+  display: flex;
+  flex: none;
+  width: rem(24);
+  height: rem(24);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring(2);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// "Search Input" 999:258981: 48 tall, 8/16 padding, r8, a 1 INSIDE stroke
+// #9BA4B8. Figma strokes don't eat auto-layout padding, so CSS padding is
+// 8 − 1 and 16 − 1; 1 + 7 + 32 + 7 + 1 is the box's 48. Its #FFFFFF at 12%
+// fill sits on the sheet's own white, so there's nothing to paint.
+// -----------------------------------------------------------------------------
+.search {
+  display: flex;
+  flex: none;
+  align-items: center;
+  padding: rem(7) rem(15);
+  border: rem(1) solid var(--border-default);
+  border-radius: rem(8);
+}
+
+// "Label" (I999:258981;4097:8127) — Poppins 400 14/20, #9BA4B8 as the
+// placeholder. Figma's "Bar/Blue" beside it (3x32 r8 #000099) is the text
+// cursor at rest: the box is focused the moment the sheet opens, so it's the
+// caret, tinted to match, rather than an element of its own.
+.searchInput {
+  @include choice-sheet-body;
+  width: 100%;
+  height: rem(32);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-heading);
+  caret-color: var(--text-brand);
+
+  &::placeholder {
+    color: var(--text-input-placeholder);
+    opacity: 1;
+  }
+
+  // The box is the focus ring's own outline; a second one inside it would
+  // double the edge Figma draws.
+  &:focus {
+    outline: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// "Dropdown List" 999:258985: r12, white, 16 top/bottom and no side padding,
+// so the rows run the full 328 of the sheet's column.
+// -----------------------------------------------------------------------------
+.listCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-block: rem(16);
+  border-radius: rem(12);
+  background: var(--bg-surface);
+}
+
+// "Column 2" 999:259001 — rows stacked with no gap. Figma sizes the column to
+// its six rows (6 x 44 = 264) and shows no scrollbar, so that's the cap and
+// the rest scroll.
+.list {
+  overflow-y: auto;
+  max-height: rem(264);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// "Item 2" 999:259004: 44 tall, 12 padding, 12 gap, r8. The unselected row
+// has no stroke in Figma, so it carries a transparent one and both rows stay
+// 44 (11 + 1 + 20 + 1 + 11).
+.option {
+  display: flex;
+  align-items: center;
+  gap: rem(12);
+  padding: rem(11);
+  border: rem(1) solid transparent;
+  border-radius: rem(8);
+  color: var(--text-heading);
+  cursor: pointer;
+  @include choice-sheet-body;
+}
+
+// "Item 1" 999:259003, the selected row: fill #EAF8FF, 1 INSIDE stroke
+// #C2C2EB. The arrow-key row reads the same, since that highlight is the
+// only one the design draws.
+.optionSelected,
+.optionActive {
+  border-color: var(--border-option-selected);
+  background: var(--bg-option-selected);
+}
+
+// Not in Figma: what the list says once typing has filtered everything out.
+.empty {
+  padding: rem(12) rem(11);
+  color: var(--text-body);
+  @include choice-sheet-body;
+}

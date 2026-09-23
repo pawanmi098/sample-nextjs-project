@@ -127,6 +127,24 @@
   @include defaultTypoStyles(16, normal, 24, 600, $font-poppins-semibold);
 }
 
+// The search-result mweb "edit overlay" (999:263879) runs the same fields one
+// size down from the home card: a 20/24 city (999:264296), 14/20 values
+// (999:264371) and a 14/20 button label (I999:264498;253:2153). They're mweb
+// only — from desktop up that panel is the web frame again — and they belong
+// to that one card, so they're applied under SearchForm's `.panel` variant
+// rather than switched inside the mixins above.
+@mixin search-form-city-compact {
+  @include defaultTypoStyles(20, normal, 24, 500, $font-bauhaus-medium);
+}
+
+@mixin search-form-value-compact {
+  @include defaultTypoStyles(14, normal, 20, 500, $font-poppins-medium);
+}
+
+@mixin search-form-button-compact {
+  @include defaultTypoStyles(14, normal, 20, 600, $font-poppins-semibold);
+}
+
 // -----------------------------------------------------------------------------
 // OPTION DROPDOWN — Figma "Dropdown List" 740:148277 (destination, two-line
 // rows) and 774:198357 (nationality, one-line rows). One component, one set of
@@ -167,6 +185,24 @@
 // (I776:206249;2302:1566;1337:10349). The "DXB" code keeps 600 16/24.
 @mixin dropdown-sheet-option-description {
   @include defaultTypoStyles(10, normal, 16, 400, $font-poppins-regular);
+}
+
+// -----------------------------------------------------------------------------
+// CHOICE SHEET — Figma "Popup Modal" 999:258977, how Nationality and Country
+// of Residence pick their value on mweb. The same two styles as the dropdown
+// sheet above, kept apart because that's the destination list's own sheet and
+// these two components are free to drift.
+// -----------------------------------------------------------------------------
+
+// "Select nationality" — Bauhaus Std 500 16/20 (I999:258980;1429:6535).
+@mixin choice-sheet-title {
+  @include defaultTypoStyles(16, normal, 20, 500, $font-bauhaus-medium);
+}
+
+// The search box's "Enter your nationality" (I999:258981;4097:8127) and every
+// row's country — both Poppins 400 14/20 (I999:259003;2220:820;1337:10349).
+@mixin choice-sheet-body {
+  @include defaultTypoStyles(14, normal, 20, 400, $font-poppins-regular);
 }
 
 // -----------------------------------------------------------------------------

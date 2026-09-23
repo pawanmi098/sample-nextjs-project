@@ -348,6 +348,29 @@
   }
 }
 
+// A submit label worded per viewport (searchResultContent's "Continue" on the
+// mweb overlay vs. "Search" on the web frame) renders both and hides one, the
+// same way TravellerPicker carries its two "Continue" wordings.
+.submitLabelDesktop {
+  display: none;
+}
+
+// "Continue" (I999:264498;253:2153) is Poppins 600 14/20, not the web
+// button's 16/24.
+.panel .submitLabelMobile {
+  @include search-form-button-compact;
+}
+
+@include media(">=desktop") {
+  .submitLabelMobile {
+    display: none;
+  }
+
+  .submitLabelDesktop {
+    display: inline;
+  }
+}
+
 // -----------------------------------------------------------------------------
 // Host variants — the only place the two pages' forms still differ.
 // -----------------------------------------------------------------------------
@@ -362,9 +385,125 @@
   }
 }
 
-// Search result: the panel carries its own Search button at every width.
+// Search result: the panel carries its own button at every width. In the mweb
+// "edit overlay" card it's the full-width 40-tall "Continue" (999:264498);
+// from desktop up it's the 120x48 "Search" of the web frame. `inline-flex`
+// rather than `inline-block` so the 40 is the box, whatever the label's
+// inline box measures.
 .panel .submit {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: rem(40);
+  padding: rem(10) rem(16);
+
+  @include media(">=desktop") {
+    width: auto;
+    min-height: rem(48);
+    padding: rem(12) rem(24);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// The overlay card's own scale. Its "Search Input" (999:264292…) is a size
+// down from the home card this form's mobile values otherwise come from: 8/12
+// padding instead of 8/16, a 20-wide route arrow, 16 chevrons, and the three
+// select rows 54 tall rather than 58. Every rule here is mweb only — from
+// desktop up the panel is the web frame again, so each one hands back to the
+// shared value rather than to `.widget`'s.
+// -----------------------------------------------------------------------------
+
+// pad8/12 against a 1 INSIDE stroke, which Figma doesn't take out of padding.
+.panel .field {
+  padding: rem(7) rem(11);
+
+  @include media(">=desktop") {
+    padding: 0;
+  }
+}
+
+// "Icon" (999:264297) is 20 here, 24 on the home card.
+.panel .placesArrow {
+  width: rem(20);
+  height: rem(20);
+
+  @include media(">=desktop") {
+    width: rem(24);
+    height: rem(24);
+  }
+}
+
+// "City" (999:264296): Bauhaus 20/24 in a 24-tall box.
+.panel .cityControl {
+  @include search-form-city-compact;
+  height: rem(24);
+
+  @include media(">=desktop") {
+    @include search-form-city;
+    height: rem(28);
+  }
+}
+
+// "Guest Info" / "Payment Info" (999:264371…): Poppins 14/20. The date keeps
+// its own 24-tall box (999:264317) even at this size; the select rows shrink
+// to the 20 of "GuestSelect" (999:264370), which is what takes those three
+// fields from 58 to 54.
+.panel .valueControl {
+  @include search-form-value-compact;
+
+  @include media(">=desktop") {
+    @include search-form-value;
+  }
+}
+
+.panel .select,
+.panel .trigger {
+  height: rem(20);
+
+  @include media(">=desktop") {
+    height: rem(24);
+  }
+}
+
+// "Accordions-down" (999:264302…) is 16 here, 20 on the home card.
+.panel .selectChevron {
+  width: rem(16);
+  height: rem(16);
+
+  @include media(">=desktop") {
+    width: rem(20);
+    height: rem(20);
+  }
+}
+
+// mweb "Frame 2147226925" (999:264475): inside the overlay card the purpose
+// row has no box of its own — 16/0 padding, with the label held against the
+// radios at the card's far edge.
+.panel .purpose {
+  justify-content: space-between;
+  padding: rem(16) 0;
+  border-radius: 0;
+  background: none;
+
+  @include media(">=desktop") {
+    justify-content: flex-start;
+    padding: 0;
+  }
+}
+
+// mweb "Frame 2147227918" (999:264492): 188 wide — the two radios exactly 32
+// apart, pushed to the card's right edge. They wrap below the label under
+// ~340px, where the two frames no longer fit side by side.
+.panel .radios {
+  justify-content: flex-end;
+  width: auto;
+  gap: rem(32);
+
+  @include media(">=desktop") {
+    justify-content: flex-start;
+    gap: 0;
+  }
 }
 
 // -----------------------------------------------------------------------------

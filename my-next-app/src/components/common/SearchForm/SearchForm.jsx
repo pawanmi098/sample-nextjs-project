@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import ChoiceSheet from "../ChoiceSheet/ChoiceSheet";
+import { useIsDesktop } from "../DropdownSurface/DropdownSurface";
 import OptionDropdown from "../OptionDropdown/OptionDropdown";
 import TravellerPicker from "../TravellerPicker/TravellerPicker";
 import styles from "./SearchForm.module.scss";
@@ -30,6 +32,10 @@ import styles from "./SearchForm.module.scss";
  * @param values     current criteria, when the host has some (the search
  *                   result page prefills from its searchParams). Otherwise
  *                   each field falls back to its own `value` in the JSON.
+ *
+ * `content.submitLabel` is a string, or `{ mobile, desktop }` when the two
+ * frames word the button differently — the search-result overlay's "Continue"
+ * against the web panel's "Search".
  */
 
 function FieldIcon({ src }) {
@@ -46,24 +52,34 @@ function FieldIcon({ src }) {
 }
 
 /**
- * "Nationality" and "Country of Residence" — Figma "Dropdown List" 617:86234,
- * the one-line variant of the same card the destination field drops.
+ * "Nationality" and "Country of Residence" — two fields, two presentations:
  *
- * A select-only combobox (ARIA 1.2): the trigger is a button, focus stays on
- * it, and `aria-activedescendant` points into the listbox. These are closed
- * sets — unlike "Where", there is nothing to type — so there's no text input
- * and no filtering.
+ * - web: Figma "Dropdown List" 617:86234, the one-line variant of the card
+ *   the destination field drops. A select-only combobox (ARIA 1.2) — the
+ *   trigger is a button, focus stays on it, and `aria-activedescendant`
+ *   points into the listbox. A closed set, so unlike "Where" there's nothing
+ *   to type and no filtering.
+ * - mweb: Figma "Popup Modal" 999:258977, a bottom sheet with its own header,
+ *   close button and search box. Focus moves into it, so from the trigger's
+ *   side it's a dialog rather than a listbox, and the filtering lives there.
  *
- * It replaces a native <select>, which is what the design costs: the OS popup
- * can't be styled into this card. The value still travels in a hidden input,
- * so without JS the form submits the default rather than breaking.
+ * They differ in markup, not just in dressing, so the split is a branch here
+ * rather than a media query — which is also why this reaches for
+ * `useIsDesktop` itself instead of leaving the presentation to
+ * DropdownSurface the way the destination field does.
+ *
+ * Both replace a native <select>, which is what the design costs: the OS
+ * popup can't be styled into either. The value still travels in a hidden
+ * input, so without JS the form submits the default rather than breaking.
  */
-function ChoiceField({ field, value, dropdownIcon, idPrefix, align, popoverClassName }) {
+function ChoiceField({ field, value, dropdownIcon, closeIcon, idPrefix, align, popoverClassName }) {
   const triggerId = `${idPrefix}-${field.id}`;
   const labelId = `${triggerId}-label`;
   const listboxId = `${triggerId}-listbox`;
+  const sheetId = `${triggerId}-sheet`;
   const optionId = (index) => `${triggerId}-option-${index}`;
 
+  const isDesktop = useIsDesktop();
   const options = field.options;
   const [selected, setSelected] = useState(value);
   const [open, setOpen] = useState(false);
@@ -103,6 +119,16 @@ function ChoiceField({ field, value, dropdownIcon, idPrefix, align, popoverClass
   };
 
   const onKeyDown = (event) => {
+    // The sheet is a dialog with keys of its own, and it takes focus the
+    // moment it opens; from out here the arrows only get it open, and Enter
+    // and Space are the button's own click.
+    if (!isDesktop) {
+      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+      event.preventDefault();
+      if (!open) setOpen(true);
+      return;
+    }
+
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
@@ -177,11 +203,14 @@ function ChoiceField({ field, value, dropdownIcon, idPrefix, align, popoverClass
             ref={triggerRef}
             type="button"
             id={triggerId}
-            role="combobox"
+            role={isDesktop ? "combobox" : undefined}
+            aria-haspopup={isDesktop ? undefined : "dialog"}
             aria-labelledby={`${labelId} ${triggerId}`}
             aria-expanded={open}
-            aria-controls={open ? listboxId : undefined}
-            aria-activedescendant={open && activeIndex >= 0 ? optionId(activeIndex) : undefined}
+            aria-controls={open ? (isDesktop ? listboxId : sheetId) : undefined}
+            aria-activedescendant={
+              isDesktop && open && activeIndex >= 0 ? optionId(activeIndex) : undefined
+            }
             className={`${styles.control} ${styles.valueControl} ${styles.select} ${styles.trigger}`}
             onClick={() => (open ? close() : openList())}
             onKeyDown={onKeyDown}
@@ -202,19 +231,32 @@ function ChoiceField({ field, value, dropdownIcon, idPrefix, align, popoverClass
       <input type="hidden" name={field.name} value={selected} />
 
       {open ? (
-        <OptionDropdown
-          id={listboxId}
-          align={align}
-          label={field.label}
-          options={options}
-          selectedValue={selected}
-          activeIndex={activeIndex}
-          optionId={optionId}
-          onSelect={select}
-          onClose={close}
-          rootRef={popupRef}
-          className={popoverClassName}
-        />
+        isDesktop ? (
+          <OptionDropdown
+            id={listboxId}
+            align={align}
+            label={field.label}
+            options={options}
+            selectedValue={selected}
+            activeIndex={activeIndex}
+            optionId={optionId}
+            onSelect={select}
+            onClose={close}
+            rootRef={popupRef}
+            className={popoverClassName}
+          />
+        ) : (
+          <ChoiceSheet
+            id={sheetId}
+            content={field.sheet}
+            closeIcon={closeIcon}
+            options={options}
+            selectedValue={selected}
+            onSelect={select}
+            onClose={close}
+            rootRef={popupRef}
+          />
+        )
       ) : null}
     </div>
   );
@@ -522,8 +564,18 @@ export default function SearchForm({
   content,
   values,
 }) {
-  const { action, from, to, travelDate, travellers, selects, dropdownIcon, purpose, submitLabel } =
-    content;
+  const {
+    action,
+    from,
+    to,
+    travelDate,
+    travellers,
+    selects,
+    dropdownIcon,
+    sheetCloseIcon,
+    purpose,
+    submitLabel,
+  } = content;
 
   // The search result page prefills from its searchParams; the home page has
   // no criteria yet, so each field falls back to its own JSON `value`.
@@ -605,6 +657,7 @@ export default function SearchForm({
               field={field}
               value={valueOf(field)}
               dropdownIcon={dropdownIcon}
+              closeIcon={sheetCloseIcon}
               idPrefix={idPrefix}
               align="end"
               popoverClassName={CHOICE_POPOVER_CLASS[field.id]}
@@ -635,7 +688,14 @@ export default function SearchForm({
         </div>
 
         <button type="submit" className={styles.submit}>
-          {submitLabel}
+          {typeof submitLabel === "string" ? (
+            submitLabel
+          ) : (
+            <>
+              <span className={styles.submitLabelMobile}>{submitLabel.mobile}</span>
+              <span className={styles.submitLabelDesktop}>{submitLabel.desktop}</span>
+            </>
+          )}
         </button>
       </div>
     </form>

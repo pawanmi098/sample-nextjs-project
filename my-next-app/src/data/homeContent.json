@@ -95,7 +95,14 @@
           { "value": "GB", "label": "British" },
           { "value": "US", "label": "American" },
           { "value": "SG", "label": "Singaporean" }
-        ]
+        ],
+        "sheet": {
+          "title": "Select nationality",
+          "placeholder": "Enter your nationality",
+          "searchLabel": "Search nationalities",
+          "emptyLabel": "No matching nationality",
+          "closeLabel": "Close"
+        }
       },
       {
         "id": "residence",
@@ -109,10 +116,18 @@
           { "value": "GB", "label": "United Kingdom" },
           { "value": "US", "label": "United States" },
           { "value": "SG", "label": "Singapore" }
-        ]
+        ],
+        "sheet": {
+          "title": "Select country of residence",
+          "placeholder": "Enter your country of residence",
+          "searchLabel": "Search countries of residence",
+          "emptyLabel": "No matching country",
+          "closeLabel": "Close"
+        }
       }
     ],
     "dropdownIcon": "/assets/home/icons/dropdown-chevron.svg",
+    "sheetCloseIcon": "/assets/common/icons/popup-close.svg",
     "purpose": {
       "label": "Travelling for",
       "name": "purpose",
@@ -224,5 +239,18 @@
       "context": "of the visa assistance disclaimer",
       "href": "/disclaimer"
     }
+  },
+  "disclaimerPopup": {
+    "title": "Disclaimer",
+    "icon": "/assets/home/icons/disclaimer-external.svg",
+    "closeIcon": "/assets/common/icons/popup-close.svg",
+    "closeLabel": "Close disclaimer",
+    "body": "Visa assistance is being offered by a third party i.e. Calleo Distribution Technologies Private Limited (“<strong>Calleo</strong>”) on InterGlobe Aviation Limited (“IndiGo”) website. Therefore, IndiGo expressly disclaims any liability and/or responsibility for the content and/or accuracy of any information displayed and assistance availed by the customers, which are offered by Calleo on IndiGo’s website. Any and all claims of the customers in relation to the visa assistance will be addressed, handled, and resolved solely by Calleo in accordance with its terms and conditions. For any questions or concerns or complaints about such visa services and related information, please contact Calleo directly at <a href=\"mailto:support@ivs.in\">support@ivs.in</a>. Claims of any nature whatsoever, in this regard, will not be entertained by IndiGo. The customers are encouraged to exercise their sole discretion and judgement while opting for the Visa assistance being offered by Calleo. All payments in respect of such visa assistance shall be made by the customers directly to Calleo.",
+    "consent": {
+      "label": "I acknowledge and consent to the above.",
+      "checkedIcon": "/assets/common/icons/checkbox-checked.svg",
+      "uncheckedIcon": "/assets/common/icons/checkbox-unchecked.svg"
+    },
+    "continueLabel": "Continue"
   }
 }

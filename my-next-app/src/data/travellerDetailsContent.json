@@ -140,7 +140,7 @@
           "enabled": "/assets/common/icons/calendar-nav-next.svg",
           "disabled": "/assets/common/icons/calendar-nav-next-disabled.svg"
         },
-        "closeIcon": "/assets/common/icons/calendar-close.svg",
+        "closeIcon": "/assets/common/icons/popup-close.svg",
         "closeLabel": "Close the calendar"
       },
       "checkedIcon": "/assets/common/icons/checkbox-checked.svg",

@@ -100,7 +100,14 @@
           { "value": "GB", "label": "British" },
           { "value": "US", "label": "American" },
           { "value": "SG", "label": "Singaporean" }
-        ]
+        ],
+        "sheet": {
+          "title": "Select nationality",
+          "placeholder": "Enter your nationality",
+          "searchLabel": "Search nationalities",
+          "emptyLabel": "No matching nationality",
+          "closeLabel": "Close"
+        }
       },
       {
         "id": "residence",
@@ -113,10 +120,18 @@
           { "value": "GB", "label": "United Kingdom" },
           { "value": "US", "label": "United States" },
           { "value": "SG", "label": "Singapore" }
-        ]
+        ],
+        "sheet": {
+          "title": "Select country of residence",
+          "placeholder": "Enter your country of residence",
+          "searchLabel": "Search countries of residence",
+          "emptyLabel": "No matching country",
+          "closeLabel": "Close"
+        }
       }
     ],
     "dropdownIcon": "/assets/search-result/icons/edit-dropdown-chevron.svg",
+    "sheetCloseIcon": "/assets/common/icons/popup-close.svg",
     "purpose": {
       "label": "Travelling for",
       "name": "purpose",
@@ -125,7 +140,10 @@
         { "value": "business", "label": "Business" }
       ]
     },
-    "submitLabel": "Search"
+    "submitLabel": {
+      "mobile": "Continue",
+      "desktop": "Search"
+    }
   },
   "stickyBar": { "continueLabel": "Continue" },
   "intro": {
@@ -170,7 +188,7 @@
         { "id": "price-desc", "label": "price, highest first" }
       ]
     },
-    "priceLabels": { "adult": "Per Adult", "child": "Per Child", "tax": "Incl. Taxes" },
+    "priceLabels": { "adult": "Per Adult", "child": "Per Child", "infant": "Per Infant", "tax": "Incl. Taxes" },
     "summary": { "validity": "Validity: {value}", "stay": "{value} duration" },
     "details": {
       "note": "For more information on the plan",
@@ -185,7 +203,7 @@
         "featured": true,
         "title": "30 Days E-visa",
         "entry": "Single-entry",
-        "price": { "adult": "\u20b9 2,000", "child": "\u20b9 1,000", "amount": 2000 },
+        "price": { "adult": "\u20b9 2,000", "child": "\u20b9 1,000", "infant": "\u20b9 500", "amount": 2000 },
         "facts": [
           { "id": "validity", "label": "Validity", "value": "60 days" },
           { "id": "stay", "label": "Duration of stay", "value": "30 days" },
@@ -199,7 +217,7 @@
         "type": "sticker-visa",
         "title": "60 Days Sticker visa",
         "entry": "Single-entry",
-        "price": { "adult": "\u20b9 14,700", "child": "\u20b9 5,000", "amount": 14700 },
+        "price": { "adult": "\u20b9 14,700", "child": "\u20b9 5,000", "infant": "\u20b9 500", "amount": 14700 },
         "facts": [
           { "id": "validity", "label": "Validity", "value": "60 days" },
           { "id": "stay", "label": "Duration of stay", "value": "60 days" },
@@ -212,7 +230,7 @@
         "type": "sticker-visa",
         "title": "60 Days Sticker visa",
         "entry": "Single-entry",
-        "price": { "adult": "\u20b9 14,700", "child": "\u20b9 5,000", "amount": 14700 },
+        "price": { "adult": "\u20b9 14,700", "child": "\u20b9 5,000", "infant": "\u20b9 500", "amount": 14700 },
         "facts": [
           { "id": "validity", "label": "Validity", "value": "60 days" },
           { "id": "stay", "label": "Duration of stay", "value": "60 days" },

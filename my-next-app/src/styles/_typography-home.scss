@@ -112,3 +112,44 @@
     @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
   }
 }
+
+// -----------------------------------------------------------------------------
+// "Disclaimer" popup — mweb 1098:308323, web 1351:143859
+// -----------------------------------------------------------------------------
+
+// Popup title — mweb Bauhaus Std 500 20/24 ls -0.6; web 24/28.
+// Both sit centred in a fixed 32-tall header row, so the line box never moves
+// the icon or the close cross beside it.
+@mixin home-modal-title {
+  @include defaultTypoStyles(20, -0.6, 24, 500, $font-bauhaus-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(24, normal, 28, 500, $font-bauhaus-medium);
+  }
+}
+
+// The disclaimer copy itself — Poppins 400 12/18 in both frames, with the
+// quoted "Calleo" at 600 and the support address underlined.
+@mixin home-modal-body {
+  @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+}
+
+// "I acknowledge and consent to the above." — mweb Poppins 500 12/18,
+// web 400 12/18. The one line the two frames weight differently.
+@mixin home-modal-consent {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(12, normal, 18, 400, $font-poppins-regular);
+  }
+}
+
+// "Continue" — mweb Poppins 500 12/18 across a full-width 36 button;
+// web Poppins 600 14/20 in a 98x40 one at the right edge.
+@mixin home-modal-button {
+  @include defaultTypoStyles(12, normal, 18, 500, $font-poppins-medium);
+
+  @include media(">=tablet") {
+    @include defaultTypoStyles(14, normal, 20, 600, $font-poppins-semibold);
+  }
+}

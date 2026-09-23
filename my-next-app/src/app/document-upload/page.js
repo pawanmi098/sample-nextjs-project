@@ -48,15 +48,15 @@ export default function DocumentUploadPage() {
     rules: form.rules,
   });
 
-  // PROVISIONAL: nothing is uploaded yet on the page's first view; the
-  // counts come from the application once uploads are saved.
+  // PROVISIONAL: nothing is uploaded yet on the page's first view, so every
+  // card starts empty and counts what this visit uploads. Once the application
+  // stores them, each traveller arrives with an `uploads` map instead.
   const travellers = booking.travellers.map(({ id, position, firstName, lastName }) => ({
     id,
     position,
     firstName,
     lastName,
     primary: id === digest.primaryContact,
-    uploaded: 0,
   }));
 
   return (

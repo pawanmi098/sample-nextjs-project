@@ -1,69 +1,138 @@
 @use '../../../styles/_shared' as *;
 
-// Figma web "Top navigation-Desktop" (617:71171) — the expanded header.
-// The "Primary Panel" (617:71210) is 1280x194: white, 20/44/40 padding and a
-// 24 gap between the search row and the "Travelling for" row.
+// The expanded state of the search-result header — see TripSearchPanel.jsx.
+//
+// Mobile comes from the mweb frame "edit overlay" (999:263879), which is a
+// full-screen modal: the "Overlay" (999:264280) fills the screen with
+// #F5F8FC, the close row sits 32 below the top and the 320-wide card
+// "Frame 2147227925" (999:264282) 35 below that. (The overlay's
+// BACKGROUND_BLUR is a no-op in Figma too — its fill is fully opaque — so
+// it isn't translated here.)
+//
+// Desktop comes from "Top navigation-Desktop" (617:71171). The "Primary
+// Panel" (617:71210) is 1280x194: white, 20/44/40 padding and a 24 gap
+// between the search row and the "Travelling for" row.
 //
 // The fields inside are the shared form, styled by
 // src/components/common/SearchForm/SearchForm.module.scss — its 1192-wide
 // "Search Input" (617:72543) is the same control the home page uses. What's
-// left here is the panel that drops out of the header, and the screen behind.
-//
-// MOBILE IS PROVISIONAL: Figma has no mweb frame for this state yet, so the
-// panel stacks its fields the way the home page's mweb search card does.
+// left here is the overlay, its close row and the card the fields sit in.
 
-// Everything below the sticky header: the white panel, then the blue screen
-// over the rest of the page. `top` is the header's height (78 mweb / 100 web
-// — see SiteHeader.module.scss `.withTrip`), which leaves the header itself
-// interactive so its chevron can collapse the panel again.
+// Mobile: the whole screen, header included — the close button inside it is
+// what collapses the panel.
+// Desktop: everything below the sticky header, whose height is `top` (100 —
+// see SiteHeader.module.scss `.withTrip`), so the header itself stays
+// interactive and its chevron can collapse the panel again.
 .layer {
   position: fixed;
   z-index: 10;
-  top: rem(78);
+  top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   display: flex;
+  overflow-y: auto;
   flex-direction: column;
+  padding-top: rem(32);
+  background: var(--bg-page);
+  // The overlay scrolls; the page underneath it doesn't.
+  overscroll-behavior: contain;
 
   @include media(">=desktop") {
     top: rem(100);
+    overflow: visible;
+    padding-top: 0;
+    background: none;
+    overscroll-behavior: auto;
   }
 }
 
-// Full-bleed white bar; the frame's drop shadow (0 4 28 #000099 @ 4%) hangs
-// off its bottom edge, matching the header above it.
+// mweb "<PopupModalHeader>" (999:264538): 360x56, 16 padding, one 24 icon at
+// the leading edge. Desktop collapses from the page header's own chevron,
+// which stays visible there, so this row is mobile only.
+.header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: rem(8);
+  min-height: rem(56);
+  padding: rem(16);
+
+  @include media(">=desktop") {
+    display: none;
+  }
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: rem(24);
+  height: rem(24);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  img {
+    display: block;
+    width: rem(24);
+    height: rem(24);
+  }
+}
+
+// Mobile "Frame 2147227925" (999:264282): a white card 20 in from each edge,
+// r12 with a 1 OUTSIDE #E0E0F6 stroke and 12 padding, starting 35 below the
+// close row. An OUTSIDE stroke doesn't eat the frame's padding, so both
+// numbers carry over as they are. The bottom margin keeps the card clear of
+// the screen edge once a long field stack scrolls.
 //
-// The scroll is for the stacked mobile layout, which can outgrow the screen.
-// From desktop up the panel is 194 tall and never does — and there it has to
-// stop clipping, because the destination popover hangs below its bottom edge.
-// (Below desktop that dropdown is a portalled sheet, so the scroll is safe.)
+// Desktop: full-bleed white bar; the frame's drop shadow (0 4 28 #000099 @ 4%)
+// hangs off its bottom edge, matching the header above it. There the panel is
+// 194 tall and must not clip, because the destination popover hangs below its
+// bottom edge. (Below desktop that dropdown is a portalled sheet instead.)
 .panel {
-  overflow-y: auto;
-  min-height: 0;
+  flex: none;
+  margin: rem(35) rem(20) rem(32);
+  padding: rem(12);
+  border: rem(1) solid var(--border-field);
+  border-radius: rem(12);
   background: var(--bg-surface);
-  box-shadow: 0 rem(4) rem(28) 0 var(--shadow-header);
 
   @include media(">=desktop") {
     overflow: visible;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 rem(4) rem(28) 0 var(--shadow-header);
   }
 }
 
-// Centred on the header's own container, so the search row lines up with the
-// logo at every width.
+// Mobile: the card above owns the padding. Desktop: centred on the header's
+// own container, so the search row lines up with the logo at every width.
 .form {
   max-width: rem(1280);
   margin-inline: auto;
-  padding: rem(16);
 
   @include media(">=desktop") {
     padding: rem(20) rem(44) rem(40);
   }
 }
 
-// The blue screen the overlay lays over the rest of the page.
+// Desktop only: the blue screen the overlay lays over the rest of the page.
+// Below desktop the overlay covers the full screen by itself.
 .scrim {
-  flex: 1;
-  background: var(--overlay-search);
-  cursor: pointer;
+  display: none;
+
+  @include media(">=desktop") {
+    display: block;
+    flex: 1;
+    background: var(--overlay-search);
+    cursor: pointer;
+  }
 }

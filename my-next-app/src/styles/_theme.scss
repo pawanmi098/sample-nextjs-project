@@ -183,6 +183,8 @@ $theme-cloud: (
   border-contact-row: $color-cool-gray,
   // Stepper bars not reached yet
   indicator-step-pending: $color-powder-blue,
+  // Home "Disclaimer" popup (1351:143859): the pale tile behind its header icon
+  bg-icon-tile: $color-powder-blue,
   // Sticky "Review your application" button before the form is complete
   bg-button-inactive: $color-mist,
   text-button-inactive: $color-slate-text,
@@ -221,6 +223,10 @@ $theme-cloud: (
   // A document row: pale blue icon disc, and the outlined "Upload" button
   bg-doc-icon: $color-chip-blue-bg,
   border-button-secondary: $color-blue,
+  // An uploading row's progress bar — the navy fill over its lavender track
+  // (1338:114268)
+  bg-progress-track: $color-lavender-mist,
+  bg-progress-value: $color-blue,
   // Booking / transaction ID boxes: pale blue fill, 2/2 dashed cyan edge
   bg-reference: $color-chip-blue-bg,
   border-reference: $color-chip-cyan,
